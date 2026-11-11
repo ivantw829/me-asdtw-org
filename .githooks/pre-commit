@@ -7,6 +7,6 @@ if [ "$branch" = "main" ] && [ -z "$ALLOW_MAIN_COMMIT" ]; then
   exit 1
 fi
 python3 authoring/build-sitemap.py >/dev/null && git add sitemap.xml
-# 新文章缺少分享圖時自動以 Chrome 產生並 stage（沒有缺圖時不會啟動 Chrome）
+# 分享圖缺少或過期（標題、標籤、日期、卡片設計變了）時自動以 Chrome 產生並 stage（不需要時不會啟動 Chrome）
 python3 authoring/build-og.py && git add -A images/og assets/img/og.jpg
 python3 authoring/check.py
