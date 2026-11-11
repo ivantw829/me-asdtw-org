@@ -43,28 +43,43 @@ style(home): 調整科技樹手機版間距
 
 ## 3. 日常流程
 
+### 一鍵發布（建議）
+
+改好檔案後，一行完成「開分支 → 檢查 → commit → push → 開 PR → 等 CI → 自動 squash merge → 同步本機」：
+
 ```bash
-git switch main && git pull           # 1. 同步
+bash authoring/ship.sh "content(article): 新增〈標題〉"
+```
+
+- 在 `main` 上執行會自動開分支；在功能分支上執行則沿用該分支。
+- CI 通過後由 GitHub 自動合併（repo 已啟用 auto-merge），合併後自動刪遠端分支、同步本機並清掉本機舊分支。
+- 提交時 pre-commit 會**自動更新 `sitemap.xml`** 並跑 `check.py`，不需要手動跑 `build-sitemap.py`。
+
+### 手動流程
+
+```bash
+git switch main && git pull           # 1. 同步（或 bash authoring/sync.sh）
 git switch -c content/<名稱>           # 2. 開分支
 # …修改、預覽（python3 -m http.server 8000）…
-python3 authoring/check.py            # 3. 自我檢查（commit 時也會自動跑）
-git add -A && git commit              # 4. 提交（遵守 commit 格式）
-git push                              # 5. 推分支（首次自動設定 upstream）
-gh pr create --fill                   # 6. 開 PR（標題須符合約定式 commit）
-# CI（check、pr-title）通過 → 審視 diff →
-gh pr merge --squash                  # 7. squash merge，分支自動刪除
+git add -A && git commit              # 3. 提交（hook 會更新 sitemap、檢查、驗證 commit 格式）
+git push                              # 4. 推分支（首次自動設定 upstream）
+gh pr create --fill                   # 5. 開 PR（標題須符合約定式 commit）
+gh pr merge --auto --squash           # 6. CI 通過後自動合併
+bash authoring/sync.sh                # 7. 同步本機與 GitHub
 ```
 
 - **一個 PR 做一件事**。內容與程式碼變更盡量分開，方便回溯與還原。
 - Squash merge 後 `main` 是線性歷史，**PR 標題就是 `main` 上的 commit 訊息**。
 - 合併到 `main` 後 GitHub Pages 自動部署，約 1～2 分鐘。
+- 隨時可跑 `bash authoring/sync.sh`：抓取、`main` 快轉到最新、刪除已合併的本機分支，並確認本機 `main` 與 GitHub 一致。
+- Dependabot 每月會自動開 GitHub Actions 版本更新的 PR（標題 `ci(deps): …`），CI 通過後直接合併即可。
 
 ## 4. 發新文章
 
 1. `git switch -c content/<slug>`
 2. 照 `authoring/AI-PROMPT.md` 產生 `articles/<slug>.html`，放圖片到 `images/articles/<slug>/`。
-3. 在 `data/articles.json` 新增一筆，執行 `python3 authoring/build-sitemap.py`。
-4. `python3 authoring/check.py` 通過 → commit：`content(article): 新增〈標題〉` → PR。
+3. 在 `data/articles.json` 新增一筆（`sitemap.xml` 會在 commit 時自動更新）。
+4. `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
 5. 要先寫不公開：在 `articles.json` 該筆加 `"draft": true`。
 
 ## 5. CI 檢查了什麼
