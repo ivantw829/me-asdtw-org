@@ -77,7 +77,7 @@ bash authoring/sync.sh                # 7. 同步本機與 GitHub
 ## 4. 發新文章
 
 1. `git switch -c content/<slug>`
-2. 照 `authoring/AI-PROMPT.md` 產生 `articles/<slug>.html`，放圖片到 `images/articles/<slug>/`。
+2. 照 `authoring/AI-PROMPT.md`「方式 A」讓 AI 產出 Markdown，再執行 `python3 authoring/md2article.py 原稿.md --images 圖片資料夾`（自動產生 HTML、登錄 JSON、複製圖片）；也可用舊的手寫 HTML 流程。
 3. 在 `data/articles.json` 新增一筆（`sitemap.xml` 與社群分享圖 `images/og/<slug>.jpg` 會在 commit 時自動產生）。
 4. `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
 5. 要先寫不公開：在 `articles.json` 該筆加 `"draft": true`。

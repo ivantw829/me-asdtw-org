@@ -11,6 +11,7 @@ python3 -m http.server 8000        # 本機預覽；不能直接開 file://，�
 python3 authoring/check.py         # 唯一的「測試」：資料、文章規範、站內連結、sitemap。CI 與 pre-commit 都會跑
 python3 authoring/build-sitemap.py # 重新產生 sitemap.xml（pre-commit 會自動跑並 stage，通常不用手動）
 python3 authoring/build-og.py     # 以本機 Chrome + macOS `sips` 產生社群分享圖 1200×630（缺圖時 pre-commit 會自動跑；改標題用 <slug>，改卡片設計用 --all）
+python3 authoring/md2article.py 原稿.md [--images 資料夾]  # Markdown＋frontmatter → 文章頁，並登錄 JSON、複製圖片、產分享圖、跑 check（新文章首選）
 python3 authoring/mark-adult.py <slug>  # 把文章標成 18+（--undo 取消），見下方「成人文章」
 bash authoring/ship.sh "type(scope): 描述"  # 一鍵：分支→commit→push→PR→等 CI→auto squash merge→同步本機（環境變數 CO_AUTHOR、PR_BODY 可加共同作者與 PR 內文）
 bash authoring/sync.sh             # 本機與 GitHub 對齊：prune、main 快轉、刪已合併的本機分支
@@ -25,7 +26,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **列表由 JSON 驅動。** `data/articles.json`（文章清單，首頁最新 3 篇與 `articles.html` 的標籤篩選都讀它；`draft: true` 會隱藏）與 `data/timeline.json`（`timeline.html`，依年份分組；選填 `url` 會把標題變成連結）都在 `site.js` 內用 `data-*` 屬性當掛載點渲染。文章頁本身是手寫的 HTML，上一篇／下一篇依 `<article data-slug>` 比對 JSON 產生。
 
-**文章頁是範本產物，不是自由排版。** 從 `authoring/article-template.html` 複製，規範在 `authoring/DESIGN-SPEC.md`，給 AI 的提示詞在 `authoring/AI-PROMPT.md`。`check.py` 會強制：不得有 `style=`／`<style>`、`<script>` 恰好 2 個、恰好一個 `<h1>`、`<img>` 必須有 `alt`、不得殘留 `{{…}}`、`data-slug` 與檔名及 JSON 一致、每個 `articles/*.html` 都要登錄在 JSON。時間軸的 `category` 只能是固定六類（社會倡議／政策參與／社會服務／研習／研究／組織參與，定義在 `check.py` 的 `CATEGORIES`，改分類要同步改 `check.py` 與 `site.js` 篩選排序）。
+**文章頁是範本產物，不是自由排版。** 新文章用 `authoring/md2article.py` 從 Markdown 產生（套 `authoring/article-template.html`，所以改範本後舊文章不會自動更新）；也可手動複製範本，規範在 `authoring/DESIGN-SPEC.md`，給 AI 的提示詞在 `authoring/AI-PROMPT.md`。`check.py` 會強制：不得有 `style=`／`<style>`、`<script>` 恰好 2 個、恰好一個 `<h1>`、`<img>` 必須有 `alt`、不得殘留 `{{…}}`、`data-slug` 與檔名及 JSON 一致、每個 `articles/*.html` 都要登錄在 JSON。時間軸的 `category` 只能是固定六類（社會倡議／政策參與／社會服務／研習／研究／組織參與，定義在 `check.py` 的 `CATEGORIES`，改分類要同步改 `check.py` 與 `site.js` 篩選排序）。
 
 **網域以 `CNAME`（`me.asdtw.org`）為唯一來源，但 HTML 裡有大量寫死的完整網址。** `build-sitemap.py` 與 `check.py` 都讀 `CNAME`；`robots.txt` 的 Sitemap 行、每頁的 `canonical`／`og:url`／`og:image`／`twitter:image`、文章範本與 JSON-LD 則是寫死的，換網域時要全站取代，`check.py` 會逐頁驗證它們與 `CNAME` 一致。
 
