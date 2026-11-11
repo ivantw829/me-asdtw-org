@@ -22,6 +22,14 @@ const SITE = {
     { label: "YouTube", href: "https://www.youtube.com/channel/UCvTDRWA06FqA7SXe5jkCEWw" },
     { label: "GitHub", href: "https://github.com/ivantw829" },
   ],
+  // 友站連結（顯示在每頁頁尾）
+  friends: [
+    { label: "雲端貓居 NyankoHost", href: "https://nyanko.host/" },
+    { label: "不是社工的社工", href: "https://www.youtube.com/@nonsocialworker" },
+    { label: "社團法人臺灣障礙青年協會", href: "https://tywd.org/" },
+    { label: "時代力量", href: "https://newpowerparty.tw/" },
+    { label: "台灣前進陣線", href: "https://taiwangogo.tw/" },
+  ],
   email: "ouob@duck.com",
   disclaimer: "個人發言僅代表個人立場，與所屬團體無關。",
   // giscus 留言：到 https://giscus.app 填入 repo 後取得下面四個值；repo 留空則不顯示留言區
@@ -73,9 +81,11 @@ const SITE = {
   const footer = document.querySelector("[data-site-footer]");
   if (footer) {
     footer.className = "site-footer";
+    const friends = SITE.friends.map((l) => `<a href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
     const links = SITE.links.map((l) => l.path ? `<a href="${BASE}${l.path}">${esc(l.label)}</a>` : `<a href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
     footer.innerHTML = `<div class="wrap">
       <div class="footer-links">${links}</div>
+      <div class="footer-friends"><span class="footer-label">友站</span>${friends}</div>
       <small>${esc(SITE.disclaimer)}</small>
       <small>© ${new Date().getFullYear()} ${esc(SITE.name)}</small>
     </div>`;
