@@ -194,6 +194,10 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 .footer-links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 .footer-links a { color: var(--muted); }
 .footer-links a:hover { color: var(--accent-ink); }
+.footer-friends { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.footer-friends a { color: var(--muted); }
+.footer-friends a:hover { color: var(--accent-ink); }
+.footer-label { font-family: var(--font-serif); font-weight: 700; color: var(--text); }
 .site-footer small { display: block; line-height: 1.6; }
 
 /* ==========================================================
