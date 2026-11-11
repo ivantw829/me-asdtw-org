@@ -126,6 +126,15 @@ for page in sorted(pages):
             err(f"{rel}：找不到連結目標「{ref}」")
 
 # ---------- 4. 網域、robots、sitemap ----------
+PAGE_LIST = json.loads((ROOT / "authoring" / "pages.json").read_text(encoding="utf-8"))
+listed = {pg["file"] for pg in PAGE_LIST}
+for f in sorted(ROOT.glob("*.html")):
+    if f.name != "404.html" and f.name not in listed:
+        err(f"{f.name}：尚未登錄在 authoring/pages.json（sitemap 與分享圖會漏掉它）")
+for pg in PAGE_LIST:
+    if not (ROOT / pg["file"]).exists():
+        err(f"authoring/pages.json：{pg['file']} 不存在")
+
 cname_file = ROOT / "CNAME"
 domain = cname_file.read_text(encoding="utf-8").strip() if cname_file.exists() else ""
 if not domain:
@@ -139,7 +148,7 @@ else:
         err("sitemap.xml：不存在，請執行 python3 authoring/build-sitemap.py")
     else:
         sitemap = sm_file.read_text(encoding="utf-8")
-        need = [f"https://{domain}/{p}" for p in ("", "about.html", "timeline.html", "articles.html", "sponsor.html")]
+        need = [f"https://{domain}/{pg['path']}" for pg in PAGE_LIST]
         need += [f"https://{domain}/articles/{a['slug']}.html" for a in published if not a.get("adult")]
         for a in published:
             if a.get("adult") and f"/articles/{a['slug']}.html" in sitemap:

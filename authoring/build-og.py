@@ -24,12 +24,10 @@ import urllib.parse
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CARD = ROOT / "authoring" / "og" / "card.html"
 
+# 站台頁面清單的單一來源：authoring/pages.json
 PAGES = {
-    "assets/img/og.jpg": dict(kind="site", title="多元平權倡議者"),
-    "images/og/about.jpg": dict(kind="page", eyebrow="ABOUT", title="關於我", sub="高三學生、多元平權倡議者"),
-    "images/og/timeline.jpg": dict(kind="page", eyebrow="EXPERIENCE", title="經歷", sub="倡議、政策參與、社會服務與研習"),
-    "images/og/articles.jpg": dict(kind="page", eyebrow="ARTICLES", title="文章", sub="倡議現場的心得與思考"),
-    "images/og/sponsor.jpg": dict(kind="page", eyebrow="SUPPORT", title="贊助我的倡議行動", sub="支持內容製作與現場行動"),
+    pg["og"]["image"]: {k: v for k, v in pg["og"].items() if k != "image"}
+    for pg in json.loads((ROOT / "authoring" / "pages.json").read_text(encoding="utf-8"))
 }
 
 
