@@ -328,3 +328,22 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 .about-photo { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 0 0 6px var(--accent-soft); }
 .about .prose { max-width: var(--prose-w); }
 @media (min-width: 800px) { .about { grid-template-columns: 160px 1fr; gap: 40px; } .about-photo { width: 160px; height: 160px; position: sticky; top: 96px; } }
+
+/* ==========================================================
+   切頁動畫（跨頁面 View Transitions）
+   Chrome／Edge／Safari 支援；不支援的瀏覽器會直接切換，不受影響。
+   ========================================================== */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: site-header; }
+.nav a[aria-current="page"] { view-transition-name: nav-pill; }  /* 黃色按鈕滑到新位置 */
+.nav a { transition: background-color .2s, color .2s; }
+
+::view-transition-group(nav-pill) { animation-duration: .38s; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+::view-transition-old(root) { animation: vt-out .16s ease both; }
+::view-transition-new(root) { animation: vt-in .34s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
