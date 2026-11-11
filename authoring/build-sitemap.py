@@ -2,7 +2,7 @@
 """依 data/articles.json 重新產生 sitemap.xml（只用標準函式庫）。
 
 lastmod 規則（可重現，沒改內容就不會變）：
-  - 文章：文章日期
+  - 文章：更新日期（updated），沒有就用文章日期
   - 一般頁面：相關檔案最後一次 commit 的日期；若檔案正在被修改或已 staged，則為今天
 本機 pre-commit hook 會自動執行本腳本，一般不需要手動跑。
 用法：python3 authoring/build-sitemap.py
@@ -46,7 +46,7 @@ articles = json.loads((root / "data" / "articles.json").read_text(encoding="utf-
 for a in sorted(articles, key=lambda a: a["date"], reverse=True):
     if a.get("draft") or a.get("adult"):
         continue
-    urls.append((f"{DOMAIN}/articles/{a['slug']}.html", a["date"], "0.7"))
+    urls.append((f"{DOMAIN}/articles/{a['slug']}.html", a.get("updated") or a["date"], "0.7"))
 
 out = ['<?xml version="1.0" encoding="UTF-8"?>',
        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']

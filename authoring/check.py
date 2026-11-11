@@ -52,6 +52,11 @@ for i, a in enumerate(articles):
         err(f"{where}：date 格式必須是 YYYY-MM-DD")
     if not isinstance(a.get("tags", []), list):
         err(f"{where}：tags 必須是陣列")
+    if a.get("updated"):
+        if not DATE.match(a["updated"]):
+            err(f"{where}：updated 格式必須是 YYYY-MM-DD")
+        elif a.get("date") and a["updated"] < a["date"]:
+            err(f"{where}：updated 不能早於 date")
     if a.get("cover") and not (ROOT / a["cover"]).exists():
         err(f"{where}：cover 檔案不存在（{a['cover']}）")
 
@@ -70,6 +75,7 @@ for i, t in enumerate(timeline):
 # ---------- 2. 文章頁 ----------
 published = [a for a in articles if not a.get("draft")]
 adult_slugs = {a["slug"] for a in articles if a.get("adult")}
+draft_slugs = {a["slug"] for a in articles if a.get("draft")}
 for a in articles:
     slug = a.get("slug")
     page = ROOT / "articles" / f"{slug}.html"
@@ -92,7 +98,9 @@ for page in sorted((ROOT / "articles").glob("*.html")):
             err(f"{rel}：成人文章必須 noindex")
         if 'name="rating" content="adult"' not in text or "RTA-5042-1996-1400-1577-RTA" not in text:
             err(f"{rel}：成人文章缺少分級標籤（rating: adult 與 RTA）")
-    elif gated:
+    if slug in draft_slugs and not re.search(r'<meta name="robots" content="[^"]*noindex', text):
+        err(f"{rel}：草稿（draft）頁面必須 noindex")
+    if gated and slug not in adult_slugs:
         err(f"{rel}：有 data-age-gate 但 articles.json 沒標 adult（請在 data/articles.json 加 \"adult\": true，或用 mark-adult.py）")
     if f'data-slug="{slug}"' not in text:
         err(f'{rel}：缺少 data-slug="{slug}"（必須與檔名一致）')
@@ -240,6 +248,10 @@ if domain:
             want_img = f"{base}/images/og/adult.jpg" if a.get("adult") else f"{base}/images/og/{page.stem}.jpg"
             if meta(text, "og:image") != want_img:
                 err(f"{rel}：og:image 應為 {want_img}")
+            if a.get("updated") and f'<time datetime="{a["updated"]}">' not in text:
+                err(f"{rel}：articles.json 有 updated，頁面缺少「更新於」日期")
+            if not a.get("updated") and "更新於" in text:
+                err(f"{rel}：頁面有「更新於」但 articles.json 沒有 updated")
             tags = re.findall(r'<meta property="article:tag" content="([^"]*)"', text)
             if [html.unescape(t) for t in tags] != a.get("tags", []):
                 err(f"{rel}：article:tag 與 articles.json 的 tags 不一致")
@@ -251,6 +263,8 @@ if domain:
                     obj = json.loads(ld.group(1))
                     if obj.get("headline") != a.get("title") or obj.get("datePublished") != a.get("date"):
                         err(f"{rel}：ld+json 的 headline／datePublished 與 articles.json 不一致")
+                    if obj.get("dateModified") != (a.get("updated") or a.get("date")):
+                        err(f"{rel}：ld+json 的 dateModified 應為 updated（沒有就是 date）")
                 except json.JSONDecodeError:
                     pass
 
