@@ -45,6 +45,8 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **快取版本碼。** GitHub Pages 的 CSS/JS 快取 10 分鐘，所以每頁引用 `style.css`、`site.js` 時都帶內容雜湊 `?v=xxxxxxxx`（`authoring/build-assets.py` 產生，pre-commit 與 `md2article.py` 自動執行並 stage；`check.py` 驗證每頁都是最新版本碼）。改了 CSS 或 JS 後，全部 HTML 會各有一行版本碼 diff，屬預期；新頁面請照既有頁面寫引用即可，版本碼會被自動補上。與別人同時改到 HTML 的 PR 容易衝突，重新套用即可。
 
+**字型決定（2026-11-12）：維持 Google Fonts，不自架。** `<head>` 已有 `preconnect` 與 `display=swap`。量測（內建瀏覽器、線上站，Resource Timing）：首頁 `fonts.googleapis.com` 的 CSS 約 169KB（5 個字重 × 數十個 unicode-range 切片宣告；渲染阻塞），整頁 6 個請求約 265KB，CLS 0，DOMContentLoaded 約 2.0s、load 約 2.7s（此環境網路偏慢，僅供相對參考）；文章頁 CLS 0，字型 CSS 走快取，DOMContentLoaded 約 0.5s。結論：再訪者幾乎無成本，首訪才有那份 CSS；中文字型完整自架要 20MB 以上，子集化要 fonttools 且每次發文可能要重跑，目前不划算。若日後要減量：先檢查字重 500 是否值得保留（`style.css` 只有 5 處用到），再考慮子集化。
+
 **搜尋引擎擁有權驗證：** `index.html` 的 `<meta name="msvalidate.01" …>` 是 Bing Webmaster Tools 的網站驗證，必須永久保留，改版或改首頁 `<head>` 時不可移除。
 
 **IndexNow（Bing 等）。** 根目錄的 `<32 位十六進位>.txt` 是公開的 IndexNow 金鑰檔（內容等於檔名，`check.py` 驗證恰好一個），不是祕密，不要刪。`.github/workflows/indexnow.yml` 在 `articles/*.html` 變動合併到 `main` 時執行 `authoring/indexnow.py`：等頁面上線後送出，排除草稿與 18+ 文章。
