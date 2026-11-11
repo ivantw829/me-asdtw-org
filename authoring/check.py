@@ -254,6 +254,39 @@ if domain:
                 except json.JSONDecodeError:
                     pass
 
+# ---------- 6. 樣式數值同步（style.css ⇄ 兩份設計文件） ----------
+css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+
+
+def css_block(selector: str) -> dict:
+    """取出某個選擇器第一個 {…} 內的 --變數（只含色碼與簡單值）。"""
+    m = re.search(r"^[ \t]*" + re.escape(selector) + r"\s*\{(.*?)\n\s*\}", css, re.S | re.M)
+    return dict(re.findall(r"(--[\w-]+)\s*:\s*(#[0-9a-fA-F]{3,8})\b", m.group(1))) if m else {}
+
+
+light = css_block(":root")
+dark_a = css_block(':root[data-theme="dark"]')
+dark_b = css_block(':root:not([data-theme="light"])')
+if not (light and dark_a and dark_b):
+    err("style.css：找不到 :root 或深色變數區塊，無法檢查樣式同步")
+else:
+    for k in sorted(set(dark_a) | set(dark_b)):
+        if dark_a.get(k, "").lower() != dark_b.get(k, "").lower():
+            err(f"style.css：深色變數 {k} 在兩個區塊不一致（{dark_a.get(k)} ≠ {dark_b.get(k)}）")
+    DOC_TOKENS = ("--bg", "--surface", "--text", "--muted", "--accent", "--teal", "--ink", "--accent-ink")
+    for doc in ("authoring/DESIGN-SPEC.md", "authoring/STYLE-PROMPT.md"):
+        rows = {m.group(1): m.group(0).lower() for m in
+                re.finditer(r"^\|\s*`(--[\w-]+)`.*$", (ROOT / doc).read_text(encoding="utf-8"), re.M)}
+        for t in DOC_TOKENS:
+            row = rows.get(t)
+            if row is None:
+                err(f"{doc}：色票表缺少 {t} 那一列")
+                continue
+            for name, vals in (("淺色", light), ("深色", dark_a)):
+                v = vals.get(t)
+                if v and v.lower() not in row:
+                    err(f"{doc}：{t} 的{name}值應為 {v}（style.css 改了色票，這份文件要一併更新）")
+
 # ---------- 結果 ----------
 if errors:
     print(f"發現 {len(errors)} 個問題：")
