@@ -30,7 +30,7 @@ const SITE = {
     { label: "臺灣綠黨", href: "https://www.greenparty.org.tw/" },
     { label: "台灣前進陣線", href: "https://taiwangogo.tw/" },
   ],
-  email: "ouob@duck.com",
+  email: "info@asdtw.org",
   disclaimer: "個人發言僅代表個人立場，與所屬團體無關。",
   // giscus 留言：到 https://giscus.app 填入 repo 後取得下面四個值；repo 留空則不顯示留言區
   giscus: { repo: "", repoId: "", category: "", categoryId: "" },
