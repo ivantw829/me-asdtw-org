@@ -42,6 +42,8 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **快取陷阱。** GitHub Pages 的 CSS/JS 快取 10 分鐘，剛部署後回訪者可能出現「新 HTML 配舊 CSS」的短暫錯位，這不是 bug；目前沒有檔名雜湊或版本碼。
 
+**搜尋引擎擁有權驗證：** `index.html` 的 `<meta name="msvalidate.01" …>` 是 Bing Webmaster Tools 的網站驗證，必須永久保留，改版或改首頁 `<head>` 時不可移除。
+
 ## 工作流程（完整版見 CONTRIBUTING.md）
 
 - `main` 受保護（已套用）：只能經 PR、CI（`check`、`pr-title`）通過後 squash merge；repo 只允許 squash、啟用 auto-merge、合併後自動刪分支。日常直接用 `authoring/ship.sh`。PR 標題即 `main` 上的 commit 訊息，必須是約定式 commit：`type(scope): 描述`，type 為 `feat fix content docs style refactor perf chore ci revert`。分支前綴對應 type（如 `content/…`）。
