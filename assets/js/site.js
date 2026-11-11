@@ -32,8 +32,8 @@ const SITE = {
   ],
   email: "info@asdtw.org",
   disclaimer: "個人發言僅代表個人立場，與所屬團體無關。",
-  // giscus 留言：到 https://giscus.app 填入 repo 後取得下面四個值；repo 留空則不顯示留言區
-  giscus: { repo: "", repoId: "", category: "", categoryId: "" },
+  // giscus 留言（已設定：Discussions 分類「文章留言」，Announcements 類型）；repo 留空則不顯示留言區
+  giscus: { repo: "ivantw829/me-asdtw-org", repoId: "R_kgDOVqKA5Q", category: "文章留言", categoryId: "DIC_kwDOVqKA5c4DK4di" },
   // 成年確認（只對標記 data-age-gate 的成人文章啟用）。days：記住聲明的天數；0 = 每個瀏覽工作階段都重新詢問（較保守）
   ageGate: { days: 0 },
 };
