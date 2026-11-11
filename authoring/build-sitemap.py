@@ -37,14 +37,9 @@ def lastmod(*files: str) -> str:
     return max(dates)
 
 
-# 頁面 → (priority, 會影響它內容的檔案)
-pages = [
-    ("", "1.0", ["index.html", "data/articles.json"]),
-    ("about.html", "0.6", ["about.html"]),
-    ("timeline.html", "0.7", ["timeline.html", "data/timeline.json"]),
-    ("articles.html", "0.8", ["articles.html", "data/articles.json"]),
-    ("sponsor.html", "0.5", ["sponsor.html"]),
-]
+# 頁面清單的單一來源：authoring/pages.json（path、priority、會影響 lastmod 的檔案）
+pages = [(pg["path"], pg["priority"], pg["lastmod"])
+         for pg in json.loads((root / "authoring" / "pages.json").read_text(encoding="utf-8"))]
 urls = [(f"{DOMAIN}/{p}", lastmod(*files), pr) for p, pr, files in pages]
 
 articles = json.loads((root / "data" / "articles.json").read_text(encoding="utf-8"))

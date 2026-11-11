@@ -30,7 +30,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **網域以 `CNAME`（`me.asdtw.org`）為唯一來源，但 HTML 裡有大量寫死的完整網址。** `build-sitemap.py` 與 `check.py` 都讀 `CNAME`；`robots.txt` 的 Sitemap 行、每頁的 `canonical`／`og:url`／`og:image`／`twitter:image`、文章範本與 JSON-LD 則是寫死的，換網域時要全站取代，`check.py` 會逐頁驗證它們與 `CNAME` 一致。
 
-**新增一個站台頁面（非文章）要同步 5 處，漏任何一處 `check.py` 或 CI 會失敗：** ① 新頁面 `<head>` 的 `rel="expect"` 與結尾的 `#page-end`（見下方切頁動畫），以及完整的 canonical／og／twitter meta（複製既有頁面，`og:image` 指向 `images/og/<頁面>.jpg`）；② `build-og.py` 的 `PAGES`；③ `build-sitemap.py` 的 `pages`（含 priority 與影響 lastmod 的檔案）；④ `check.py` 第 4 節 sitemap 檢查中寫死的頁面清單；⑤ 若要出現在導覽，加到 `SITE.nav`。
+**新增一個站台頁面（非文章）要動 3 處，漏了 `check.py` 或 CI 會失敗：** ① 新頁面本身：`<head>` 的 `rel="expect"` 與結尾的 `#page-end`（見下方切頁動畫），以及完整的 canonical／og／twitter meta（複製既有頁面，`og:image` 指向 `images/og/<頁面>.jpg`）；② `authoring/pages.json` 加一筆（`path`、`priority`、影響 lastmod 的檔案、分享圖設定）——`build-og.py`、`build-sitemap.py`、`check.py` 都讀它，`check.py` 也會抓出沒登錄的根目錄 HTML；③ 若要出現在導覽，加到 `SITE.nav`。
 
 **樣式只有一個 `assets/css/style.css`。** 淺色/深色用 CSS 變數；深色變數有兩份（`[data-theme="dark"]` 與 `prefers-color-scheme: dark` 且非 `data-theme="light"`），改色票要兩處一起改。識別色（奶白、黃 `--accent`、青綠 `--teal`、墨黑 `--ink`）來自角色設定圖，條碼／鏤空字／× 等裝飾只用在首頁，文章內文不用。色票與元件規格的數值另外**手動複製**在 `authoring/DESIGN-SPEC.md`（文章用）與 `authoring/STYLE-PROMPT.md`（給 AI 的整站風格提示詞）裡，沒有自動同步；改 `style.css` 的色票或元件後要一併更新這兩份。
 

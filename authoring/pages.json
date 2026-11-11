@@ -1,0 +1,37 @@
+[
+  {
+    "path": "",
+    "file": "index.html",
+    "priority": "1.0",
+    "lastmod": ["index.html", "data/articles.json"],
+    "og": {"image": "assets/img/og.jpg", "kind": "site", "title": "多元平權倡議者"}
+  },
+  {
+    "path": "about.html",
+    "file": "about.html",
+    "priority": "0.6",
+    "lastmod": ["about.html"],
+    "og": {"image": "images/og/about.jpg", "kind": "page", "eyebrow": "ABOUT", "title": "關於我", "sub": "高三學生、多元平權倡議者"}
+  },
+  {
+    "path": "timeline.html",
+    "file": "timeline.html",
+    "priority": "0.7",
+    "lastmod": ["timeline.html", "data/timeline.json"],
+    "og": {"image": "images/og/timeline.jpg", "kind": "page", "eyebrow": "EXPERIENCE", "title": "經歷", "sub": "倡議、政策參與、社會服務與研習"}
+  },
+  {
+    "path": "articles.html",
+    "file": "articles.html",
+    "priority": "0.8",
+    "lastmod": ["articles.html", "data/articles.json"],
+    "og": {"image": "images/og/articles.jpg", "kind": "page", "eyebrow": "ARTICLES", "title": "文章", "sub": "倡議現場的心得與思考"}
+  },
+  {
+    "path": "sponsor.html",
+    "file": "sponsor.html",
+    "priority": "0.5",
+    "lastmod": ["sponsor.html"],
+    "og": {"image": "images/og/sponsor.jpg", "kind": "page", "eyebrow": "SUPPORT", "title": "贊助我的倡議行動", "sub": "支持內容製作與現場行動"}
+  }
+]
