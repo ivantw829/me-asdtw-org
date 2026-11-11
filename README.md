@@ -29,3 +29,6 @@ python3 -m http.server 8000
 
 ## 發新文章
 見 `authoring/AI-PROMPT.md`。
+
+## 工作流程
+分支、commit 格式、PR、CI、還原與緊急處理，見 [CONTRIBUTING.md](CONTRIBUTING.md)。
