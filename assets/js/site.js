@@ -113,7 +113,7 @@ const SITE = {
     <div class="meta">${fmtDate(a.date)}${a.readingTime ? ` · 約 ${a.readingTime} 分鐘` : ""}</div>
     <h3><a href="${BASE}articles/${esc(a.slug)}.html">${esc(a.title)}</a></h3>
     <p>${a.adult ? "此文章含成人內容，需年滿 18 歲才能閱讀。" : esc(a.summary || "")}</p>
-    <div class="chips">${a.adult ? '<span class="tag tag-adult">18+</span>' : ""}${(a.tags || []).map((t) => `<a class="tag" href="${BASE}articles.html?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}</div>
+    <div class="chips">${a.adult ? '<span class="tag tag-adult">18+</span>' : ""}${a.category ? `<a class="tag" href="${BASE}articles.html?category=${encodeURIComponent(a.category)}">${esc(a.category)}</a>` : ""}</div>
   </article>`;
 
   // 首頁：最新文章
@@ -125,23 +125,23 @@ const SITE = {
     run();
   }
 
-  // 文章列表頁：標籤篩選
+  // 文章列表頁：分類篩選
   const listEl = document.querySelector("[data-article-list]");
   if (listEl) {
-    const filterEl = document.querySelector("[data-tag-filter]");
-    let active = new URLSearchParams(location.search).get("tag") || "";
+    const filterEl = document.querySelector("[data-category-filter]");
+    let active = new URLSearchParams(location.search).get("category") || "";
     const run = () => loadArticles().then((list) => {
       const render = () => {
-        const shown = active ? list.filter((a) => (a.tags || []).includes(active)) : list;
-        listEl.innerHTML = shown.length ? shown.map(card).join("") : '<div class="empty"><p>這個標籤目前沒有文章。</p><button type="button" class="btn" data-clear>清除篩選</button></div>';
+        const shown = active ? list.filter((a) => a.category === active) : list;
+        listEl.innerHTML = shown.length ? shown.map(card).join("") : '<div class="empty"><p>這個分類目前沒有文章。</p><button type="button" class="btn" data-clear>清除篩選</button></div>';
         const clear = listEl.querySelector("[data-clear]");
         if (clear) clear.addEventListener("click", () => { active = ""; render(); });
-        filterEl && filterEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.tag || "") === active)));
+        filterEl && filterEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.cat || "") === active)));
       };
       if (filterEl) {
-        const tags = [...new Set(list.flatMap((a) => a.tags || []))];
-        filterEl.innerHTML = [""].concat(tags).map((t) => `<button type="button" class="tag" data-tag="${esc(t)}">${t ? esc(t) : "全部"}</button>`).join("");
-        if (!filterEl.dataset.bound) { filterEl.dataset.bound = "1"; filterEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; active = b.dataset.tag; render(); }); }
+        const cats = [...new Set(list.map((a) => a.category).filter(Boolean))];
+        filterEl.innerHTML = [""].concat(cats).map((t) => `<button type="button" class="tag" data-cat="${esc(t)}">${t ? esc(t) : "全部"}</button>`).join("");
+        if (!filterEl.dataset.bound) { filterEl.dataset.bound = "1"; filterEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; active = b.dataset.cat || ""; render(); }); }
       }
       render();
     }).catch(() => { cache = null; renderError(listEl, "文章清單", run); });

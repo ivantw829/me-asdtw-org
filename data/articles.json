@@ -3,6 +3,7 @@
     "slug": "sample-article",
     "title": "範例文章：這是版型示範",
     "date": "2026-01-01",
+    "category": "心得分享",
     "tags": [
       "範例",
       "心得"
@@ -14,6 +15,7 @@
     "slug": "116-fju-sociology-interview",
     "title": "116 年特殊選才 天主教輔仁大學社會學系 面試心得",
     "date": "2026-11-06",
+    "category": "心得分享",
     "tags": [
       "特殊選才",
       "面試心得",
@@ -26,6 +28,7 @@
     "slug": "build-discord-server-with-ouo-bot",
     "title": "從零使用 OuO Bot 建置你的 Discord 伺服器",
     "date": "2026-11-11",
+    "category": "技術教學",
     "tags": [
       "Discord",
       "OuO Bot",
@@ -38,6 +41,7 @@
     "slug": "claude-queue-guide",
     "title": "Claude Queue 新手教學：從安裝到使用",
     "date": "2026-11-12",
+    "category": "技術教學",
     "tags": [
       "Claude Queue",
       "Chrome 擴充功能",
