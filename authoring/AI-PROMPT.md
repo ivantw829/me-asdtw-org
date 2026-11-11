@@ -82,11 +82,14 @@
 
 ## 發文流程（給你自己看）
 
-1. 寫好原稿 → 貼給 AI（含範本與規範）。
-2. 把 AI 輸出的 HTML 存成 `articles/<slug>.html`。
-3. 把圖片依「圖片清單」放進 `images/articles/<slug>/`（轉成 webp、壓縮到 300KB 以下）。
-4. 把 JSON 那一筆加進 `data/articles.json`（最新的放哪都可以，網站會自動依日期排序）。
-   接著執行 `python3 authoring/build-sitemap.py` 更新 `sitemap.xml`。
-5. 本機預覽：在專案資料夾執行 `python3 -m http.server 8000`，開 http://localhost:8000。
-6. `git add . && git commit -m "新增文章：<標題>" && git push`，GitHub Pages 會自動更新。
-7. 草稿：在 `data/articles.json` 該筆加上 `"draft": true`，就不會出現在列表（但檔案仍可用網址直接開，真正私密的內容請不要放上來）。
+完整規範見根目錄的 `CONTRIBUTING.md`。
+
+1. `git switch main && git pull && git switch -c content/<slug>`
+2. 寫好原稿 → 貼給 AI（含範本與規範）。
+3. 把 AI 輸出的 HTML 存成 `articles/<slug>.html`。
+4. 圖片依「圖片清單」放進 `images/articles/<slug>/`（轉成 webp、壓縮到 300KB 以下）。
+5. 把 JSON 那一筆加進 `data/articles.json`，接著執行 `python3 authoring/build-sitemap.py`。
+6. `python3 authoring/check.py` 檢查；`python3 -m http.server 8000` 本機預覽。
+7. `git add -A && git commit`（訊息：`content(article): 新增〈標題〉`）→ `git push` → `gh pr create --fill`。
+8. CI 通過後 `gh pr merge --squash`，GitHub Pages 自動更新。
+9. 草稿：在 `data/articles.json` 該筆加上 `"draft": true`，就不會出現在列表（但檔案仍可用網址直接開，真正私密的內容請不要放上來）。

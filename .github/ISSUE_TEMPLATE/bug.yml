@@ -1,0 +1,22 @@
+name: 網站問題回報
+description: 版面跑掉、連結失效、資料錯誤
+labels: [bug]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: 哪一頁？
+      placeholder: https://me.asdtw.org/timeline.html
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 發生了什麼事？預期應該是什麼？
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 裝置與瀏覽器
+      placeholder: iPhone 15 / Safari、深色模式

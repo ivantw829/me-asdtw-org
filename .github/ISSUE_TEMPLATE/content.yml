@@ -1,0 +1,18 @@
+name: 內容待辦
+description: 準備新增的文章、經歷，或要修正的文字
+labels: [content]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 類型
+      options: [新文章, 經歷時間軸, 關於我, 其他文字修正]
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 內容說明
+      description: 草稿位置、素材、要附的連結。請勿貼未經同意的個資。
+    validations:
+      required: true
