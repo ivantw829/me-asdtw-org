@@ -32,7 +32,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **新增一個站台頁面（非文章）要動 3 處，漏了 `check.py` 或 CI 會失敗：** ① 新頁面本身：`<head>` 的 `rel="expect"` 與結尾的 `#page-end`（見下方切頁動畫），以及完整的 canonical／og／twitter meta（複製既有頁面，`og:image` 指向 `images/og/<頁面>.jpg`）；② `authoring/pages.json` 加一筆（`path`、`priority`、影響 lastmod 的檔案、分享圖設定）——`build-og.py`、`build-sitemap.py`、`check.py` 都讀它，`check.py` 也會抓出沒登錄的根目錄 HTML；③ 若要出現在導覽，加到 `SITE.nav`。
 
-**樣式只有一個 `assets/css/style.css`。** 淺色/深色用 CSS 變數；深色變數有兩份（`[data-theme="dark"]` 與 `prefers-color-scheme: dark` 且非 `data-theme="light"`），改色票要兩處一起改。識別色（奶白、黃 `--accent`、青綠 `--teal`、墨黑 `--ink`）來自角色設定圖，條碼／鏤空字／× 等裝飾只用在首頁，文章內文不用。色票與元件規格的數值另外**手動複製**在 `authoring/DESIGN-SPEC.md`（文章用）與 `authoring/STYLE-PROMPT.md`（給 AI 的整站風格提示詞）裡，沒有自動同步；改 `style.css` 的色票或元件後要一併更新這兩份。
+**樣式只有一個 `assets/css/style.css`。** 淺色/深色用 CSS 變數；深色變數有兩份（`[data-theme="dark"]` 與 `prefers-color-scheme: dark` 且非 `data-theme="light"`），改色票要兩處一起改。識別色（奶白、黃 `--accent`、青綠 `--teal`、墨黑 `--ink`）來自角色設定圖，條碼／鏤空字／× 等裝飾只用在首頁，文章內文不用。色票與元件規格的數值另外**手動複製**在 `authoring/DESIGN-SPEC.md`（文章用）與 `authoring/STYLE-PROMPT.md`（給 AI 的整站風格提示詞）裡，`check.py` 會驗證主要色票（淺色與深色）在這兩份的色票表裡與 `style.css` 一致，並檢查兩份深色變數互相一致；元件規格（字級、圓角等）仍需手動同步。
 
 **社群分享（OG/Twitter Card/JSON-LD）。** 每頁 `<head>` 都有完整 meta，由 `check.py` 強制（canonical 與 og:url 一致、og:description 等於 description、分享圖存在且為 1200×630、文章的 title／summary／date／tags 與 `data/articles.json` 逐字一致、ld+json 為合法 JSON）。分享圖是產物：`authoring/og/card.html` 範本 + `build-og.py` 無頭 Chrome 截圖，改文章標題／標籤後不必手動處理：`build-og.py` 以 `.manifest.json` 偵測過期並重產（需 Chrome）。
 
