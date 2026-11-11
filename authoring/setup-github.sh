@@ -5,10 +5,10 @@
 set -euo pipefail
 REPO="${1:-ivantw829/me-asdtw-org}"
 
-echo "→ 合併策略：只允許 squash merge，合併後自動刪分支"
+echo "→ 合併策略：只允許 squash merge，合併後自動刪分支，並啟用自動合併（CI 通過即合併）"
 gh repo edit "$REPO" \
   --enable-squash-merge --enable-merge-commit=false --enable-rebase-merge=false \
-  --delete-branch-on-merge
+  --delete-branch-on-merge --enable-auto-merge
 
 echo "→ 保護 main：必須通過 CI、必須走 PR、線性歷史、禁止強推與刪除"
 gh api -X PUT "repos/$REPO/branches/main/protection" --input - <<JSON
