@@ -76,15 +76,24 @@ bash authoring/sync.sh                # 7. 同步本機與 GitHub
 
 ## 4. 發新文章
 
-1. `git switch -c content/<slug>`
-2. 照 `authoring/AI-PROMPT.md`「方式 A」讓 AI 產出 Markdown，再執行 `python3 authoring/md2article.py 原稿.md --images 圖片資料夾`（自動產生 HTML、登錄 JSON、複製圖片）；也可用舊的手寫 HTML 流程。
-3. 在 `data/articles.json` 新增一筆（`sitemap.xml` 與社群分享圖 `images/og/<slug>.jpg` 會在 commit 時自動產生）。
-4. `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
-5. 要先寫不公開：在 `articles.json` 該筆加 `"draft": true`。
+**一條龍（建議）**：照 `authoring/AI-PROMPT.md`「方式 A」讓 AI 產出 Markdown（含 frontmatter）存成原稿，然後：
+
+```bash
+bash authoring/publish.sh 原稿.md 圖片資料夾
+```
+
+它會依序：產生文章頁（png/jpg 自動轉 webp）→ 登錄 `articles.json` → 開本機預覽等你按 Enter → 開 PR、等 CI、合併 → 驗證線上頁面的 canonical、og 與分享圖。
+
+- **草稿**：frontmatter 寫 `draft: true`，頁面 noindex、不進列表／sitemap；知道網址的人仍看得到，不要放敏感內容。拿掉 `draft` 重跑即正式發布。
+- **修改已發布的文章**：改原稿、加 `updated: YYYY-MM-DD`，重跑 `publish.sh`（會顯示「更新於」並更新 sitemap `lastmod`）。
+- **18+ 文章**：frontmatter 寫 `adult: true`。
+- 只想產生不上線：`python3 authoring/md2article.py 原稿.md --images 圖片資料夾`，之後自己 `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
+- 上線驗證可單獨跑：`python3 authoring/verify-live.py <slug>`。
+- **IndexNow**：合併到 `main` 且有 `articles/*.html` 變動時，GitHub Action 會等頁面上線後通知 Bing 等搜尋引擎（排除草稿與 18+）。手動補送所有文章：Actions → IndexNow → Run workflow。Google 不支援 IndexNow，靠 sitemap。
 
 ## 5. CI 檢查了什麼
 
-`authoring/check.py` 會驗證：JSON 格式與必填欄位、slug／日期格式、文章檔與登錄一致、文章不得有範本占位符或 `style`、`<img>` 必須有 `alt`、站內連結與圖片都存在、sitemap 含所有已發布頁面、robots 與 CNAME 網域一致。另外 `pr-title` 檢查 PR 標題格式。
+`authoring/check.py` 會驗證：JSON 格式與必填欄位、slug／日期格式、文章檔與登錄一致、文章不得有範本占位符或 `style`、`<img>` 必須有 `alt`、站內連結與圖片都存在、sitemap 含所有已發布頁面、robots 與 CNAME 網域一致、草稿頁 noindex、`updated` 與頁面／ld+json 一致、IndexNow 金鑰檔存在。另外 `pr-title` 檢查 PR 標題格式。
 
 ## 6. 版本與還原
 
