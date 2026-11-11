@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-Hant-TW">
+  <title>賴奕帆｜文章</title>
+  <subtitle>倡議現場的心得與思考</subtitle>
+  <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles.html"/>
+  <link rel="self" type="application/atom+xml" href="https://me.asdtw.org/feed.xml"/>
+  <id>https://me.asdtw.org/</id>
+  <updated>2026-11-11T00:00:00+08:00</updated>
+  <author><name>賴奕帆</name><uri>https://me.asdtw.org/about.html</uri></author>
+  <entry>
+    <title>從零使用 OuO Bot 建置你的 Discord 伺服器</title>
+    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/build-discord-server-with-ouo-bot.html"/>
+    <id>https://me.asdtw.org/articles/build-discord-server-with-ouo-bot.html</id>
+    <published>2026-11-11T00:00:00+08:00</published>
+    <updated>2026-11-11T00:00:00+08:00</updated>
+    <summary type="text">以虛構的「星期三咖啡館」為例，從邀請機器人開始，依序設定驗證、歡迎、身份組、成員管理、工單、動態語音與抽獎投票，一步步建置完整的 Discord 伺服器。</summary>
+    <category term="Discord"/>
+    <category term="OuO Bot"/>
+    <category term="教學"/>
+  </entry>
+  <entry>
+    <title>116 年特殊選才 天主教輔仁大學社會學系 面試心得</title>
+    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/116-fju-sociology-interview.html"/>
+    <id>https://me.asdtw.org/articles/116-fju-sociology-interview.html</id>
+    <published>2026-11-06T00:00:00+08:00</published>
+    <updated>2026-11-06T00:00:00+08:00</updated>
+    <summary type="text">賴奕帆分享 116 學年度天主教輔仁大學社會學系特殊選才的簡章時程、面試準備、當天流程與三位教授的提問，以及給之後報名者的建議。</summary>
+    <category term="特殊選才"/>
+    <category term="面試心得"/>
+    <category term="輔仁大學"/>
+  </entry>
+  <entry>
+    <title>範例文章：這是版型示範</title>
+    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/sample-article.html"/>
+    <id>https://me.asdtw.org/articles/sample-article.html</id>
+    <published>2026-01-01T00:00:00+08:00</published>
+    <updated>2026-01-01T00:00:00+08:00</updated>
+    <summary type="text">這是一篇用來示範文章版型的範例，展示標題、引言、圖片、提示框與參考資料等元件。正式發文前請刪除。</summary>
+    <category term="範例"/>
+    <category term="心得"/>
+  </entry>
+</feed>

@@ -133,6 +133,16 @@ for page in sorted(pages):
         if not target.resolve().exists():
             err(f"{rel}：找不到連結目標「{ref}」")
 
+# ---------- 3.5 CSS／JS 版本碼（快取） ----------
+import hashlib
+for rel, pat in (("assets/css/style.css", r'href="[^"?#]*assets/css/style\.css(\?v=[0-9a-f]{8})?"'),
+                 ("assets/js/site.js", r'src="[^"?#]*assets/js/site\.js(\?v=[0-9a-f]{8})?"')):
+    ver = hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()[:8]
+    for page in sorted(ROOT.glob("*.html")) + sorted((ROOT / "articles").glob("*.html")):
+        for m in re.finditer(pat, page.read_text(encoding="utf-8")):
+            if m.group(1) != f"?v={ver}":
+                err(f"{page.relative_to(ROOT).as_posix()}：{rel} 的版本碼不是最新（應為 ?v={ver}），請執行 python3 authoring/build-assets.py")
+
 # ---------- 4. 網域、robots、sitemap ----------
 PAGE_LIST = json.loads((ROOT / "authoring" / "pages.json").read_text(encoding="utf-8"))
 listed = {pg["file"] for pg in PAGE_LIST}
@@ -164,6 +174,44 @@ else:
         for url in need:
             if f"<loc>{url}</loc>" not in sitemap:
                 err(f"sitemap.xml：缺少 {url}（請執行 python3 authoring/build-sitemap.py）")
+
+# ---------- 4.5 IndexNow 金鑰檔 ----------
+keys = [f for f in ROOT.glob("*.txt") if re.fullmatch(r"[0-9a-f]{32}", f.stem)]
+if len(keys) != 1:
+    err(f"IndexNow 金鑰檔：根目錄應該恰好有 1 個 <32 位十六進位>.txt（目前 {len(keys)} 個）")
+elif keys[0].read_text(encoding="utf-8").strip() != keys[0].stem:
+    err(f"{keys[0].name}：內容必須等於檔名（金鑰本身）")
+
+# ---------- 4.6 Atom 訂閱源 ----------
+if domain:
+    import xml.etree.ElementTree as ET
+    ATOM = "{http://www.w3.org/2005/Atom}"
+    feed_file = ROOT / "feed.xml"
+    if not feed_file.exists():
+        err("feed.xml：不存在，請執行 python3 authoring/build-feed.py")
+    else:
+        try:
+            froot = ET.parse(feed_file).getroot()
+        except ET.ParseError as e:
+            err(f"feed.xml：不是合法 XML（{e}）")
+            froot = None
+        if froot is not None:
+            entries = {e.findtext(f"{ATOM}id"): e for e in froot.findall(f"{ATOM}entry")}
+            want = {f"https://{domain}/articles/{a['slug']}.html": a
+                    for a in articles if not a.get("draft") and not a.get("adult")}
+            for url, a in want.items():
+                e = entries.get(url)
+                if e is None:
+                    err(f"feed.xml：缺少 {url}（請執行 python3 authoring/build-feed.py）")
+                elif (e.findtext(f"{ATOM}title") != a["title"] or e.findtext(f"{ATOM}summary") != a["summary"]
+                      or not (e.findtext(f"{ATOM}updated") or "").startswith(a.get("updated") or a["date"])):
+                    err(f"feed.xml：{a['slug']} 的標題／摘要／更新日期與 articles.json 不一致（請重新執行 build-feed.py）")
+            for url in entries.keys() - want.keys():
+                err(f"feed.xml：不應出現 {url}（草稿或 18+ 文章必須排除）")
+    FEED_TAG = f'<link rel="alternate" type="application/atom+xml" title="賴奕帆｜文章" href="https://{domain}/feed.xml">'
+    for page in sorted(ROOT.glob("*.html")) + sorted((ROOT / "articles").glob("*.html")):
+        if FEED_TAG not in page.read_text(encoding="utf-8"):
+            err(f"{page.relative_to(ROOT).as_posix()}：缺少 Atom 訂閱源的 autodiscovery <link>（見 index.html 的 <head>）")
 
 # ---------- 5. 社群分享（Open Graph / Twitter Card / 結構化資料） ----------
 def jpeg_size(path: pathlib.Path):

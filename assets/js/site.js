@@ -20,6 +20,7 @@ const SITE = {
     { label: "Bluesky", href: "https://bsky.app/profile/ouoc.net" },
     { label: "YouTube", href: "https://www.youtube.com/channel/UCvTDRWA06FqA7SXe5jkCEWw" },
     { label: "GitHub", href: "https://github.com/ivantw829" },
+    { label: "訂閱", path: "feed.xml" },
   ],
   // 友站連結（顯示在每頁頁尾）
   friends: [

@@ -10,9 +10,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m http.server 8000        # 本機預覽；不能直接開 file://，因為頁面用 fetch 讀 data/*.json
 python3 authoring/check.py         # 唯一的「測試」：資料、文章規範、站內連結、sitemap。CI 與 pre-commit 都會跑
 python3 authoring/build-sitemap.py # 重新產生 sitemap.xml（pre-commit 會自動跑並 stage，通常不用手動）
+python3 authoring/build-feed.py    # 重新產生 Atom 訂閱源 feed.xml（只放標題／摘要／連結，排除草稿與 18+；pre-commit 自動跑並 stage）
 python3 authoring/build-og.py     # 以本機 Chrome + macOS `sips` 產生社群分享圖 1200×630（缺圖或過期時 pre-commit 會自動跑；`images/og/.manifest.json` 記錄每張圖的輸入雜湊，改標題／標籤／日期／卡片設計都會自動重產）
 python3 authoring/md2article.py 原稿.md [--images 資料夾]  # Markdown＋frontmatter → 文章頁，並登錄 JSON、png/jpg 轉 webp、產分享圖、跑 check（新文章首選）；frontmatter 可加 updated／draft／adult，重跑同一份原稿即更新該篇
 python3 authoring/mark-adult.py <slug>  # 把文章標成 18+（--undo 取消），見下方「成人文章」
+bash authoring/publish.sh 原稿.md [圖片資料夾]  # 發文一條龍：md2article → 本機預覽（按 Enter 確認）→ ship → 驗證線上 meta
+python3 authoring/verify-live.py <slug>  # 等線上頁面出現並檢查 canonical／og／分享圖
 bash authoring/ship.sh "type(scope): 描述"  # 一鍵：分支→commit→push→PR→等 CI→auto squash merge→同步本機（環境變數 CO_AUTHOR、PR_BODY 可加共同作者與 PR 內文）
 bash authoring/sync.sh             # 本機與 GitHub 對齊：prune、main 快轉、刪已合併的本機分支
 bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保護 main（已套用）
@@ -40,9 +43,13 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **切頁動畫（跨頁面 View Transitions）有隱性依賴。** 每個頁面（`404.html` 除外）的 `<head>` 需要 `<link rel="expect" href="#page-end" blocking="render">`，並在 `site.js` 之後放 `<span id="page-end" hidden></span>`，否則頁首會在切換瞬間閃空白。新增頁面或改範本時別漏掉。
 
-**快取陷阱。** GitHub Pages 的 CSS/JS 快取 10 分鐘，剛部署後回訪者可能出現「新 HTML 配舊 CSS」的短暫錯位，這不是 bug；目前沒有檔名雜湊或版本碼。
+**快取版本碼。** GitHub Pages 的 CSS/JS 快取 10 分鐘，所以每頁引用 `style.css`、`site.js` 時都帶內容雜湊 `?v=xxxxxxxx`（`authoring/build-assets.py` 產生，pre-commit 與 `md2article.py` 自動執行並 stage；`check.py` 驗證每頁都是最新版本碼）。改了 CSS 或 JS 後，全部 HTML 會各有一行版本碼 diff，屬預期；新頁面請照既有頁面寫引用即可，版本碼會被自動補上。與別人同時改到 HTML 的 PR 容易衝突，重新套用即可。
+
+**字型決定（2026-11-12）：維持 Google Fonts，不自架。** `<head>` 已有 `preconnect` 與 `display=swap`。量測（內建瀏覽器、線上站，Resource Timing）：首頁 `fonts.googleapis.com` 的 CSS 約 169KB（5 個字重 × 數十個 unicode-range 切片宣告；渲染阻塞），整頁 6 個請求約 265KB，CLS 0，DOMContentLoaded 約 2.0s、load 約 2.7s（此環境網路偏慢，僅供相對參考）；文章頁 CLS 0，字型 CSS 走快取，DOMContentLoaded 約 0.5s。結論：再訪者幾乎無成本，首訪才有那份 CSS；中文字型完整自架要 20MB 以上，子集化要 fonttools 且每次發文可能要重跑，目前不划算。若日後要減量：先檢查字重 500 是否值得保留（`style.css` 只有 5 處用到），再考慮子集化。
 
 **搜尋引擎擁有權驗證：** `index.html` 的 `<meta name="msvalidate.01" …>` 是 Bing Webmaster Tools 的網站驗證，必須永久保留，改版或改首頁 `<head>` 時不可移除。
+
+**IndexNow（Bing 等）。** 根目錄的 `<32 位十六進位>.txt` 是公開的 IndexNow 金鑰檔（內容等於檔名，`check.py` 驗證恰好一個），不是祕密，不要刪。`.github/workflows/indexnow.yml` 在 `articles/*.html` 變動合併到 `main` 時執行 `authoring/indexnow.py`：等頁面上線後送出，排除草稿與 18+ 文章。
 
 ## 工作流程（完整版見 CONTRIBUTING.md）
 

@@ -11,7 +11,7 @@
   3. robots 改為 noindex, nofollow, noarchive；加上分級標籤（rating: adult 與 RTA）
   4. 分享圖（og:image / twitter:image）改用不含標題與摘要的通用 18+ 卡片 images/og/adult.jpg
   5. 結構化資料加上 audience.suggestedMinAge = 18
-  6. 從 sitemap.xml 移除
+  6. 從 sitemap.xml 與 feed.xml 移除
 注意：og:title、description、summary 仍是你寫的文字，請自行確保它們是中性描述，不含露骨內容。
 """
 import html
@@ -92,6 +92,7 @@ def main() -> None:
     # 6) 產生通用分享圖並重建 sitemap
     subprocess.run([sys.executable, str(ROOT / "authoring" / "build-og.py")], check=True)
     subprocess.run([sys.executable, str(ROOT / "authoring" / "build-sitemap.py")], check=True)
+    subprocess.run([sys.executable, str(ROOT / "authoring" / "build-feed.py")], check=True)
     print(f"{'已取消' if undo else '已標為成人內容（18+）'}：{slug}")
     if not undo:
         print("→ 請確認 title、summary、description 是中性描述（它們仍會出現在列表與分享預覽的文字裡）。")

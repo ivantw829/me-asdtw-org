@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 提交前：禁止直接在 main 提交 → 自動更新 sitemap → 補缺少的分享圖 → 網站品質檢查
+# 提交前：禁止直接在 main 提交 → 自動更新 sitemap、Atom feed 與 CSS/JS 版本碼 → 補缺少的分享圖 → 網站品質檢查
 branch=$(git symbolic-ref --short HEAD 2>/dev/null)
 if [ "$branch" = "main" ] && [ -z "$ALLOW_MAIN_COMMIT" ]; then
   echo "✗ 請不要直接在 main 上提交。先開分支：git switch -c content/<名稱>（或用 authoring/ship.sh）" >&2
@@ -7,6 +7,9 @@ if [ "$branch" = "main" ] && [ -z "$ALLOW_MAIN_COMMIT" ]; then
   exit 1
 fi
 python3 authoring/build-sitemap.py >/dev/null && git add sitemap.xml
+python3 authoring/build-feed.py >/dev/null && git add feed.xml
+# CSS／JS 內容變了就更新各頁的 ?v= 版本碼，只 stage 被改寫的檔案
+python3 authoring/build-assets.py 2>/dev/null | while read -r f; do git add "$f"; done
 # 分享圖缺少或過期（標題、標籤、日期、卡片設計變了）時自動以 Chrome 產生並 stage（不需要時不會啟動 Chrome）
 python3 authoring/build-og.py && git add -A images/og assets/img/og.jpg
 python3 authoring/check.py

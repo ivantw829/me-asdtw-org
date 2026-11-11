@@ -6,7 +6,7 @@
   2. 新增／更新 data/articles.json 的該筆資料
   3. 處理圖片（給 --images 時）：png／jpg 自動用 cwebp 轉成 webp 放到 images/articles/<slug>/，
      內文圖最寬 1600、封面（cover）裁成 16:9 1600×900，品質自動調整到 ≤300KB；webp 原檔直接複製
-  4. 產生分享圖、sitemap，最後執行 check.py
+  4. 產生分享圖、sitemap、feed.xml，最後執行 check.py
 
 用法：
   python3 authoring/md2article.py 原稿.md [--images 圖片資料夾]
@@ -452,6 +452,8 @@ def main() -> None:
         subprocess.run([py, str(ROOT / "authoring" / "mark-adult.py"), slug], check=True)
     subprocess.run([py, str(ROOT / "authoring" / "build-og.py"), slug], check=True)
     subprocess.run([py, str(ROOT / "authoring" / "build-sitemap.py")], check=True)
+    subprocess.run([py, str(ROOT / "authoring" / "build-feed.py")], check=True)
+    subprocess.run([py, str(ROOT / "authoring" / "build-assets.py")], check=True, stdout=subprocess.DEVNULL)
     sys.exit(subprocess.run([py, str(ROOT / "authoring" / "check.py")]).returncode)
 
 
