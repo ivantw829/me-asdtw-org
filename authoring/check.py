@@ -172,6 +172,37 @@ if len(keys) != 1:
 elif keys[0].read_text(encoding="utf-8").strip() != keys[0].stem:
     err(f"{keys[0].name}：內容必須等於檔名（金鑰本身）")
 
+# ---------- 4.6 Atom 訂閱源 ----------
+if domain:
+    import xml.etree.ElementTree as ET
+    ATOM = "{http://www.w3.org/2005/Atom}"
+    feed_file = ROOT / "feed.xml"
+    if not feed_file.exists():
+        err("feed.xml：不存在，請執行 python3 authoring/build-feed.py")
+    else:
+        try:
+            froot = ET.parse(feed_file).getroot()
+        except ET.ParseError as e:
+            err(f"feed.xml：不是合法 XML（{e}）")
+            froot = None
+        if froot is not None:
+            entries = {e.findtext(f"{ATOM}id"): e for e in froot.findall(f"{ATOM}entry")}
+            want = {f"https://{domain}/articles/{a['slug']}.html": a
+                    for a in articles if not a.get("draft") and not a.get("adult")}
+            for url, a in want.items():
+                e = entries.get(url)
+                if e is None:
+                    err(f"feed.xml：缺少 {url}（請執行 python3 authoring/build-feed.py）")
+                elif (e.findtext(f"{ATOM}title") != a["title"] or e.findtext(f"{ATOM}summary") != a["summary"]
+                      or not (e.findtext(f"{ATOM}updated") or "").startswith(a.get("updated") or a["date"])):
+                    err(f"feed.xml：{a['slug']} 的標題／摘要／更新日期與 articles.json 不一致（請重新執行 build-feed.py）")
+            for url in entries.keys() - want.keys():
+                err(f"feed.xml：不應出現 {url}（草稿或 18+ 文章必須排除）")
+    FEED_TAG = f'<link rel="alternate" type="application/atom+xml" title="賴奕帆｜文章" href="https://{domain}/feed.xml">'
+    for page in sorted(ROOT.glob("*.html")) + sorted((ROOT / "articles").glob("*.html")):
+        if FEED_TAG not in page.read_text(encoding="utf-8"):
+            err(f"{page.relative_to(ROOT).as_posix()}：缺少 Atom 訂閱源的 autodiscovery <link>（見 index.html 的 <head>）")
+
 # ---------- 5. 社群分享（Open Graph / Twitter Card / 結構化資料） ----------
 def jpeg_size(path: pathlib.Path):
     """讀取 JPEG 尺寸（不依賴外部套件）。"""
