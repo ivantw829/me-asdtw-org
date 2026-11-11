@@ -13,6 +13,8 @@ python3 authoring/build-sitemap.py # 重新產生 sitemap.xml（pre-commit 會�
 python3 authoring/build-og.py     # 以本機 Chrome + macOS `sips` 產生社群分享圖 1200×630（缺圖或過期時 pre-commit 會自動跑；`images/og/.manifest.json` 記錄每張圖的輸入雜湊，改標題／標籤／日期／卡片設計都會自動重產）
 python3 authoring/md2article.py 原稿.md [--images 資料夾]  # Markdown＋frontmatter → 文章頁，並登錄 JSON、png/jpg 轉 webp、產分享圖、跑 check（新文章首選）；frontmatter 可加 updated／draft／adult，重跑同一份原稿即更新該篇
 python3 authoring/mark-adult.py <slug>  # 把文章標成 18+（--undo 取消），見下方「成人文章」
+bash authoring/publish.sh 原稿.md [圖片資料夾]  # 發文一條龍：md2article → 本機預覽（按 Enter 確認）→ ship → 驗證線上 meta
+python3 authoring/verify-live.py <slug>  # 等線上頁面出現並檢查 canonical／og／分享圖
 bash authoring/ship.sh "type(scope): 描述"  # 一鍵：分支→commit→push→PR→等 CI→auto squash merge→同步本機（環境變數 CO_AUTHOR、PR_BODY 可加共同作者與 PR 內文）
 bash authoring/sync.sh             # 本機與 GitHub 對齊：prune、main 快轉、刪已合併的本機分支
 bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保護 main（已套用）
@@ -43,6 +45,8 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 **快取陷阱。** GitHub Pages 的 CSS/JS 快取 10 分鐘，剛部署後回訪者可能出現「新 HTML 配舊 CSS」的短暫錯位，這不是 bug；目前沒有檔名雜湊或版本碼。
 
 **搜尋引擎擁有權驗證：** `index.html` 的 `<meta name="msvalidate.01" …>` 是 Bing Webmaster Tools 的網站驗證，必須永久保留，改版或改首頁 `<head>` 時不可移除。
+
+**IndexNow（Bing 等）。** 根目錄的 `<32 位十六進位>.txt` 是公開的 IndexNow 金鑰檔（內容等於檔名，`check.py` 驗證恰好一個），不是祕密，不要刪。`.github/workflows/indexnow.yml` 在 `articles/*.html` 變動合併到 `main` 時執行 `authoring/indexnow.py`：等頁面上線後送出，排除草稿與 18+ 文章。
 
 ## 工作流程（完整版見 CONTRIBUTING.md）
 

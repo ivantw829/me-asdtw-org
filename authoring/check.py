@@ -165,6 +165,13 @@ else:
             if f"<loc>{url}</loc>" not in sitemap:
                 err(f"sitemap.xml：缺少 {url}（請執行 python3 authoring/build-sitemap.py）")
 
+# ---------- 4.5 IndexNow 金鑰檔 ----------
+keys = [f for f in ROOT.glob("*.txt") if re.fullmatch(r"[0-9a-f]{32}", f.stem)]
+if len(keys) != 1:
+    err(f"IndexNow 金鑰檔：根目錄應該恰好有 1 個 <32 位十六進位>.txt（目前 {len(keys)} 個）")
+elif keys[0].read_text(encoding="utf-8").strip() != keys[0].stem:
+    err(f"{keys[0].name}：內容必須等於檔名（金鑰本身）")
+
 # ---------- 5. 社群分享（Open Graph / Twitter Card / 結構化資料） ----------
 def jpeg_size(path: pathlib.Path):
     """讀取 JPEG 尺寸（不依賴外部套件）。"""

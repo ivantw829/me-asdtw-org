@@ -1,0 +1,28 @@
+name: IndexNow
+
+# main 有新內容時，通知 Bing 等支援 IndexNow 的搜尋引擎（Google 不支援，仍靠 sitemap）。
+# 手動執行（Actions → IndexNow → Run workflow）會補送所有已發布文章。
+on:
+  push:
+    branches: [main]
+    paths:
+      - "articles/*.html"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - name: 通知 IndexNow
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python3 authoring/indexnow.py --all
+          else
+            python3 authoring/indexnow.py
+          fi
