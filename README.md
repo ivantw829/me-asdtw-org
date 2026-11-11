@@ -4,7 +4,7 @@
 
 ```
 CNAME / robots.txt / sitemap.xml / 404.html           搜尋引擎規則（全部允許）、找不到頁面
-index.html / about.html / timeline.html / articles.html / contact.html / sponsor.html
+index.html / about.html / timeline.html / articles.html / sponsor.html
 data/articles.json                     文章清單（首頁與文章列表從這裡讀）
 articles/                 每篇文章一個 html
 images/articles/<slug>/    文章圖片
