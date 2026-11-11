@@ -43,7 +43,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **切頁動畫（跨頁面 View Transitions）有隱性依賴。** 每個頁面（`404.html` 除外）的 `<head>` 需要 `<link rel="expect" href="#page-end" blocking="render">`，並在 `site.js` 之後放 `<span id="page-end" hidden></span>`，否則頁首會在切換瞬間閃空白。新增頁面或改範本時別漏掉。
 
-**快取陷阱。** GitHub Pages 的 CSS/JS 快取 10 分鐘，剛部署後回訪者可能出現「新 HTML 配舊 CSS」的短暫錯位，這不是 bug；目前沒有檔名雜湊或版本碼。
+**快取版本碼。** GitHub Pages 的 CSS/JS 快取 10 分鐘，所以每頁引用 `style.css`、`site.js` 時都帶內容雜湊 `?v=xxxxxxxx`（`authoring/build-assets.py` 產生，pre-commit 與 `md2article.py` 自動執行並 stage；`check.py` 驗證每頁都是最新版本碼）。改了 CSS 或 JS 後，全部 HTML 會各有一行版本碼 diff，屬預期；新頁面請照既有頁面寫引用即可，版本碼會被自動補上。與別人同時改到 HTML 的 PR 容易衝突，重新套用即可。
 
 **搜尋引擎擁有權驗證：** `index.html` 的 `<meta name="msvalidate.01" …>` 是 Bing Webmaster Tools 的網站驗證，必須永久保留，改版或改首頁 `<head>` 時不可移除。
 

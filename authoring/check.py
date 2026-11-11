@@ -133,6 +133,16 @@ for page in sorted(pages):
         if not target.resolve().exists():
             err(f"{rel}：找不到連結目標「{ref}」")
 
+# ---------- 3.5 CSS／JS 版本碼（快取） ----------
+import hashlib
+for rel, pat in (("assets/css/style.css", r'href="[^"?#]*assets/css/style\.css(\?v=[0-9a-f]{8})?"'),
+                 ("assets/js/site.js", r'src="[^"?#]*assets/js/site\.js(\?v=[0-9a-f]{8})?"')):
+    ver = hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()[:8]
+    for page in sorted(ROOT.glob("*.html")) + sorted((ROOT / "articles").glob("*.html")):
+        for m in re.finditer(pat, page.read_text(encoding="utf-8")):
+            if m.group(1) != f"?v={ver}":
+                err(f"{page.relative_to(ROOT).as_posix()}：{rel} 的版本碼不是最新（應為 ?v={ver}），請執行 python3 authoring/build-assets.py")
+
 # ---------- 4. 網域、robots、sitemap ----------
 PAGE_LIST = json.loads((ROOT / "authoring" / "pages.json").read_text(encoding="utf-8"))
 listed = {pg["file"] for pg in PAGE_LIST}

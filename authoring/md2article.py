@@ -453,6 +453,7 @@ def main() -> None:
     subprocess.run([py, str(ROOT / "authoring" / "build-og.py"), slug], check=True)
     subprocess.run([py, str(ROOT / "authoring" / "build-sitemap.py")], check=True)
     subprocess.run([py, str(ROOT / "authoring" / "build-feed.py")], check=True)
+    subprocess.run([py, str(ROOT / "authoring" / "build-assets.py")], check=True, stdout=subprocess.DEVNULL)
     sys.exit(subprocess.run([py, str(ROOT / "authoring" / "check.py")]).returncode)
 
 
