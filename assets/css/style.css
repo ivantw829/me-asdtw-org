@@ -322,3 +322,9 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 .cert span:first-child { flex: 1; min-width: 0; }
 .cert span:last-child { flex: none; max-width: 60%; text-align: right; color: var(--muted); font-size: .9rem; }
 .st-more { margin-top: 24px; text-align: center; }
+
+/* ---------- 關於我 ---------- */
+.about { display: grid; gap: 28px; max-width: 50rem; padding-bottom: 56px; }
+.about-photo { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 0 0 6px var(--accent-soft); }
+.about .prose { max-width: var(--prose-w); }
+@media (min-width: 800px) { .about { grid-template-columns: 160px 1fr; gap: 40px; } .about-photo { width: 160px; height: 160px; position: sticky; top: 96px; } }
