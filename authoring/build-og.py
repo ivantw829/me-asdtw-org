@@ -7,11 +7,12 @@
   images/og/<slug>.jpg         每篇已發布文章（標題、標籤、日期取自 data/articles.json）
 
 用法：
-  python3 authoring/build-og.py            只補缺少的圖（pre-commit 會自動執行）
-  python3 authoring/build-og.py --all      全部重新產生（改了卡片設計時）
+  python3 authoring/build-og.py            補缺少或過期的圖（標題、標籤、日期或卡片設計改了就算過期；pre-commit 會自動執行）
+  python3 authoring/build-og.py --all      全部重新產生
   python3 authoring/build-og.py <slug>…    只重新產生指定文章
 環境變數 CHROME 可指定瀏覽器路徑。
 """
+import hashlib
 import json
 import os
 import pathlib
@@ -23,6 +24,7 @@ import urllib.parse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CARD = ROOT / "authoring" / "og" / "card.html"
+MANIFEST = ROOT / "images" / "og" / ".manifest.json"  # 每張圖「上次產生時的輸入」雜湊，用來偵測過期
 
 # 站台頁面清單的單一來源：authoring/pages.json
 PAGES = {
@@ -56,6 +58,11 @@ def render(params: dict, out: pathlib.Path) -> None:
     print(f"  ✓ {out.relative_to(ROOT)}")
 
 
+def fingerprint(params: dict, card_hash: str) -> str:
+    raw = json.dumps(params, sort_keys=True, ensure_ascii=False) + card_hash
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
 def main() -> None:
     args = sys.argv[1:]
     force_all = "--all" in args
@@ -74,12 +81,28 @@ def main() -> None:
         jobs.append((ROOT / "images" / "og" / f"{a['slug']}.jpg",
                      dict(kind="article", title=a["title"], tags=",".join(a.get("tags", [])), date=a["date"])))
 
-    todo = [(out, p) for out, p in jobs if force_all or only or not out.exists()]
-    if not todo:
-        return
-    print(f"產生 {len(todo)} 張分享圖…")
-    for out, p in todo:
-        render(p, out)
+    card_hash = hashlib.sha256(CARD.read_bytes()).hexdigest()
+    seeding = not MANIFEST.exists()  # 第一次：把現有圖視為最新，只記錄不重產
+    manifest = {} if seeding else json.loads(MANIFEST.read_text(encoding="utf-8"))
+
+    def key(out):
+        return out.relative_to(ROOT).as_posix()
+
+    todo = []
+    for out, p in jobs:
+        fp = fingerprint(p, card_hash)
+        if out.exists() and seeding and not only:
+            manifest[key(out)] = fp
+        elif force_all or only or not out.exists() or manifest.get(key(out)) != fp:
+            todo.append((out, p, fp))
+    if todo:
+        print(f"產生 {len(todo)} 張分享圖…")
+        for out, p, fp in todo:
+            render(p, out)
+            manifest[key(out)] = fp
+    if not only or todo:
+        MANIFEST.write_text(json.dumps(dict(sorted(manifest.items())), ensure_ascii=False, indent=2) + "\n",
+                            encoding="utf-8")
 
 
 if __name__ == "__main__":

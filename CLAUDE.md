@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m http.server 8000        # 本機預覽；不能直接開 file://，因為頁面用 fetch 讀 data/*.json
 python3 authoring/check.py         # 唯一的「測試」：資料、文章規範、站內連結、sitemap。CI 與 pre-commit 都會跑
 python3 authoring/build-sitemap.py # 重新產生 sitemap.xml（pre-commit 會自動跑並 stage，通常不用手動）
-python3 authoring/build-og.py     # 以本機 Chrome + macOS `sips` 產生社群分享圖 1200×630（缺圖時 pre-commit 會自動跑；改標題用 <slug>，改卡片設計用 --all）
+python3 authoring/build-og.py     # 以本機 Chrome + macOS `sips` 產生社群分享圖 1200×630（缺圖或過期時 pre-commit 會自動跑；`images/og/.manifest.json` 記錄每張圖的輸入雜湊，改標題／標籤／日期／卡片設計都會自動重產）
 python3 authoring/md2article.py 原稿.md [--images 資料夾]  # Markdown＋frontmatter → 文章頁，並登錄 JSON、複製圖片、產分享圖、跑 check（新文章首選）
 python3 authoring/mark-adult.py <slug>  # 把文章標成 18+（--undo 取消），見下方「成人文章」
 bash authoring/ship.sh "type(scope): 描述"  # 一鍵：分支→commit→push→PR→等 CI→auto squash merge→同步本機（環境變數 CO_AUTHOR、PR_BODY 可加共同作者與 PR 內文）
@@ -34,7 +34,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **樣式只有一個 `assets/css/style.css`。** 淺色/深色用 CSS 變數；深色變數有兩份（`[data-theme="dark"]` 與 `prefers-color-scheme: dark` 且非 `data-theme="light"`），改色票要兩處一起改。識別色（奶白、黃 `--accent`、青綠 `--teal`、墨黑 `--ink`）來自角色設定圖，條碼／鏤空字／× 等裝飾只用在首頁，文章內文不用。色票與元件規格的數值另外**手動複製**在 `authoring/DESIGN-SPEC.md`（文章用）與 `authoring/STYLE-PROMPT.md`（給 AI 的整站風格提示詞）裡，沒有自動同步；改 `style.css` 的色票或元件後要一併更新這兩份。
 
-**社群分享（OG/Twitter Card/JSON-LD）。** 每頁 `<head>` 都有完整 meta，由 `check.py` 強制（canonical 與 og:url 一致、og:description 等於 description、分享圖存在且為 1200×630、文章的 title／summary／date／tags 與 `data/articles.json` 逐字一致、ld+json 為合法 JSON）。分享圖是產物：`authoring/og/card.html` 範本 + `build-og.py` 無頭 Chrome 截圖，**改文章標題／標籤後要重產該篇的圖**（pre-commit 只補「缺少」的圖，不會偵測過期）。
+**社群分享（OG/Twitter Card/JSON-LD）。** 每頁 `<head>` 都有完整 meta，由 `check.py` 強制（canonical 與 og:url 一致、og:description 等於 description、分享圖存在且為 1200×630、文章的 title／summary／date／tags 與 `data/articles.json` 逐字一致、ld+json 為合法 JSON）。分享圖是產物：`authoring/og/card.html` 範本 + `build-og.py` 無頭 Chrome 截圖，改文章標題／標籤後不必手動處理：`build-og.py` 以 `.manifest.json` 偵測過期並重產（需 Chrome）。
 
 **成人文章（18+）閘門。** `data/articles.json` 的 `adult: true` ⇄ 文章 `<article data-age-gate>` ⇄ CSS 預設隱藏（fail-closed，`.age-ok` 才顯示）⇄ `site.js` 的 `<dialog>` 彈窗，四者必須一致；一律用 `python3 authoring/mark-adult.py <slug>`（`--undo` 取消）套用，`check.py` 驗證（noindex、rating/RTA、通用分享圖 `images/og/adult.jpg`、不在 sitemap）。這只是自我聲明，不是年齡驗證，不要宣稱它具法律效力。瀏覽器在沒有使用者互動前會讓 Esc 關閉 `<dialog>`，所以 `close` 事件會重新打開它，勿移除。
 
@@ -45,7 +45,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 ## 工作流程（完整版見 CONTRIBUTING.md）
 
 - `main` 受保護（已套用）：只能經 PR、CI（`check`、`pr-title`）通過後 squash merge；repo 只允許 squash、啟用 auto-merge、合併後自動刪分支。日常直接用 `authoring/ship.sh`。PR 標題即 `main` 上的 commit 訊息，必須是約定式 commit：`type(scope): 描述`，type 為 `feat fix content docs style refactor perf chore ci revert`。分支前綴對應 type（如 `content/…`）。
-- 本機 hooks 在 `.githooks/`，**每個 clone 要自己啟用**：`git config core.hooksPath .githooks`。pre-commit 會拒絕在 `main` 上提交、自動重建並 stage `sitemap.xml`、補缺少的分享圖（需 Chrome，沒缺圖時不會啟動）、再執行 `check.py`；pre-push 拒絕推 `main`（緊急用 `ALLOW_MAIN_COMMIT=1` / `ALLOW_MAIN_PUSH=1`）。
+- 本機 hooks 在 `.githooks/`，**每個 clone 要自己啟用**：`git config core.hooksPath .githooks`。pre-commit 會拒絕在 `main` 上提交、自動重建並 stage `sitemap.xml`、補缺少或過期的分享圖（需 Chrome，沒有需要時不會啟動）、再執行 `check.py`；pre-push 拒絕推 `main`（緊急用 `ALLOW_MAIN_COMMIT=1` / `ALLOW_MAIN_PUSH=1`）。
 - 提交信箱使用 GitHub noreply 位址（repo local config）。推送會動到 `.github/workflows/` 時，`gh` 的 token 需要 `workflow` scope。
 - Dependabot 每月只對 GitHub Actions 開 PR，標題前綴固定為 `ci(deps):` 才能通過 `pr-title` 檢查；CI 在 PR 上用新版本實際執行，所以通過即可直接合併。
 - 兩個 PR 都改到 `data/articles.json` 與 `sitemap.xml` 時容易衝突；先合併其中一個，另一個從最新 `main` 重新套用變更（`strict` 保護要求 PR 分支包含最新 `main`）。
