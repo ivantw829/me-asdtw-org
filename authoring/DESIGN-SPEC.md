@@ -104,6 +104,18 @@
 - `og:title` 是文章標題（不含「｜賴奕帆」）；`og:description` 與 `<meta name="description">`、`articles.json` 的 `summary` 必須相同（建議 80～120 字）。
 - 發布後可用 Facebook Sharing Debugger、LINE 貼文、Discord 貼連結、opengraph.xyz 驗證預覽；各平台會快取舊預覽，需要時用除錯工具重新抓取。
 
+## 4.6 成人內容（18+）與「是否已成年」彈窗
+
+> **這是自我聲明，不是年齡驗證。** 靜態網站無法真正驗證年齡，全文仍在 HTML 原始碼中；彈窗只是降低誤觸、表明站方已做合理提示。真正違法或不適合公開的內容（例如涉及未成年人的性內容、猥褻物品、未經同意的私密影像），不能靠彈窗合法化，請不要放上網站。
+
+- 標成成人文章只用一個指令（會一次套好所有設定，`check.py` 會驗證少一項都不行）：
+  `python3 authoring/mark-adult.py <slug>`；取消用 `--undo`。
+- 效果：文章 `<article data-age-gate>` 預設**整篇隱藏**（CSS，沒有 JavaScript 也不顯示，只看到說明），通過「我已年滿 18 歲」後才顯示、留言區才載入；按 Esc 或未成年選項無法略過，「離開」回首頁。
+- 預設只在**目前瀏覽工作階段**記住聲明（`site.js` 的 `SITE.ageGate.days = 0`）；想記住 N 天改這個數字。
+- `noindex, nofollow, noarchive`、`rating: adult` 與 RTA 分級標籤、從 `sitemap.xml` 移除。
+- 分享預覽使用不含標題與摘要的通用卡片 `images/og/adult.jpg`；文章列表只顯示「18+」標籤與固定說明，不顯示封面與摘要。
+- **仍由你負責**：`title`、`summary`、`description` 會出現在頁面標題、分享預覽與搜尋以外的地方，請寫成中性描述；文章內的圖片請放在需要點擊才會顯示的位置，或不要放露骨圖片。
+
 ## 5. 圖片規範
 
 - 位置：`images/articles/<slug>/`

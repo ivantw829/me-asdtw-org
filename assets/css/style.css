@@ -351,3 +351,21 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }
+
+/* ==========================================================
+   成年確認（成人文章 <article data-age-gate>）
+   預設隱藏全部內容；JS 確認後加上 .age-ok 才顯示。沒有 JS 時維持隱藏並顯示 noscript 說明。
+   ========================================================== */
+.article[data-age-gate]:not(.age-ok) > :not(noscript) { display: none; }
+.age-noscript { padding: 20px; border: 1.5px dashed var(--line); border-radius: var(--radius); background: var(--surface); }
+.tag-adult { background: var(--ink); color: var(--paper); font-weight: 700; letter-spacing: .05em; }
+
+.age-gate { border: 0; padding: 0; background: transparent; max-width: min(92vw, 30rem); color: var(--text); }
+.age-gate::backdrop { background: color-mix(in srgb, var(--bg) 70%, #000 30%); backdrop-filter: blur(14px); }
+.age-gate form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 26px; box-shadow: var(--shadow); text-align: center; display: grid; gap: 14px; }
+.age-gate .age-gate-badge { color: var(--paper); margin: 0 auto; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--paper); font: 700 1.5rem/1 var(--font-sans); box-shadow: 0 0 0 5px var(--accent); }
+.age-gate h2 { font-size: 1.35rem; }
+.age-gate p { margin: 0; color: var(--muted); }
+.age-gate-actions { display: grid; gap: 10px; margin-top: 6px; }
+.age-gate-actions .btn { justify-content: center; font-family: inherit; font-size: 1rem; cursor: pointer; }
+.age-gate-note { font-size: .82rem; }

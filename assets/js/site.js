@@ -35,6 +35,8 @@ const SITE = {
   disclaimer: "個人發言僅代表個人立場，與所屬團體無關。",
   // giscus 留言：到 https://giscus.app 填入 repo 後取得下面四個值；repo 留空則不顯示留言區
   giscus: { repo: "", repoId: "", category: "", categoryId: "" },
+  // 成年確認（只對標記 data-age-gate 的成人文章啟用）。days：記住聲明的天數；0 = 每個瀏覽工作階段都重新詢問（較保守）
+  ageGate: { days: 0 },
 };
 
 (function () {
@@ -100,11 +102,11 @@ const SITE = {
     .then((list) => list.filter((a) => !a.draft).sort((a, b) => (a.date < b.date ? 1 : -1))));
 
   const card = (a) => `<article class="card">
-    ${a.cover ? `<img class="card-cover" src="${BASE}${esc(a.cover)}" alt="" loading="lazy">` : ""}
+    ${a.cover && !a.adult ? `<img class="card-cover" src="${BASE}${esc(a.cover)}" alt="" loading="lazy">` : ""}
     <div class="meta">${fmtDate(a.date)}${a.readingTime ? ` · 約 ${a.readingTime} 分鐘` : ""}</div>
     <h3><a href="${BASE}articles/${esc(a.slug)}.html">${esc(a.title)}</a></h3>
-    <p>${esc(a.summary || "")}</p>
-    <div class="chips">${(a.tags || []).map((t) => `<a class="tag" href="${BASE}articles.html?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}</div>
+    <p>${a.adult ? "此文章含成人內容，需年滿 18 歲才能閱讀。" : esc(a.summary || "")}</p>
+    <div class="chips">${a.adult ? '<span class="tag tag-adult">18+</span>' : ""}${(a.tags || []).map((t) => `<a class="tag" href="${BASE}articles.html?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}</div>
   </article>`;
 
   // 首頁：最新文章
@@ -150,9 +152,11 @@ const SITE = {
     }).catch(() => {});
   }
 
-  // 文章頁：giscus 留言
+  // 文章頁：giscus 留言（成人文章需通過成年確認後才載入）
   const gc = document.querySelector("[data-giscus]");
-  if (gc && SITE.giscus.repo) {
+  const loadComments = () => {
+    if (!gc || !SITE.giscus.repo || gc.dataset.loaded) return;
+    gc.dataset.loaded = "1";
     gc.className = "comments";
     gc.innerHTML = "<h2>留言</h2>";
     const s = document.createElement("script");
@@ -163,6 +167,56 @@ const SITE = {
       "theme": isDark() ? "dark" : "light", "lang": "zh-TW", "loading": "lazy" };
     Object.entries(set).forEach(([k, v]) => s.setAttribute("data-" + k, v));
     gc.appendChild(s);
+  };
+
+  // 成年確認：<article data-age-gate> 的成人文章。預設隱藏內容（CSS，沒有 JS 也不會顯示），聲明年滿 18 歲後才顯示。
+  // 注意：這是「自我聲明」，不是真正的年齡驗證；內容仍存在於 HTML 原始碼中。
+  const gated = document.querySelector("article[data-age-gate]");
+  if (gated) {
+    const KEY = "age-gate-ok";
+    const days = SITE.ageGate.days;
+    const store = () => (days > 0 ? localStorage : sessionStorage);
+    const isConfirmed = () => {
+      try { const v = store().getItem(KEY); return days > 0 ? Number(v) > Date.now() : v === "1"; } catch (e) { return false; }
+    };
+    const unlock = () => {
+      gated.classList.add("age-ok");
+      loadComments();
+      const h1 = gated.querySelector("h1");
+      if (h1) { h1.setAttribute("tabindex", "-1"); h1.focus({ preventScroll: true }); }
+    };
+    if (isConfirmed()) {
+      unlock();
+    } else {
+      const dlg = document.createElement("dialog");
+      dlg.className = "age-gate";
+      dlg.setAttribute("aria-labelledby", "age-gate-title");
+      dlg.setAttribute("aria-describedby", "age-gate-desc");
+      dlg.innerHTML = `<form method="dialog">
+        <p class="age-gate-badge" aria-hidden="true">18+</p>
+        <h2 id="age-gate-title">這篇文章含成人內容</h2>
+        <p id="age-gate-desc">內容可能包含性或其他不適合未成年人閱讀的描述。請確認你已年滿 18 歲，才能繼續閱讀。</p>
+        <div class="age-gate-actions">
+          <button type="button" class="btn btn-primary" data-yes>我已年滿 18 歲，繼續閱讀</button>
+          <button type="button" class="btn" data-no>我未滿 18 歲，離開</button>
+        </div>
+        <p class="age-gate-note">按下「繼續閱讀」，代表你聲明自己已年滿 18 歲。本網站不會儲存任何個人資料。</p>
+      </form>`;
+      document.body.appendChild(dlg);
+      dlg.addEventListener("cancel", (e) => e.preventDefault());   // 不能用 Esc 略過
+      // 瀏覽器在「尚無使用者互動」時不允許阻止 Esc 關閉；內容仍是隱藏的，這裡立刻重新打開，避免卡在空白頁
+      dlg.addEventListener("close", () => { if (dlg.isConnected && !gated.classList.contains("age-ok")) dlg.showModal(); });
+      dlg.querySelector("[data-yes]").addEventListener("click", () => {
+        try { store().setItem(KEY, days > 0 ? String(Date.now() + days * 864e5) : "1"); } catch (e) {}
+        gated.classList.add("age-ok");   // 先標記，避免 close 事件把彈窗重新打開
+        dlg.close(); dlg.remove(); unlock();
+      });
+      dlg.querySelector("[data-no]").addEventListener("click", () => { location.replace(BASE + "index.html"); });
+      dlg.showModal();
+      dlg.querySelector("[data-no]").focus();   // 預設焦點放在「離開」，避免誤按 Enter 就通過
+    }
+  } else {
+    loadComments();
   }
 
   // 經歷頁：依年份分組的時間軸，可依類別篩選（資料在 data/timeline.json）
