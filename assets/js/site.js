@@ -101,6 +101,13 @@ const SITE = {
     .then((r) => r.json())
     .then((list) => list.filter((a) => !a.draft).sort((a, b) => (a.date < b.date ? 1 : -1))));
 
+  // 資料載入失敗的統一呈現：說明＋重新載入；本機 file:// 開啟時才顯示預覽提示
+  const renderError = (el, what, retry) => {
+    const dev = location.protocol === "file:";
+    el.innerHTML = `<div class="empty empty--error" role="alert"><p>${esc(what)}載入失敗。${dev ? "你似乎是直接開啟檔案，請改用 <code>python3 -m http.server</code> 預覽。" : "請檢查網路連線後再試一次。"}</p><button type="button" class="btn" data-retry>重新載入</button></div>`;
+    el.querySelector("[data-retry]").addEventListener("click", () => { el.innerHTML = ""; retry(); });
+  };
+
   const card = (a) => `<article class="card">
     ${a.cover && !a.adult ? `<img class="card-cover" src="${BASE}${esc(a.cover)}" alt="" loading="lazy">` : ""}
     <div class="meta">${fmtDate(a.date)}${a.readingTime ? ` · 約 ${a.readingTime} 分鐘` : ""}</div>
@@ -112,9 +119,10 @@ const SITE = {
   // 首頁：最新文章
   const latest = document.querySelector("[data-latest-articles]");
   if (latest) {
-    loadArticles().then((list) => {
+    const run = () => loadArticles().then((list) => {
       latest.innerHTML = list.length ? list.slice(0, 3).map(card).join("") : '<p class="empty">還沒有文章，敬請期待。</p>';
-    }).catch(() => { latest.innerHTML = '<p class="empty">文章清單載入失敗。若是在本機開啟，請用 <code>python3 -m http.server</code> 預覽。</p>'; });
+    }).catch(() => { cache = null; renderError(latest, "文章清單", run); });
+    run();
   }
 
   // 文章列表頁：標籤篩選
@@ -122,19 +130,22 @@ const SITE = {
   if (listEl) {
     const filterEl = document.querySelector("[data-tag-filter]");
     let active = new URLSearchParams(location.search).get("tag") || "";
-    loadArticles().then((list) => {
+    const run = () => loadArticles().then((list) => {
       const render = () => {
         const shown = active ? list.filter((a) => (a.tags || []).includes(active)) : list;
-        listEl.innerHTML = shown.length ? shown.map(card).join("") : '<p class="empty">沒有符合的文章。</p>';
+        listEl.innerHTML = shown.length ? shown.map(card).join("") : '<div class="empty"><p>這個標籤目前沒有文章。</p><button type="button" class="btn" data-clear>清除篩選</button></div>';
+        const clear = listEl.querySelector("[data-clear]");
+        if (clear) clear.addEventListener("click", () => { active = ""; render(); });
         filterEl && filterEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.tag || "") === active)));
       };
       if (filterEl) {
         const tags = [...new Set(list.flatMap((a) => a.tags || []))];
         filterEl.innerHTML = [""].concat(tags).map((t) => `<button type="button" class="tag" data-tag="${esc(t)}">${t ? esc(t) : "全部"}</button>`).join("");
-        filterEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; active = b.dataset.tag; render(); });
+        if (!filterEl.dataset.bound) { filterEl.dataset.bound = "1"; filterEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; active = b.dataset.tag; render(); }); }
       }
       render();
-    }).catch(() => { listEl.innerHTML = '<p class="empty">文章清單載入失敗。</p>'; });
+    }).catch(() => { cache = null; renderError(listEl, "文章清單", run); });
+    run();
   }
 
   // 文章頁：上一篇／下一篇
@@ -224,7 +235,7 @@ const SITE = {
   if (tlEl) {
     const filterEl = document.querySelector("[data-timeline-filter]");
     let active = "";
-    fetch(BASE + "data/timeline.json").then((r) => r.json()).then((list) => {
+    const runTl = () => fetch(BASE + "data/timeline.json").then((r) => r.json()).then((list) => {
       list.sort((a, b) => (a.date < b.date ? 1 : -1));
       const render = () => {
         const shown = active ? list.filter((i) => i.category === active) : list;
@@ -244,7 +255,44 @@ const SITE = {
         filterEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; active = b.dataset.cat; render(); });
       }
       render();
-    }).catch(() => { tlEl.innerHTML = '<p class="empty">時間軸載入失敗。</p>'; });
+    }).catch(() => renderError(tlEl, "時間軸", runTl));
+    runTl();
+  }
+
+  // 404 頁：依網址猜使用者想找的文章，猜不到就列最新文章
+  const nf = document.querySelector("[data-404-suggest]");
+  if (nf) {
+    const norm = (t) => t.toLowerCase().replace(/\.html?$/, "").replace(/[^\p{L}\p{N}]+/g, "");
+    const dist = (a, b) => {
+      let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+      for (let i = 1; i <= a.length; i++) {
+        const cur = [i];
+        for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+        prev = cur;
+      }
+      return prev[b.length];
+    };
+    const inArt = here.includes("/articles/");
+    const want = norm(decodeURIComponent(here.split("/").filter(Boolean).pop() || ""));
+    if (inArt) {
+      const lead = document.querySelector("[data-404-lead]");
+      if (lead) lead.textContent = "這篇文章可能已經改名或下架了。";
+    }
+    loadArticles().then((list) => {
+      let hits = [];
+      if (want.length >= 3) {
+        hits = list.map((a) => {
+          const slug = norm(a.slug);
+          const near = slug.includes(want) || want.includes(slug) || dist(want, slug) <= Math.max(2, Math.floor(slug.length / 4));
+          return { a, near };
+        }).filter((x) => x.near).map((x) => x.a).slice(0, 3);
+      }
+      const shown = hits.length ? hits : list.slice(0, 3);
+      if (!shown.length) return;
+      nf.querySelector("[data-404-suggest-title]").textContent = hits.length ? "你是不是要找" : "最新文章";
+      nf.querySelector("[data-404-list]").innerHTML = shown.map(card).join("");
+      nf.hidden = false;
+    }).catch(() => {});   // 失敗就只留下按鈕，不再顯示錯誤
   }
 
   // 首頁「聯絡我」區塊：Email
