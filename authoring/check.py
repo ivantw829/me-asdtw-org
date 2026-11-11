@@ -69,6 +69,7 @@ for i, t in enumerate(timeline):
 
 # ---------- 2. 文章頁 ----------
 published = [a for a in articles if not a.get("draft")]
+adult_slugs = {a["slug"] for a in articles if a.get("adult")}
 for a in articles:
     slug = a.get("slug")
     page = ROOT / "articles" / f"{slug}.html"
@@ -81,6 +82,18 @@ for page in sorted((ROOT / "articles").glob("*.html")):
     slug = page.stem
     if slug not in seen:
         err(f"{rel}：檔案存在但沒有登錄在 data/articles.json")
+    gated = "data-age-gate" in text
+    if slug in adult_slugs:
+        if not gated:
+            err(f"{rel}：articles.json 標為 adult，但缺少 <article data-age-gate>（請執行 python3 authoring/mark-adult.py {slug}）")
+        if "age-noscript" not in text:
+            err(f"{rel}：成人文章缺少 noscript 說明")
+        if not re.search(r'<meta name="robots" content="[^"]*noindex', text):
+            err(f"{rel}：成人文章必須 noindex")
+        if 'name="rating" content="adult"' not in text or "RTA-5042-1996-1400-1577-RTA" not in text:
+            err(f"{rel}：成人文章缺少分級標籤（rating: adult 與 RTA）")
+    elif gated:
+        err(f"{rel}：有 data-age-gate 但 articles.json 沒標 adult（請在 data/articles.json 加 \"adult\": true，或用 mark-adult.py）")
     if f'data-slug="{slug}"' not in text:
         err(f'{rel}：缺少 data-slug="{slug}"（必須與檔名一致）')
     if re.search(r"\{\{.+?\}\}", text):
@@ -127,7 +140,10 @@ else:
     else:
         sitemap = sm_file.read_text(encoding="utf-8")
         need = [f"https://{domain}/{p}" for p in ("", "about.html", "timeline.html", "articles.html", "contact.html", "sponsor.html")]
-        need += [f"https://{domain}/articles/{a['slug']}.html" for a in published]
+        need += [f"https://{domain}/articles/{a['slug']}.html" for a in published if not a.get("adult")]
+        for a in published:
+            if a.get("adult") and f"/articles/{a['slug']}.html" in sitemap:
+                err(f"sitemap.xml：成人文章 {a['slug']} 不應出現在 sitemap")
         for url in need:
             if f"<loc>{url}</loc>" not in sitemap:
                 err(f"sitemap.xml：缺少 {url}（請執行 python3 authoring/build-sitemap.py）")
@@ -212,8 +228,9 @@ if domain:
                 err(f"{rel}：og:description 與 articles.json 的 summary 不一致")
             if meta(text, "article:published_time") != a.get("date"):
                 err(f"{rel}：article:published_time 與 articles.json 的 date 不一致")
-            if meta(text, "og:image") != f"{base}/images/og/{page.stem}.jpg":
-                err(f"{rel}：og:image 應為 {base}/images/og/{page.stem}.jpg")
+            want_img = f"{base}/images/og/adult.jpg" if a.get("adult") else f"{base}/images/og/{page.stem}.jpg"
+            if meta(text, "og:image") != want_img:
+                err(f"{rel}：og:image 應為 {want_img}")
             tags = re.findall(r'<meta property="article:tag" content="([^"]*)"', text)
             if [html.unescape(t) for t in tags] != a.get("tags", []):
                 err(f"{rel}：article:tag 與 articles.json 的 tags 不一致")

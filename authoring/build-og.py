@@ -68,8 +68,11 @@ def main() -> None:
     if not only:
         jobs += [(ROOT / rel, p) for rel, p in PAGES.items()]
     articles = json.loads((ROOT / "data" / "articles.json").read_text(encoding="utf-8"))
+    if not only and any(a.get("adult") and not a.get("draft") for a in articles):
+        jobs.append((ROOT / "images" / "og" / "adult.jpg",
+                     dict(kind="page", eyebrow="18+", title="成人內容", sub="需年滿 18 歲才能閱讀")))
     for a in articles:
-        if a.get("draft") or (only and a["slug"] not in only):
+        if a.get("draft") or a.get("adult") or (only and a["slug"] not in only):
             continue
         jobs.append((ROOT / "images" / "og" / f"{a['slug']}.jpg",
                      dict(kind="article", title=a["title"], tags=",".join(a.get("tags", [])), date=a["date"])))

@@ -32,6 +32,8 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **社群分享（OG/Twitter Card/JSON-LD）。** 每頁 `<head>` 都有完整 meta，由 `check.py` 強制（canonical 與 og:url 一致、og:description 等於 description、分享圖存在且為 1200×630、文章的 title／summary／date／tags 與 `data/articles.json` 逐字一致、ld+json 為合法 JSON）。分享圖是產物：`authoring/og/card.html` 範本 + `build-og.py` 無頭 Chrome 截圖，**改文章標題／標籤後要重產該篇的圖**（pre-commit 只補「缺少」的圖，不會偵測過期）。
 
+**成人文章（18+）閘門。** `data/articles.json` 的 `adult: true` ⇄ 文章 `<article data-age-gate>` ⇄ CSS 預設隱藏（fail-closed，`.age-ok` 才顯示）⇄ `site.js` 的 `<dialog>` 彈窗，四者必須一致；一律用 `python3 authoring/mark-adult.py <slug>`（`--undo` 取消）套用，`check.py` 驗證（noindex、rating/RTA、通用分享圖 `images/og/adult.jpg`、不在 sitemap）。這只是自我聲明，不是年齡驗證，不要宣稱它具法律效力。瀏覽器在沒有使用者互動前會讓 Esc 關閉 `<dialog>`，所以 `close` 事件會重新打開它，勿移除。
+
 **切頁動畫（跨頁面 View Transitions）有隱性依賴。** 每個頁面（`404.html` 除外）的 `<head>` 需要 `<link rel="expect" href="#page-end" blocking="render">`，並在 `site.js` 之後放 `<span id="page-end" hidden></span>`，否則頁首會在切換瞬間閃空白。新增頁面或改範本時別漏掉。
 
 **快取陷阱。** GitHub Pages 的 CSS/JS 快取 10 分鐘，剛部署後回訪者可能出現「新 HTML 配舊 CSS」的短暫錯位，這不是 bug；目前沒有檔名雜湊或版本碼。
