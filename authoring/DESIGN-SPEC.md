@@ -95,6 +95,15 @@
 ### 參考資料
 範本底部的 `<aside class="article-sources">`，使用 `<ol>`。
 
+## 4.5 社群分享（Open Graph）
+
+- 每個頁面都有 canonical、`og:*`、`twitter:*`；文章另有 `article:published_time`、`article:author`、`article:tag` 與 `ld+json`（Article）。
+- **分享圖固定 1200×630 JPG**，由 `authoring/build-og.py` 依 `authoring/og/card.html` 自動產生，文章不得自備或更換：
+  文章 → `images/og/<slug>.jpg`；首頁 → `assets/img/og.jpg`；其他頁 → `images/og/<頁面>.jpg`。
+- 改了標題或標籤後，重新產生：`python3 authoring/build-og.py <slug>`；改了卡片設計：`--all`。
+- `og:title` 是文章標題（不含「｜賴奕帆」）；`og:description` 與 `<meta name="description">`、`articles.json` 的 `summary` 必須相同（建議 80～120 字）。
+- 發布後可用 Facebook Sharing Debugger、LINE 貼文、Discord 貼連結、opengraph.xyz 驗證預覽；各平台會快取舊預覽，需要時用除錯工具重新抓取。
+
 ## 5. 圖片規範
 
 - 位置：`images/articles/<slug>/`

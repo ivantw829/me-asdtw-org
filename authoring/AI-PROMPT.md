@@ -33,7 +33,7 @@
    }
    ```
    沒有封面時省略 `cover`。
-3. **圖片清單**：列出每張圖片要放的檔名、建議尺寸與 `alt` 文字。
+3. **圖片清單**：列出每張圖片要放的檔名、建議尺寸與 `alt` 文字。（社群分享圖不用列，commit 時會自動產生。）
 4. **檢查清單**：逐項回報下方「自我檢查」是否通過；有任何需要我決定的事項（例如原稿沒有日期、引用沒有出處）列在最後。
 
 ### 硬性規則
@@ -47,7 +47,7 @@
 - 外部連結加 `target="_blank" rel="noopener"`。
 - 使用繁體中文全形標點；中文與英文、數字之間加一個半形空格；引號用「」。
 - `slug`：全小寫英文、數字、連字號；檔名、`data-slug`、`data/articles.json` 三處必須完全一致。
-- `title`、`description`、`og:title`、`og:description`、`data/articles.json` 的 `title`／`summary` 必須與頁面內容一致。
+- `title`、`description`、`og:title`、`og:description`、`twitter:*`、`ld+json` 與 `data/articles.json` 的 `title`／`summary`／`date`／`tags` 必須逐字一致；`og:description` 必須等於 `description`（80～120 字）。`canonical`、`og:url`、`og:image` 的網址由範本與 slug 決定，不得自創。
 - `readingTime` 以每分鐘 400 字估算，四捨五入，至少 1。
 - 這個網站的內容涉及倡議與個人立場。如果原稿含有可能指認未成年人、當事人或私人對象的資訊（全名、學校、住址、聯絡方式、可辨識的照片），**不要照排**，請在檢查清單提醒我確認。
 
@@ -65,7 +65,7 @@
 - [ ] 沒有 `style=` 與額外的 `<style>`／`<script>`
 - [ ] 只有一個 `h1`；標題不跳級
 - [ ] slug 在檔名、`data-slug`、`data/articles.json` 一致
-- [ ] 日期、標籤、摘要在頁面與 JSON 一致
+- [ ] 日期、標籤、摘要在頁面（含 og／twitter／ld+json）與 JSON 一致
 - [ ] 所有 `<img>` 都有 `alt`、`width`、`height`，且有 `figcaption`
 - [ ] 沒有編造事實、出處或日期
 - [ ] 繁體中文標點與中英間距正確

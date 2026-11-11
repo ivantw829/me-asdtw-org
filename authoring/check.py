@@ -4,6 +4,7 @@
 用法：python3 authoring/check.py
 有任何錯誤會以非 0 狀態結束。
 """
+import html
 import json
 import pathlib
 import re
@@ -82,12 +83,12 @@ for page in sorted((ROOT / "articles").glob("*.html")):
         err(f"{rel}：檔案存在但沒有登錄在 data/articles.json")
     if f'data-slug="{slug}"' not in text:
         err(f'{rel}：缺少 data-slug="{slug}"（必須與檔名一致）')
-    if "{{" in text or "}}" in text:
+    if re.search(r"\{\{.+?\}\}", text):
         err(f"{rel}：還有範本占位符 {{{{…}}}} 沒有替換")
     if re.search(r"\sstyle\s*=", text) or "<style" in text:
         err(f"{rel}：文章不得使用 style 屬性或 <style>（見 authoring/DESIGN-SPEC.md）")
-    if len(re.findall(r"<script\b", text)) != 2:
-        err(f"{rel}：<script> 只能有範本中的 2 個")
+    if len(re.findall(r"<script\b(?![^>]*application/ld\+json)", text)) != 2:
+        err(f"{rel}：<script> 只能有範本中的 2 個（結構化資料 ld+json 不計）")
     if len(re.findall(r"<h1\b", text)) != 1:
         err(f"{rel}：必須恰好有一個 <h1>")
     for m in re.finditer(r"<img\b[^>]*>", text):
@@ -130,6 +131,102 @@ else:
         for url in need:
             if f"<loc>{url}</loc>" not in sitemap:
                 err(f"sitemap.xml：缺少 {url}（請執行 python3 authoring/build-sitemap.py）")
+
+# ---------- 5. 社群分享（Open Graph / Twitter Card / 結構化資料） ----------
+def jpeg_size(path: pathlib.Path):
+    """讀取 JPEG 尺寸（不依賴外部套件）。"""
+    data = path.read_bytes()
+    i = 2
+    while i + 9 < len(data):
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        if marker in (0xD8, 0x01) or 0xD0 <= marker <= 0xD7:
+            i += 2
+            continue
+        length = int.from_bytes(data[i + 2:i + 4], "big")
+        if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+            return int.from_bytes(data[i + 7:i + 9], "big"), int.from_bytes(data[i + 5:i + 7], "big")
+        i += 2 + length
+    return None
+
+
+def meta(text: str, key: str, attr: str = "property"):
+    m = re.search(rf'<meta {attr}="{re.escape(key)}" content="([^"]*)"', text)
+    return html.unescape(m.group(1)) if m else None
+
+
+if domain:
+    base = f"https://{domain}"
+    by_slug = {a.get("slug"): a for a in articles}
+    for page in sorted(pages):
+        rel = page.relative_to(ROOT).as_posix()
+        if rel == "404.html":
+            continue
+        text = page.read_text(encoding="utf-8")
+        path = "" if rel == "index.html" else rel
+        want_url = f"{base}/{path}"
+        canon = re.search(r'<link rel="canonical" href="([^"]*)"', text)
+        if not canon or canon.group(1) != want_url:
+            err(f"{rel}：canonical 應為 {want_url}")
+        for key in ("og:title", "og:description", "og:url", "og:image", "og:image:alt", "og:type", "og:site_name", "og:locale"):
+            if not meta(text, key):
+                err(f"{rel}：缺少 {key}")
+        for key in ("twitter:title", "twitter:description", "twitter:image", "twitter:image:alt"):
+            if not meta(text, key, "name"):
+                err(f"{rel}：缺少 {key}")
+        if meta(text, "twitter:card", "name") != "summary_large_image":
+            err(f"{rel}：twitter:card 必須是 summary_large_image")
+        if meta(text, "og:url") != want_url:
+            err(f"{rel}：og:url 應為 {want_url}")
+        if meta(text, "og:image") != meta(text, "twitter:image", "name"):
+            err(f"{rel}：og:image 與 twitter:image 不一致")
+        if (meta(text, "og:image:width"), meta(text, "og:image:height")) != ("1200", "630"):
+            err(f"{rel}：og:image:width/height 必須是 1200/630")
+        desc = re.search(r'<meta name="description" content="([^"]*)"', text)
+        if desc and meta(text, "og:description") != html.unescape(desc.group(1)):
+            err(f"{rel}：og:description 與 description 不一致")
+        img = meta(text, "og:image") or ""
+        if not img.startswith(base + "/"):
+            err(f"{rel}：og:image 必須是 {base}/ 開頭的完整網址")
+        else:
+            f = ROOT / img[len(base) + 1:]
+            if not f.exists():
+                err(f"{rel}：分享圖不存在（{img[len(base) + 1:]}），請執行 python3 authoring/build-og.py")
+            elif jpeg_size(f) != (1200, 630):
+                err(f"{rel}：分享圖尺寸必須是 1200×630（目前 {jpeg_size(f)}）")
+        for blob in re.findall(r'<script type="application/ld\+json">(.*?)</script>', text, re.S):
+            try:
+                json.loads(blob)
+            except json.JSONDecodeError as e:
+                err(f"{rel}：結構化資料（ld+json）不是合法 JSON（{e}）")
+        # 文章專屬：與 data/articles.json 一致
+        if rel.startswith("articles/") and page.stem in by_slug:
+            a = by_slug[page.stem]
+            if meta(text, "og:type") != "article":
+                err(f"{rel}：og:type 必須是 article")
+            if meta(text, "og:title") != a.get("title"):
+                err(f"{rel}：og:title 與 articles.json 的 title 不一致")
+            if meta(text, "og:description") != a.get("summary"):
+                err(f"{rel}：og:description 與 articles.json 的 summary 不一致")
+            if meta(text, "article:published_time") != a.get("date"):
+                err(f"{rel}：article:published_time 與 articles.json 的 date 不一致")
+            if meta(text, "og:image") != f"{base}/images/og/{page.stem}.jpg":
+                err(f"{rel}：og:image 應為 {base}/images/og/{page.stem}.jpg")
+            tags = re.findall(r'<meta property="article:tag" content="([^"]*)"', text)
+            if [html.unescape(t) for t in tags] != a.get("tags", []):
+                err(f"{rel}：article:tag 與 articles.json 的 tags 不一致")
+            ld = re.search(r'<script type="application/ld\+json">(.*?)</script>', text, re.S)
+            if not ld:
+                err(f"{rel}：缺少文章結構化資料（ld+json）")
+            else:
+                try:
+                    obj = json.loads(ld.group(1))
+                    if obj.get("headline") != a.get("title") or obj.get("datePublished") != a.get("date"):
+                        err(f"{rel}：ld+json 的 headline／datePublished 與 articles.json 不一致")
+                except json.JSONDecodeError:
+                    pass
 
 # ---------- 結果 ----------
 if errors:
