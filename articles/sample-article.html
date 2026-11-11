@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>範例文章：這是版型示範｜賴奕帆</title>
+  <meta name="description" content="這是一篇用來示範文章版型的範例，展示標題、引言、圖片、提示框與參考資料等元件。正式發文前請刪除。">
+  <meta property="og:title" content="範例文章：這是版型示範">
+  <meta property="og:description" content="展示文章版型的範例，正式發文前請刪除。">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-11-11">
+
+  <link rel="icon" href="../assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要內容</a>
+  <header data-site-header></header>
+
+  <main id="main">
+    <article class="article" data-slug="sample-article">
+
+      <header class="article-head">
+        <p class="article-tags">
+          <a class="tag" href="../articles.html?tag=範例">範例</a>
+          <a class="tag" href="../articles.html?tag=心得">心得</a>
+        </p>
+        <h1>範例文章：這是版型示範</h1>
+        <p class="article-summary">用一篇假文章，展示每一種內文元件長什麼樣子。</p>
+        <p class="article-meta">
+          <time datetime="2026-11-11">2026 年 11 月 11 日</time>
+          <span aria-hidden="true">·</span>
+          <span>閱讀約 2 分鐘</span>
+        </p>
+      </header>
+
+      <div class="prose">
+
+        <p>這篇文章只是版型示範，內容不代表任何立場。第一段會以稍大的字級呈現，適合用來交代這篇文章的緣起。</p>
+
+        <h2>大標題長這樣</h2>
+        <p>內文使用黑體，行距寬鬆，方便長時間閱讀。重點可以用 <strong>粗體</strong> 標示，會有琥珀色的螢光筆效果。也可以放<a href="../articles.html">連結</a>。</p>
+
+        <h3>小標題</h3>
+        <p>小標題用在大標題底下再細分的段落。</p>
+        <ul>
+          <li>無序清單的項目符號是琥珀色</li>
+          <li>適合條列重點</li>
+        </ul>
+        <ol>
+          <li>有序清單適合步驟</li>
+          <li>第二步</li>
+        </ol>
+
+        <blockquote>
+          <p>引言使用襯線字體，左側有一條琥珀色的線。</p>
+          <cite>— 引言出處</cite>
+        </blockquote>
+
+        <div class="callout">
+          <p class="callout-title">提示框</p>
+          <p>需要特別提醒讀者的資訊，例如背景說明或名詞解釋，放在這裡。</p>
+        </div>
+
+        <p class="pullquote">金句用來放一句最想讓讀者記住的話。</p>
+
+        <h2>寫在最後</h2>
+        <p>實際發文時，請依照 <code>authoring/article-template.html</code> 產生新文章，並在 <code>data/articles.json</code> 新增一筆。這篇範例可以刪除。</p>
+      </div>
+
+      <aside class="article-sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">參考資料</h2>
+        <ol>
+          <li>範例資料，〈標題〉，媒體名稱，2026-11-11，<a href="https://example.com" target="_blank" rel="noopener">連結</a></li>
+        </ol>
+      </aside>
+    </article>
+
+    <nav data-article-nav aria-label="上一篇與下一篇"></nav>
+    <section data-giscus></section>
+  </main>
+
+  <footer data-site-footer></footer>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
