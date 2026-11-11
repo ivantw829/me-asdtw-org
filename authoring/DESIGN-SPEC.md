@@ -29,7 +29,7 @@
 ### 角色識別（來自角色設定圖，不得更動）
 - 奶白底、芥末黃、青綠、墨黑，搭配角色「IVAN」插畫。
 - 裝飾語彙：條碼、鏤空大字、× 與 + 符號、黑底名字標籤、圓形色塊。**文章內文不使用這些裝飾**，只在首頁等版面頁使用。
-- 圖片位置：`assets/img/`（hero.webp、avatar.webp、favicon.png、og.jpg），文章不得更換。
+- 圖片位置：`assets/img/`（hero.webp、avatar.webp、favicon.png、apple-touch-icon.png、og.jpg），文章不得更換。
 
 ## 3. 版面
 
