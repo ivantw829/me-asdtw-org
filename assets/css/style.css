@@ -369,3 +369,6 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 .age-gate-actions { display: grid; gap: 10px; margin-top: 6px; }
 .age-gate-actions .btn { justify-content: center; font-family: inherit; font-size: 1rem; cursor: pointer; }
 .age-gate-note { font-size: .82rem; }
+
+/* 錨點跳轉時避開黏在上方的頁首 */
+#contact, #tree-title { scroll-margin-top: 96px; }

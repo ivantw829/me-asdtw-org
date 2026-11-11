@@ -3,7 +3,7 @@
 
 輸出：
   assets/img/og.jpg            首頁
-  images/og/<頁面>.jpg         關於、經歷、文章列表、聯絡、贊助
+  images/og/<頁面>.jpg         關於、經歷、文章列表、贊助
   images/og/<slug>.jpg         每篇已發布文章（標題、標籤、日期取自 data/articles.json）
 
 用法：
@@ -29,7 +29,6 @@ PAGES = {
     "images/og/about.jpg": dict(kind="page", eyebrow="ABOUT", title="關於我", sub="高三學生、多元平權倡議者"),
     "images/og/timeline.jpg": dict(kind="page", eyebrow="EXPERIENCE", title="經歷", sub="倡議、政策參與、社會服務與研習"),
     "images/og/articles.jpg": dict(kind="page", eyebrow="ARTICLES", title="文章", sub="倡議現場的心得與思考"),
-    "images/og/contact.jpg": dict(kind="page", eyebrow="CONTACT", title="聯絡我", sub="電子郵件、Discord、社群"),
     "images/og/sponsor.jpg": dict(kind="page", eyebrow="SUPPORT", title="贊助我的倡議行動", sub="支持內容製作與現場行動"),
 }
 

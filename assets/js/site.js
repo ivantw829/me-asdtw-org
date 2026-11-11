@@ -10,10 +10,9 @@ const SITE = {
     { label: "首頁", path: "index.html" },
     { label: "關於", path: "about.html" },
     { label: "文章", path: "articles.html" },
-    { label: "聯絡", path: "contact.html" },
     { label: "贊助", path: "sponsor.html" },
   ],
-  // 社群連結（頁尾使用；聯絡頁的順序寫在 contact.html）
+  // 社群連結（頁尾使用；首頁「聯絡我」區塊的順序寫在 index.html）
   links: [
     { label: "Discord", href: "https://discord.gg/b8BwFtv3C9" },
     { label: "Instagram", href: "https://www.instagram.com/ivantw829/" },
@@ -247,7 +246,7 @@ const SITE = {
     }).catch(() => { tlEl.innerHTML = '<p class="empty">時間軸載入失敗。</p>'; });
   }
 
-  // 聯絡頁：Email
+  // 首頁「聯絡我」區塊：Email
   document.querySelectorAll("[data-email]").forEach((el) => {
     const t = el.querySelector("[data-email-text]");
     if (SITE.email) { el.href = "mailto:" + SITE.email; if (t) t.textContent = SITE.email; }

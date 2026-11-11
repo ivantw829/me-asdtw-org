@@ -43,7 +43,6 @@ pages = [
     ("about.html", "0.6", ["about.html"]),
     ("timeline.html", "0.7", ["timeline.html", "data/timeline.json"]),
     ("articles.html", "0.8", ["articles.html", "data/articles.json"]),
-    ("contact.html", "0.4", ["contact.html"]),
     ("sponsor.html", "0.5", ["sponsor.html"]),
 ]
 urls = [(f"{DOMAIN}/{p}", lastmod(*files), pr) for p, pr, files in pages]

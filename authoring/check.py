@@ -139,7 +139,7 @@ else:
         err("sitemap.xml：不存在，請執行 python3 authoring/build-sitemap.py")
     else:
         sitemap = sm_file.read_text(encoding="utf-8")
-        need = [f"https://{domain}/{p}" for p in ("", "about.html", "timeline.html", "articles.html", "contact.html", "sponsor.html")]
+        need = [f"https://{domain}/{p}" for p in ("", "about.html", "timeline.html", "articles.html", "sponsor.html")]
         need += [f"https://{domain}/articles/{a['slug']}.html" for a in published if not a.get("adult")]
         for a in published:
             if a.get("adult") and f"/articles/{a['slug']}.html" in sitemap:
