@@ -4,8 +4,9 @@
 做的事（輸出仍是提交進 repo 的靜態 HTML，部署與 SEO 不變）：
   1. 產生 articles/<slug>.html（版型、meta、ld+json 全部來自範本，不會被改壞）
   2. 新增／更新 data/articles.json 的該筆資料
-  3. 複製圖片到 images/articles/<slug>/（給 --images 時）
-  4. 產生分享圖與 sitemap，最後執行 check.py
+  3. 處理圖片（給 --images 時）：png／jpg 自動用 cwebp 轉成 webp 放到 images/articles/<slug>/，
+     內文圖最寬 1600、封面（cover）裁成 16:9 1600×900，品質自動調整到 ≤300KB；webp 原檔直接複製
+  4. 產生分享圖、sitemap，最後執行 check.py
 
 用法：
   python3 authoring/md2article.py 原稿.md [--images 圖片資料夾]
@@ -19,21 +20,26 @@
   summary: 80～120 字摘要，會同時用在 description／og:description／articles.json
   lead: 一句話摘要（30～60 字），顯示在標題下
   readingTime: 6              # 選填，沒填就以每分鐘 400 字估算
+  updated: 2026-12-01         # 選填：發布後修改過才填。寫入「更新於」、dateModified 與 sitemap lastmod
+  draft: true                 # 選填：草稿。不進列表／sitemap／feed，頁面 noindex；拿掉後重跑就是正式發布
+  adult: true                 # 選填：18+ 文章，自動套用 mark-adult.py
   ---
   內文 Markdown。支援：
     ## 大標、### 小標、段落、- 清單、1. 清單、| 表格 |、> 引言、--- 分隔線
-    ![圖說](檔名.webp)        # 圖說同時當 alt；檔名為 cover.webp 的當作封面
+    ![圖說](檔名.png)         # 圖說同時當 alt；png／jpg／webp 都可，輸出一律 .webp；cover 開頭的檔名（cover.png 等）當作封面
     [[提示框：標題]] 下一段文字（到空行為止）
     [[金句：一句話]]
     [[目錄]]                  # 在第一個大標前產生目錄
     `code`、**粗體**、[文字](網址)、裸網址（自動變連結）
     最後可放 `## 參考資料` + 編號清單，會變成文末參考資料區塊
 """
+import difflib
 import html
 import json
 import pathlib
 import re
 import shutil
+import struct
 import subprocess
 import sys
 
@@ -44,6 +50,122 @@ ARTICLES = ROOT / "data" / "articles.json"
 
 def die(msg: str) -> None:
     sys.exit(f"✗ {msg}")
+
+
+MAX_IMG_KB = 300
+MAX_W = 1600
+IMG_EXT = (".png", ".jpg", ".jpeg")
+
+
+def webp_size(path: pathlib.Path):
+    d = path.read_bytes()[:40]
+    if d[:4] != b"RIFF" or d[8:12] != b"WEBP":
+        return None
+    kind = d[12:16]
+    if kind == b"VP8 ":
+        w, h = struct.unpack("<HH", d[26:30])
+        return w & 0x3FFF, h & 0x3FFF
+    if kind == b"VP8L":
+        b = struct.unpack("<I", d[21:25])[0]
+        return (b & 0x3FFF) + 1, ((b >> 14) & 0x3FFF) + 1
+    if kind == b"VP8X":
+        return int.from_bytes(d[24:27], "little") + 1, int.from_bytes(d[27:30], "little") + 1
+    return None
+
+
+def src_size(path: pathlib.Path):
+    """來源圖片尺寸（用 macOS sips；專案本來就需要 sips 來產生分享圖）。"""
+    out = subprocess.run(["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(path)],
+                         capture_output=True, text=True).stdout
+    w = re.search(r"pixelWidth: (\d+)", out)
+    h = re.search(r"pixelHeight: (\d+)", out)
+    if not (w and h):
+        die(f"讀不到圖片尺寸：{path}")
+    return int(w.group(1)), int(h.group(1))
+
+
+def to_webp(src: pathlib.Path, dst: pathlib.Path, cover: bool) -> None:
+    cwebp = shutil.which("cwebp")
+    if not cwebp:
+        die("找不到 cwebp，請先安裝：brew install webp（或自行先把圖片轉成 webp 再放進 --images 資料夾）")
+    w, h = src_size(src)
+    args = []
+    if cover:
+        if w * 9 > h * 16:  # 太寬：左右置中裁切
+            cw = round(h * 16 / 9)
+            args += ["-crop", str((w - cw) // 2), "0", str(cw), str(h)]
+        else:  # 太高：上下置中裁切
+            ch = round(w * 9 / 16)
+            args += ["-crop", "0", str((h - ch) // 2), str(w), str(ch)]
+        args += ["-resize", str(MAX_W), "900"]
+        if w < MAX_W:
+            print(f"! {src.name}：寬度只有 {w}px，封面放大到 {MAX_W}px 會變糊")
+    elif w > MAX_W:
+        args += ["-resize", str(MAX_W), "0"]
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    for q in (88, 80, 72, 64, 56, 48, 40):
+        subprocess.run([cwebp, "-quiet", "-q", str(q), *args, str(src), "-o", str(dst)], check=True)
+        if dst.stat().st_size <= MAX_IMG_KB * 1024:
+            return
+    print(f"! {dst.name}：壓到最低品質仍有 {dst.stat().st_size // 1024}KB（建議 ≤{MAX_IMG_KB}KB），請換較小的原圖")
+
+
+def normalize_refs(body: str) -> str:
+    """![](x.png) → ![](x.webp)；封面（cover.*）一律變 cover.webp。"""
+    def fix(m):
+        name = m.group(2)
+        if re.match(r"https?://", name):
+            return m.group(0)
+        stem, ext = (name.rsplit(".", 1) + [""])[:2]
+        if ext.lower() in ("png", "jpg", "jpeg", "webp"):
+            name = f"{stem}.webp"
+        return f"![{m.group(1)}]({name})"
+    return re.sub(r"!\[(.*?)\]\(([^)]*)\)", fix, body)
+
+
+def prepare_images(body: str, slug: str, images_dir):
+    """依原稿引用的圖片處理檔案，回傳 {檔名: (寬, 高)}。"""
+    refs = sorted(set(re.findall(r"!\[.*?\]\(([^)/]+\.webp)\)", body)))
+    out_dir = ROOT / "images" / "articles" / slug
+    dims = {}
+    for f in refs:
+        dst = out_dir / f
+        stem = f[:-5]
+        if images_dir:
+            src = next((c for c in [images_dir / f, *[images_dir / (stem + e) for e in IMG_EXT],
+                                    *[images_dir / (stem + e.upper()) for e in IMG_EXT]] if c.exists()), None)
+            if src is None:
+                print(f"! 在 {images_dir} 找不到 {stem}.(webp|png|jpg)")
+            elif src.suffix.lower() == ".webp":
+                out_dir.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+            else:
+                to_webp(src, dst, cover=(f == "cover.webp"))
+                print(f"  ✓ {src.name} → {dst.relative_to(ROOT)}（{dst.stat().st_size // 1024}KB）")
+        if not dst.exists():
+            print(f"! 缺少圖片 images/articles/{slug}/{f}")
+            dims[f] = (1600, 900)
+            continue
+        size = webp_size(dst) or (1600, 900)
+        dims[f] = size
+        kb = dst.stat().st_size // 1024
+        if kb > MAX_IMG_KB:
+            print(f"! {f}：{kb}KB 超過建議的 {MAX_IMG_KB}KB")
+        if size[0] > MAX_W:
+            print(f"! {f}：寬 {size[0]}px 超過 {MAX_W}px")
+        if f == "cover.webp" and size != (1600, 900):
+            print(f"! cover.webp 應為 1600×900（目前 {size[0]}×{size[1]}）")
+    return dims
+
+
+def tag_warnings(tags, others):
+    known = sorted({t for a in others for t in a.get("tags", [])})
+    for t in tags:
+        if t in known:
+            continue
+        near = difflib.get_close_matches(t, known, n=1, cutoff=0.6)
+        if near:
+            print(f"! 標籤「{t}」是新的，但跟既有標籤「{near[0]}」很像，要統一用詞嗎？")
 
 
 def parse_frontmatter(text: str):
@@ -81,7 +203,7 @@ def inline(t: str) -> str:
     return re.sub(r"\x00(\d+)\x00", lambda m: codes[int(m.group(1))], t)
 
 
-def convert(body: str, slug: str):
+def convert(body: str, slug: str, dims=None):
     """回傳 (內文 HTML, 封面圖說, 參考資料清單, 圖片檔名集合)"""
     lines = body.strip("\n").split("\n")
     out, h2s, images = [], [], set()
@@ -93,8 +215,9 @@ def convert(body: str, slug: str):
     def figure(alt, fname):
         images.add(fname)
         a = html.escape(alt)
+        w, h = (dims or {}).get(fname, (1600, 900))
         return (f'<figure>\n  <img src="../images/articles/{slug}/{fname}" alt="{a}" loading="lazy" '
-                f'width="1600" height="900">\n  <figcaption>{a}</figcaption>\n</figure>')
+                f'width="{w}" height="{h}">\n  <figcaption>{a}</figcaption>\n</figure>')
 
     while i < len(lines):
         l = lines[i]
@@ -204,13 +327,14 @@ def convert(body: str, slug: str):
     return main, cover, sources, images
 
 
-def build(fm, body, slug):
-    main, cover, sources, images = convert(body, slug)
+def build(fm, body, slug, dims=None):
+    main, cover, sources, images = convert(body, slug, dims)
     indent = lambda s, n: "\n".join((" " * n + x if x else x) for x in s.split("\n"))
     tags = [x.strip() for x in re.sub(r"^\[|\]$", "", fm["tags"]).split(",") if x.strip()]
     text_len = len(re.sub(r"\s|<[^>]+>", "", main))
     rt = int(fm["readingTime"]) if fm.get("readingTime") else max(1, round(text_len / 400))
     y, mth, d = fm["date"].split("-")
+    updated = fm.get("updated", "")
     t = TEMPLATE.read_text(encoding="utf-8")
     t = re.sub(r"[ \t]*<!--(?!\s*社群分享).*?-->\n?", "", t, flags=re.S)
     a = t.index('<div class="prose">')
@@ -230,6 +354,15 @@ def build(fm, body, slug):
                    t, flags=re.S)
     else:
         t = re.sub(r'\s*<figure class="article-cover">.*?</figure>\n', "\n", t, flags=re.S)
+    if updated:
+        uy, um, ud = updated.split("-")
+        t = (t.replace("{{更新日期}}", updated)
+              .replace("{{YYYY 年 M 月 D 日（更新）}}", f"{uy} 年 {int(um)} 月 {int(ud)} 日"))
+    else:  # 沒改過：整段移除「更新於」，dateModified 回到發布日期
+        t = re.sub(r'\s*<span aria-hidden="true">·</span>\s*<span>更新於[^\n]*</span>', "", t)
+        t = t.replace("{{更新日期}}", fm["date"])
+    if fm.get("draft", "").lower() == "true":
+        t = t.replace('content="index, follow, max-image-preview:large"', 'content="noindex, nofollow"', 1)
     t = (t.replace("{{一句話摘要}}", html.escape(fm["lead"], quote=False))
           .replace("{{摘要}}", html.escape(fm["summary"]))
           .replace("{{文章標題}}", html.escape(fm["title"]))
@@ -272,37 +405,42 @@ def main() -> None:
         die("slug 只能是小寫英文、數字與連字號")
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", fm["date"]):
         die("date 格式必須是 YYYY-MM-DD")
-    text, tags, rt, images = build(fm, body, slug)
+    if fm.get("updated"):
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", fm["updated"]):
+            die("updated 格式必須是 YYYY-MM-DD")
+        if fm["updated"] < fm["date"]:
+            die("updated 不能早於 date")
+    truthy = lambda k: fm.get(k, "").lower() == "true"
+
+    body = normalize_refs(body)
+    dims = prepare_images(body, slug, images_dir)
+    text, tags, rt, images = build(fm, body, slug, dims)
     if not 1 <= len(tags) <= 3:
         die("標籤必須是 1～3 個")
     if not 60 <= len(fm["summary"]) <= 160:
         print(f"! summary 長度 {len(fm['summary'])} 字（建議 80～120 字）")
+
+    data = json.loads(ARTICLES.read_text(encoding="utf-8"))
+    tag_warnings(tags, [a for a in data if a["slug"] != slug])
+    old = next((a for a in data if a["slug"] == slug), {})
 
     out = ROOT / "articles" / f"{slug}.html"
     existed = out.exists()
     out.write_text(text, encoding="utf-8")
     print(f"{'更新' if existed else '建立'} {out.relative_to(ROOT)}（閱讀約 {rt} 分鐘）")
 
-    img_out = ROOT / "images" / "articles" / slug
-    if images_dir:
-        img_out.mkdir(parents=True, exist_ok=True)
-        for f in sorted(images):
-            if (images_dir / f).exists():
-                shutil.copy2(images_dir / f, img_out / f)
-            else:
-                print(f"! 找不到圖片 {images_dir / f}")
-    for f in sorted(images):
-        if not (img_out / f).exists():
-            print(f"! 缺少圖片 images/articles/{slug}/{f}")
-
-    data = json.loads(ARTICLES.read_text(encoding="utf-8"))
     entry = {"slug": slug, "title": fm["title"], "date": fm["date"], "tags": tags,
              "summary": fm["summary"], "readingTime": rt}
+    if fm.get("updated"):
+        entry["updated"] = fm["updated"]
+    if truthy("draft"):
+        entry["draft"] = True
+        print("! 草稿：不會出現在列表、sitemap 與 feed，但知道網址的人仍看得到頁面，不要放敏感內容。")
+    adult = truthy("adult") or bool(old.get("adult"))  # 重跑時保留既有的 18+ 設定
+    if adult:
+        entry["adult"] = True
     for k, a in enumerate(data):
         if a["slug"] == slug:
-            for extra in ("draft", "adult"):  # 保留既有旗標
-                if extra in a:
-                    entry[extra] = a[extra]
             data[k] = entry
             break
     else:
@@ -310,6 +448,8 @@ def main() -> None:
     ARTICLES.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     py = sys.executable
+    if adult:
+        subprocess.run([py, str(ROOT / "authoring" / "mark-adult.py"), slug], check=True)
     subprocess.run([py, str(ROOT / "authoring" / "build-og.py"), slug], check=True)
     subprocess.run([py, str(ROOT / "authoring" / "build-sitemap.py")], check=True)
     sys.exit(subprocess.run([py, str(ROOT / "authoring" / "check.py")]).returncode)

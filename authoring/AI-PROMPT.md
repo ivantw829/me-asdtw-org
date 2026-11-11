@@ -5,7 +5,7 @@
 不用再貼範本與設計規範，也不會有 AI 改壞 `<head>` 的問題。
 
 1. 把下面「Markdown 提示詞」＋你的原稿貼給 AI，要它輸出一份 Markdown（含 frontmatter）。
-2. 存成 `原稿.md`，圖片放在同一個資料夾（封面檔名固定 `cover.webp`）。
+2. 存成 `原稿.md`，圖片放在同一個資料夾。png／jpg／webp 都可以，工具會自動轉成 webp 並壓到 300KB 內；封面檔名用 `cover.png`（或 .jpg／.webp），會自動裁成 16:9。
 3. 執行：`python3 authoring/md2article.py 原稿.md --images 圖片資料夾`
    會產生 `articles/<slug>.html`、登錄 `data/articles.json`、複製圖片、產生分享圖與 sitemap，最後跑 `check.py`。
 4. 本機預覽沒問題就 `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
@@ -15,7 +15,7 @@
 你是我個人網站（賴奕帆，多元平權倡議者）的文章整理助手。請把我的原稿整理成下列格式的 Markdown，**只輸出一個 Markdown 程式碼區塊**。
 
 格式：
-- 開頭 frontmatter：`title`、`slug`（小寫英文、數字、連字號）、`date`（YYYY-MM-DD）、`tags`（1～3 個繁體中文，逗號分隔）、`summary`（80～120 字，描述文章內容）、`lead`（30～60 字一句話摘要）。
+- 開頭 frontmatter：`title`、`slug`（小寫英文、數字、連字號）、`date`（YYYY-MM-DD）、`tags`（1～3 個繁體中文，逗號分隔）、`summary`（80～120 字，描述文章內容）、`lead`（30～60 字一句話摘要）。選填：`updated`（發布後修改過才填）、`draft: true`（草稿）、`adult: true`（18+）；這三個由我決定，你不要自己加。
 - 內文只能用：`##` 大標（不要用 `#`）、`###` 小標、段落、`-`／`1.` 清單、`> 引言`（出處放最後一行 `> — 某人`）、表格、`---` 分隔線、`![圖說](檔名.webp)`（圖說同時是 alt，要描述圖片內容；封面用 `cover.webp`）、`[[提示框：標題]]` 後接一段文字、`[[金句：一句話]]`（最多 2 個）、`[[目錄]]`（長文才放，會在第一個大標前產生目錄）、`` `code` ``、`**粗體**`（一段最多一處）、`[文字](網址)`。
 - 引用資料放在最後的 `## 參考資料` 加編號清單；沒有就不要寫。
 
