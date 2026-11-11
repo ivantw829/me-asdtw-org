@@ -9,6 +9,9 @@
     2. 不得新增 <script>（除範本已有的）。
     3. 內文只能使用 DESIGN-SPEC.md 允許的標籤與 class。
     4. 帶「必填」的欄位一定要填；帶「選填」的欄位若沒有內容，整個區塊連同註解一起刪除。
+    5. 社群分享標籤（canonical、og:*、twitter:*、article:*、ld+json）內的標題、摘要、日期、標籤、slug
+       必須與 data/articles.json 完全一致（check.py 會驗證）。標題含雙引號時，ld+json 內要寫成 \"。
+       分享圖不用手做：commit 時 build-og.py 會依標題自動產生 images/og/<slug>.jpg。
   ============================================================
 -->
 <html lang="zh-Hant-TW">
@@ -20,12 +23,34 @@
   <title>{{文章標題}}｜賴奕帆</title>
   <!-- 必填：80～120 字內的摘要，與 data/articles.json 的 summary 相同 -->
   <meta name="description" content="{{摘要}}">
+  <link rel="canonical" href="https://me.asdtw.org/articles/{{slug}}.html">
+  <meta name="author" content="賴奕帆">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#f8f6ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1612" media="(prefers-color-scheme: dark)">
+  <!-- 社群分享：Open Graph（Facebook、LINE、Discord、Threads…）與 X/Twitter Card -->
+  <meta property="og:site_name" content="賴奕帆">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://me.asdtw.org/articles/{{slug}}.html">
   <meta property="og:title" content="{{文章標題}}">
   <meta property="og:description" content="{{摘要}}">
-  <meta property="og:type" content="article">
-  <!-- 選填：有封面圖才保留。路徑固定為 images/articles/<slug>/cover.webp -->
-  <meta property="og:image" content="https://me.asdtw.org/images/articles/{{slug}}/cover.webp">
+  <meta property="og:image" content="https://me.asdtw.org/images/og/{{slug}}.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{文章標題}}｜賴奕帆的文章分享卡（標籤：{{標籤1}}、{{標籤2}}）">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{文章標題}}">
+  <meta name="twitter:description" content="{{摘要}}">
+  <meta name="twitter:image" content="https://me.asdtw.org/images/og/{{slug}}.jpg">
+  <meta name="twitter:image:alt" content="{{文章標題}}｜賴奕帆的文章分享卡（標籤：{{標籤1}}、{{標籤2}}）">
   <meta property="article:published_time" content="{{YYYY-MM-DD}}">
+  <meta property="article:author" content="https://me.asdtw.org/about.html">
+  <meta property="article:tag" content="{{標籤1}}">
+  <meta property="article:tag" content="{{標籤2}}">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"{{文章標題}}","description":"{{摘要}}","datePublished":"{{YYYY-MM-DD}}","dateModified":"{{YYYY-MM-DD}}","inLanguage":"zh-Hant-TW","image":["https://me.asdtw.org/images/og/{{slug}}.jpg"],"keywords":"{{標籤1}}、{{標籤2}}","mainEntityOfPage":"https://me.asdtw.org/articles/{{slug}}.html","author":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/about.html"},"publisher":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/"}}</script>
+  <!-- 選填：有封面圖才保留。路徑固定為 images/articles/<slug>/cover.webp -->
 
   <!-- ↓↓↓ 以下 head 區塊不得修改 ↓↓↓ -->
   <link rel="icon" href="../assets/img/favicon.png">

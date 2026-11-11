@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m http.server 8000        # 本機預覽；不能直接開 file://，因為頁面用 fetch 讀 data/*.json
 python3 authoring/check.py         # 唯一的「測試」：資料、文章規範、站內連結、sitemap。CI 與 pre-commit 都會跑
 python3 authoring/build-sitemap.py # 重新產生 sitemap.xml（pre-commit 會自動跑並 stage，通常不用手動）
+python3 authoring/build-og.py     # 以本機 Chrome 產生社群分享圖 1200×630（缺圖時 pre-commit 會自動跑；改標題用 <slug>，改卡片設計用 --all）
 bash authoring/ship.sh "type(scope): 描述"  # 一鍵：分支→commit→push→PR→等 CI→auto squash merge→同步本機
 bash authoring/sync.sh             # 本機與 GitHub 對齊：prune、main 快轉、刪已合併的本機分支
 bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保護 main（已套用）
@@ -28,6 +29,8 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 **網域在多處硬寫，必須一致。** 以 `CNAME`（`me.asdtw.org`）為準；`robots.txt` 的 Sitemap 行、`authoring/build-sitemap.py` 的 `DOMAIN`、`index.html` 與文章範本的 `og:image` 都要同步，`check.py` 會驗 CNAME 與 robots/sitemap 一致。
 
 **樣式只有一個 `assets/css/style.css`。** 淺色/深色用 CSS 變數；深色變數有兩份（`[data-theme="dark"]` 與 `prefers-color-scheme: dark` 且非 `data-theme="light"`），改色票要兩處一起改。識別色（奶白、黃 `--accent`、青綠 `--teal`、墨黑 `--ink`）來自角色設定圖，條碼／鏤空字／× 等裝飾只用在首頁，文章內文不用。
+
+**社群分享（OG/Twitter Card/JSON-LD）。** 每頁 `<head>` 都有完整 meta，由 `check.py` 強制（canonical 與 og:url 一致、og:description 等於 description、分享圖存在且為 1200×630、文章的 title／summary／date／tags 與 `data/articles.json` 逐字一致、ld+json 為合法 JSON）。分享圖是產物：`authoring/og/card.html` 範本 + `build-og.py` 無頭 Chrome 截圖，**改文章標題／標籤後要重產該篇的圖**（pre-commit 只補「缺少」的圖，不會偵測過期）。
 
 **切頁動畫（跨頁面 View Transitions）有隱性依賴。** 每個頁面（`404.html` 除外）的 `<head>` 需要 `<link rel="expect" href="#page-end" blocking="render">`，並在 `site.js` 之後放 `<span id="page-end" hidden></span>`，否則頁首會在切換瞬間閃空白。新增頁面或改範本時別漏掉。
 
