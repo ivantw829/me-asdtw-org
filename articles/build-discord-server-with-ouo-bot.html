@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>從零使用 OuO Bot 建置你的 Discord 伺服器｜賴奕帆</title>
+    <meta name="description" content="以虛構的「星期三咖啡館」為例，從邀請機器人開始，依序設定驗證、歡迎、身份組、成員管理、工單、動態語音與抽獎投票，一步步建置完整的 Discord 伺服器。">
+  <link rel="canonical" href="https://me.asdtw.org/articles/build-discord-server-with-ouo-bot.html">
+  <meta name="author" content="賴奕帆">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#f8f6ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1612" media="(prefers-color-scheme: dark)">
+  <!-- 社群分享：Open Graph（Facebook、LINE、Discord、Threads…）與 X/Twitter Card -->
+  <meta property="og:site_name" content="賴奕帆">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://me.asdtw.org/articles/build-discord-server-with-ouo-bot.html">
+  <meta property="og:title" content="從零使用 OuO Bot 建置你的 Discord 伺服器">
+  <meta property="og:description" content="以虛構的「星期三咖啡館」為例，從邀請機器人開始，依序設定驗證、歡迎、身份組、成員管理、工單、動態語音與抽獎投票，一步步建置完整的 Discord 伺服器。">
+  <meta property="og:image" content="https://me.asdtw.org/images/og/build-discord-server-with-ouo-bot.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="從零使用 OuO Bot 建置你的 Discord 伺服器｜賴奕帆的文章分享卡（標籤：Discord、OuO Bot、教學）">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="從零使用 OuO Bot 建置你的 Discord 伺服器">
+  <meta name="twitter:description" content="以虛構的「星期三咖啡館」為例，從邀請機器人開始，依序設定驗證、歡迎、身份組、成員管理、工單、動態語音與抽獎投票，一步步建置完整的 Discord 伺服器。">
+  <meta name="twitter:image" content="https://me.asdtw.org/images/og/build-discord-server-with-ouo-bot.jpg">
+  <meta name="twitter:image:alt" content="從零使用 OuO Bot 建置你的 Discord 伺服器｜賴奕帆的文章分享卡（標籤：Discord、OuO Bot、教學）">
+  <meta property="article:published_time" content="2026-11-11">
+  <meta property="article:author" content="https://me.asdtw.org/about.html">
+  <meta property="article:tag" content="Discord">
+  <meta property="article:tag" content="OuO Bot">
+  <meta property="article:tag" content="教學">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"從零使用 OuO Bot 建置你的 Discord 伺服器","description":"以虛構的「星期三咖啡館」為例，從邀請機器人開始，依序設定驗證、歡迎、身份組、成員管理、工單、動態語音與抽獎投票，一步步建置完整的 Discord 伺服器。","datePublished":"2026-11-11","dateModified":"2026-11-11","inLanguage":"zh-Hant-TW","image":["https://me.asdtw.org/images/og/build-discord-server-with-ouo-bot.jpg"],"keywords":"Discord、OuO Bot、教學","mainEntityOfPage":"https://me.asdtw.org/articles/build-discord-server-with-ouo-bot.html","author":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/about.html"},"publisher":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/"}}</script>
+  
+    <link rel="icon" href="../assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="expect" href="#page-end" blocking="render">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  </head>
+<body>
+  <a class="skip" href="#main">跳到主要內容</a>
+  <header data-site-header></header>
+
+  <main id="main">
+        <article class="article" data-slug="build-discord-server-with-ouo-bot">
+
+      <header class="article-head">
+                <p class="article-tags">
+          <a class="tag" href="../articles.html?tag=Discord">Discord</a>
+          <a class="tag" href="../articles.html?tag=OuO%20Bot">OuO Bot</a>
+          <a class="tag" href="../articles.html?tag=教學">教學</a>
+        </p>
+        <h1>從零使用 OuO Bot 建置你的 Discord 伺服器</h1>
+                <p class="article-summary">跟著虛構的「星期三咖啡館」，一步步用 OuO Bot 把空伺服器蓋到可以正式營運。</p>
+        <p class="article-meta">
+          <time datetime="2026-11-11">2026 年 11 月 11 日</time>
+          <span aria-hidden="true">·</span>
+          <span>閱讀約 16 分鐘</span>
+        </p>
+      </header>
+
+            <figure class="article-cover">
+        <img src="../images/articles/build-discord-server-with-ouo-bot/cover.webp" alt="示意圖：OuO Bot 從零建置 Discord 伺服器" width="1600" height="900">
+        <figcaption>示意圖：OuO Bot 從零建置 Discord 伺服器</figcaption>
+      </figure>
+
+            <div class="prose">
+
+        <p>剛開一個 Discord 伺服器時，要做的事比想像中多：新成員要先驗證，進來要有人歡迎，身份組要讓大家自己領，出了問題要有地方回報，活動還需要抽獎與投票。這些事常常得靠好幾個機器人拼湊，每個機器人又有各自的設定方式。</p>
+
+        <p>這篇文章用一個機器人 OuO Bot，從一個空的伺服器開始，一步一步蓋到可以正式營運。故事裡的伺服器是虛構的「星期三咖啡館」，是一個給咖啡同好聊天、分享的社群；文中的成員、對話與數字都是範例。</p>
+
+        <p>整篇依「蓋伺服器的順序」分成七個階段，每個階段只用到少數幾個功能。不需要一次全部設定，可以從目錄直接跳到需要的段落。</p>
+
+        <div class="callout">
+          <p class="callout-title">關於圖片</p>
+          <p>文中所有圖片都是示意圖，用來說明功能的樣子與流程，實際畫面可能與圖中略有落差，請以機器人實際顯示為準。</p>
+        </div>
+
+        <div class="callout">
+          <p class="callout-title">本文目錄</p>
+          <ol>
+            <li><a href="#s1">前置準備：邀請機器人</a></li>
+            <li><a href="#s2">前置準備：把機器人的身份組往上拖</a></li>
+            <li><a href="#s3">前置準備：認識 setup 面板</a></li>
+            <li><a href="#s4">一、打地基：整理頻道與身份組</a></li>
+            <li><a href="#s5">二、大門：驗證與歡迎</a></li>
+            <li><a href="#s6">三、讓成員自己領身份組</a></li>
+            <li><a href="#s7">四、守住安全：成員管理與操作紀錄</a></li>
+            <li><a href="#s8">五、服務成員：工單、回報、評價與匿名</a></li>
+            <li><a href="#s9">六、經營社群：讓頻道保持活力</a></li>
+            <li><a href="#s10">七、辦活動：抽獎、投票與其他</a></li>
+            <li><a href="#s11">結語：把整座咖啡館蓋起來</a></li>
+          </ol>
+        </div>
+
+        <h2 id="s1">前置準備：邀請機器人</h2>
+
+        <p>OuO Bot 的邀請連結已經授予管理員權限，所以不需要再一項一項勾選權限，也不容易因為缺少權限而遇到錯誤。邀請連結放在文章最後的結語，點開之後：</p>
+
+        <ol>
+          <li>登入 Discord，選擇要加入的伺服器（需要有該伺服器的「管理伺服器」權限）。</li>
+          <li>確認授權內容，按下「授權」。</li>
+          <li>機器人加入後，會出現在成員清單裡。</li>
+        </ol>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/01-invite.webp" alt="示意圖：邀請機器人時選擇伺服器並授權" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：邀請機器人時選擇伺服器並授權</figcaption>
+        </figure>
+
+        <h2 id="s2">前置準備：把機器人的身份組往上拖</h2>
+
+        <p>這是新手最常遇到的第一個問題，值得單獨說明。</p>
+
+        <p>Discord 規定，機器人只能管理「身份組位置比自己低」的成員與身份組。如果機器人的身份組排在最下面，之後踢出成員、給予身份組、移動語音成員都可能失敗。</p>
+
+        <p>做法：開啟「伺服器設定 → 身份組」，把 OuO Bot 的身份組往上拖，放在你要管理的所有身份組上方（通常只在伺服器擁有者與管理員身份組之下）。</p>
+
+        <div class="callout">
+          <p class="callout-title">之後設定的任何身份組也一樣</p>
+          <p>之後建立的「已驗證」「新成員」等身份組，都要放在 OuO Bot 的身份組下方，機器人才能把它們發給成員。</p>
+        </div>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/02-role-order.webp" alt="示意圖：身份組清單中，機器人的身份組排在要管理的身份組上方" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：身份組清單中，機器人的身份組排在要管理的身份組上方</figcaption>
+        </figure>
+
+        <h2 id="s3">前置準備：認識 setup 面板</h2>
+
+        <p>OuO Bot 的功能大多用同一種方式設定：輸入 <code>/功能名 setup</code>，例如 <code>/verify setup</code>、<code>/ticket setup</code>，就會跳出一個<strong>只有自己看得到</strong>的設定面板。面板上用選單選頻道與身份組、用按鈕切換選項，不需要記任何參數。</p>
+
+        <p>幾個共通的特點：</p>
+
+        <ul>
+          <li>設定面板需要管理員權限，其他成員看不到。</li>
+          <li>面板會即時提示問題，例如「機器人在這個頻道缺少某某權限」，照著提示處理即可。</li>
+          <li>面板閒置一段時間會失效，重新輸入指令就能再開。</li>
+        </ul>
+
+        <p>想知道有哪些指令，可以輸入 <code>/help</code>，指令會依功能分類列出。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/03-setup-panel.webp" alt="示意圖：設定面板只有執行指令的人看得到，用選單與按鈕操作" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：設定面板只有執行指令的人看得到，用選單與按鈕操作</figcaption>
+        </figure>
+
+        <h2 id="s4">一、打地基：整理頻道與身份組</h2>
+
+        <p>「星期三咖啡館」剛建好時，只有預設的一堆頻道。第一件事是把結構整理好，OuO Bot 有三個指令處理這件事。</p>
+
+        <h3>頻道改名：<code>/rename</code></h3>
+
+        <p>選擇頻道並輸入新名稱，就能改名。Discord 限制每個頻道 10 分鐘內只能改名 2 次，超過時新名稱會在限制解除後自動套用。</p>
+
+        <h3>同步類別權限：<code>/syncat</code></h3>
+
+        <p>在類別上設定好權限後，用 <code>/syncat</code> 選擇類別，就會把類別內所有頻道的權限同步成與類別一致。適合「設定一次，整個類別一起生效」。</p>
+
+        <h3>批量給身份組：<code>/allrole</code></h3>
+
+        <p>選擇要「給予」或「移除」，對象可選全部成員、只有真人、只有機器人，再選身份組，就會一次處理完。成員很多時需要一些時間，過程中如果有人沒處理成功，會告訴你剩下幾位，調整後可以再執行一次。</p>
+
+        <p>例如，咖啡館想給所有現有成員一個「咖啡館居民」身份組，就能用 <code>/allrole</code> 一次完成。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/04-category.webp" alt="示意圖：用 /syncat 把類別權限同步到底下所有頻道" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：用 /syncat 把類別權限同步到底下所有頻道</figcaption>
+        </figure>
+
+        <h2 id="s5">二、大門：驗證與歡迎</h2>
+
+        <p>頻道整理好，就該決定「誰可以進來」。</p>
+
+        <h3>驗證系統</h3>
+
+        <p>輸入 <code>/verify setup</code>，依面板上的三個步驟設定：</p>
+
+        <ol>
+          <li>選擇<strong>已驗證身份組</strong>（必填）：通過驗證的成員會拿到它。</li>
+          <li>選擇<strong>驗證方式</strong>：「按鈕驗證」是按一下就通過，適合只想擋掉機器人帳號；「驗證碼」要輸入正確的驗證碼，例如寫在規則頻道裡，可以確保成員有看過規則。</li>
+          <li>到要放驗證訊息的頻道，按「在此頻道傳送驗證訊息」。</li>
+        </ol>
+
+        <p>另外有兩個選填項目：<strong>未驗證身份組</strong>（成員加入時給予，通過後移除），以及<strong>驗證紀錄頻道</strong>（記錄誰完成了驗證）。驗證訊息的標題與說明也能自行編輯。</p>
+
+        <div class="callout">
+          <p class="callout-title">讓驗證真正有作用</p>
+          <p>建議設定：讓 <code>@everyone</code> 看不到大部分頻道，只有「已驗證」身份組看得到。這樣新成員必須先驗證，才能使用伺服器。另外，機器人的身份組必須高於已驗證身份組。</p>
+        </div>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/05-verify.webp" alt="示意圖：新成員按下驗證按鈕，取得已驗證身份組" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：新成員按下驗證按鈕，取得已驗證身份組</figcaption>
+        </figure>
+
+        <h3>歡迎與離開訊息</h3>
+
+        <p>驗證完成後，用 <code>/welcome setup</code> 設定歡迎訊息：選擇要傳送的頻道，再編輯訊息內容。訊息可以使用變數：</p>
+
+        <ul>
+          <li><code>{@user}</code>：標註成員</li>
+          <li><code>{user}</code>：使用者名稱</li>
+          <li><code>{name}</code>：成員在伺服器中的顯示名稱</li>
+          <li><code>{guild}</code>：伺服器名稱</li>
+          <li><code>{count}</code>：目前成員數</li>
+        </ul>
+
+        <p>預設訊息是「<code>{@user}</code> 加入了 <code>{guild}</code>」。面板會顯示以你為範例的預覽，也能按「傳送測試訊息」實際送一則看看。想要成員被標註時不收到通知，可以關閉「通知新成員」。</p>
+
+        <p>成員離開時的訊息用 <code>/leave setup</code>，設定方式相同。</p>
+
+        <h3>自動給身份組</h3>
+
+        <p><code>/welcome role</code> 可以設定成員加入時自動拿到的身份組，真人與機器人可以分別設定，各最多 5 個。如果伺服器有開啟 Discord 的「規則篩選」，建議開啟「等待規則篩選」，成員通過規則後才給身份組。</p>
+
+        <h3>看成員流動</h3>
+
+        <p><code>/show</code> 可以查看成員流動統計，能切換最近 7、14、30 天。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/06-welcome.webp" alt="示意圖：歡迎訊息、離開訊息與自動身份組的設定" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：歡迎訊息、離開訊息與自動身份組的設定</figcaption>
+        </figure>
+
+        <h2 id="s6">三、讓成員自己領身份組</h2>
+
+        <p>伺服器要分顏色、分興趣、訂閱通知時，與其由管理員一個一個發，不如讓成員自己按表情領取。</p>
+
+        <p>最簡單的做法：</p>
+
+        <ol>
+          <li>先傳一則說明訊息，例如「想要哪個身份組就按對應的表情」。</li>
+          <li>在那則訊息上按右鍵 →「應用程式」→「設定反應身份組」（手機版是長按訊息）。</li>
+          <li>在面板選擇身份組，按「設定表情」並輸入表情，送出。</li>
+          <li>重複步驟 3，一則訊息可以設定多組。</li>
+        </ol>
+
+        <p>機器人會自己先按上那個表情，成員跟著按就會拿到身份組，取消反應就會移除。</p>
+
+        <p>也可以用 <code>/role add</code> 直接新增一組，或用 <code>/role remove</code> 移除；<code>/role setup</code> 會列出伺服器裡所有的反應身份組。</p>
+
+        <p>整則訊息共用一種<strong>發放模式</strong>：</p>
+
+        <table>
+          <thead><tr><th>模式</th><th>適合情境</th></tr></thead>
+          <tbody>
+            <tr><td>按下給、取消移除（預設）</td><td>顏色、通知訂閱</td></tr>
+            <tr><td>只給不移除</td><td>同意規則、一次性領取</td></tr>
+            <tr><td>單選互斥</td><td>只能選一個的顏色或分組</td></tr>
+          </tbody>
+        </table>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/07-reaction-role.webp" alt="示意圖：按下表情取得身份組，取消反應則移除" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：按下表情取得身份組，取消反應則移除</figcaption>
+        </figure>
+
+        <h2 id="s7">四、守住安全：成員管理與操作紀錄</h2>
+
+        <p>社群開始有人之後，就需要處理違規成員，並留下紀錄。</p>
+
+        <h3>成員管理</h3>
+
+        <p>OuO Bot 提供常用的管理指令：</p>
+
+        <ul>
+          <li><code>/kick</code>：踢出成員</li>
+          <li><code>/ban</code>：封禁使用者</li>
+          <li><code>/timeout</code>、<code>/untimeout</code>：禁言與解除禁言</li>
+          <li><code>/clear</code>：批量刪除訊息，一次可刪 1 到 1000 則</li>
+        </ul>
+
+        <p><code>/kick</code> 與 <code>/ban</code> 在執行前會要求再按一次確認，避免誤按。確認與錯誤訊息只有執行的人看得到，成功後才會在頻道貼出處理卡片。</p>
+
+        <p>也可以在成員上按右鍵 →「應用程式」→「管理成員」，開啟一個集中顯示成員資訊與管理按鈕的面板。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/08-moderation.webp" alt="示意圖：用 /clear 批量刪除訊息，成功後公開貼出處理卡片" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：用 /clear 批量刪除訊息，成功後公開貼出處理卡片</figcaption>
+        </figure>
+
+        <h3>操作紀錄</h3>
+
+        <p>管理動作多了，就需要有跡可循。<code>/log setup</code> 可以為三種紀錄各自選擇紀錄頻道：</p>
+
+        <ul>
+          <li><strong>管理操作</strong>：<code>/kick</code>、<code>/ban</code>、<code>/timeout</code>、<code>/clear</code>、<code>/allrole</code> 與「管理成員」面板的處理紀錄</li>
+          <li><strong>語音進出</strong>：成員加入、離開、移動語音頻道</li>
+          <li><strong>身份組變更</strong>：身份組的名稱、顏色、權限等變更</li>
+        </ul>
+
+        <p>三種紀錄可以送到同一個頻道，也可以分開。建議把紀錄頻道設成只有管理團隊看得到。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/09-log.webp" alt="示意圖：管理操作、語音進出、身份組變更各自記錄到指定頻道" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：管理操作、語音進出、身份組變更各自記錄到指定頻道</figcaption>
+        </figure>
+
+        <h2 id="s8">五、服務成員：工單、回報、評價與匿名</h2>
+
+        <p>伺服器變大後，成員會有各種需求。這一階段的四個功能，分別處理不同性質的需求。</p>
+
+        <h3>工單：一對一的私人協助</h3>
+
+        <p>成員有問題需要客服處理時，用工單最合適。輸入 <code>/ticket setup</code> 設定：</p>
+
+        <ul>
+          <li><strong>工單頻道</strong>：私人討論串會開在這個頻道裡。</li>
+          <li><strong>預設客服身份組</strong>：可以不選。</li>
+          <li><strong>紀錄頻道</strong>：可以不選，不選就不傳送紀錄。</li>
+          <li><strong>每人可開張數</strong>：1 到 5 張。</li>
+          <li><strong>工單類型</strong>：例如「一般問題」「合作洽談」，每種類型可以有自己的客服身份組與圖示。有兩種以上類型時，成員開單要先選類型。</li>
+        </ul>
+
+        <p>設定完成後按「張貼開單面板」，就會在工單頻道放上有「開啟工單」按鈕的訊息。</p>
+
+        <p>成員按下按鈕、填寫主題與內容後，機器人會開一個<strong>私人討論串</strong>，只有開單者、客服身份組與有「管理討論串」權限的人看得到。討論串裡有工單卡片，上面有「結案」與「管理成員」按鈕：開單者與客服都能結案，只有客服可以拉人進出，也只有客服可以重新開啟已結案的工單。結案時，結案卡片會送到紀錄頻道，並私訊給開單者。</p>
+
+        <p>成員開單後 30 秒內不能再開，避免重複洗單。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/10-ticket.webp" alt="示意圖：成員按按鈕開單，機器人建立私人討論串" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：成員按按鈕開單，機器人建立私人討論串</figcaption>
+        </figure>
+
+        <h3>回報：檢舉與意見</h3>
+
+        <p>回報與工單的差別在於：回報是「單向通知管理團隊」，不需要來回溝通。輸入 <code>/report setup</code>，設定回報頻道與（選填）通知身份組，再決定「處理後是否通知回報者」，然後張貼回報按鈕（預設標題是「回報中心」）。</p>
+
+        <p>成員按下按鈕會看到表單：主題、回報對象（選填，可選擇要檢舉的成員）、內容與附件。送出後，內容會送到回報頻道，管理員可以直接在回報上標記「處理中」「已處理」「駁回」。成員每 60 秒最多送出一次回報。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/11-report.webp" alt="示意圖：成員填表回報，管理員標記處理狀態" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：成員填表回報，管理員標記處理狀態</figcaption>
+        </figure>
+
+        <h3>評價：讓成員留下公開回饋</h3>
+
+        <p>適合交易、委託、活動這類需要累積口碑的社群。輸入 <code>/comment setup</code>：</p>
+
+        <ul>
+          <li>選擇<strong>評價頻道</strong>：評價會以成員的名稱與頭像出現在這裡。</li>
+          <li>設定<strong>評價資格</strong>：選擇一個身份組，只有擁有它的成員才能評價；不選則所有成員都能評價，但每人每 24 小時限一則。</li>
+          <li>設定資格身份組時，可按「建立『未評價』身份組」，並決定送出評價後是否移除該身份組。</li>
+        </ul>
+
+        <p>最後按「在這個頻道張貼評價按鈕」，成員也可以直接輸入 <code>/comment send</code>。</p>
+
+        <p>評價表單包含 1 到 5 顆星、評價項目與心得內容。例如咖啡館完成一次豆子團購後，管理員把「未評價」身份組發給參與者，他們評價完身份組就會被移除。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/12-comment.webp" alt="示意圖：成員填寫星等與心得，評價顯示在評價頻道" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：成員填寫星等與心得，評價顯示在評價頻道</figcaption>
+        </figure>
+
+        <h3>匿名訊息：說出不方便署名的話</h3>
+
+        <p>輸入 <code>/anony setup</code>，選擇匿名訊息要送達的頻道，再設定兩件事：</p>
+
+        <ul>
+          <li><strong>匿名編號方式</strong>：「每則訊息隨機編號」看不出是不是同一人；「每天固定編號」同一天同一位成員的編號相同，比較好跟上對話。</li>
+          <li><strong>發送間隔</strong>：每位成員每隔多久最多一則。</li>
+        </ul>
+
+        <p>成員用 <code>/anony send</code> 開啟表單傳送，訊息會以「匿名使用者」的身分出現在頻道。</p>
+
+        <p>遇到濫用時，管理員可以對匿名訊息按右鍵 →「應用程式」→「Block Anony Sender」封鎖發送者，過程中不會看到對方是誰。</p>
+
+        <div class="callout">
+          <p class="callout-title">關於匿名</p>
+          <p>匿名是對其他成員與管理員而言。依機器人設定面板上的說明，為了處理違反 Discord 規範的內容，OuO Bot 開發團隊會保留匿名訊息的發送紀錄。</p>
+        </div>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/13-anony.webp" alt="示意圖：匿名訊息與封鎖濫用者的流程" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：匿名訊息與封鎖濫用者的流程</figcaption>
+        </figure>
+
+        <h2 id="s9">六、經營社群：讓頻道保持活力</h2>
+
+        <p>基本結構穩定後，可以開始經營日常。</p>
+
+        <h3>指令頻道：讓機器人指令不洗版</h3>
+
+        <p>有些頻道專門讓成員使用機器人指令，用久了訊息會堆成一堆。輸入 <code>/command setup</code>，選擇頻道，再設定：</p>
+
+        <ul>
+          <li><strong>保留時間</strong>：從 10 秒到 1 天，多個檔位可選。</li>
+          <li><strong>刪除對象</strong>：所有訊息、只刪除成員的訊息、或只刪除機器人的訊息。</li>
+        </ul>
+
+        <p>按「設為指令頻道」就會生效；也可以按「在頻道張貼說明」，讓成員知道這個頻道的訊息會自動消失。釘選的訊息不會被刪除，設定前就存在的訊息與討論串也不受影響。每個伺服器可以設定多個指令頻道。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/14-command-channel.webp" alt="示意圖：指令頻道的訊息到時間後自動批次刪除" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：指令頻道的訊息到時間後自動批次刪除</figcaption>
+        </figure>
+
+        <h3>動態語音：進頻道就有自己的房間</h3>
+
+        <p>固定開很多語音頻道，常常有的擠、有的空。動態語音只需要一個「觸發頻道」：成員加入後，機器人會自動建立一個屬於他的語音頻道，把他移進去；頻道沒人時就自動刪除。</p>
+
+        <p>輸入 <code>/dvc setup</code>，可以按「自動建立觸發頻道」，或選擇現有的頻道設為觸發頻道，再設定：</p>
+
+        <ul>
+          <li>新頻道建立在哪個類別</li>
+          <li>新頻道的人數上限</li>
+          <li>頻道名稱，預設是「┣ {user} 的頻道」，<code>{user}</code> 會換成成員名稱</li>
+        </ul>
+
+        <p>每個伺服器最多 5 個觸發頻道。機器人建立頻道後，會在頻道的文字聊天室放上控制面板，擁有者可以改名、設定人數上限、上鎖或解鎖、轉移擁有權、解散頻道。擁有者離開但頻道還有人時，擁有權會自動轉給頻道裡的其他成員。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/15-dvc.webp" alt="示意圖：加入觸發頻道後自動建立個人語音頻道與控制面板" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：加入觸發頻道後自動建立個人語音頻道與控制面板</figcaption>
+        </figure>
+
+        <h3>投稿評分：讓社群用投票篩出好內容</h3>
+
+        <p>適合作品展示、迷因、建議箱這類頻道。輸入 <code>/showcase setup</code>，選擇<strong>投稿頻道</strong>，之後在這裡傳送的新貼文，機器人都會自動加上「贊成」與「反對」兩個表情（預設是 👍 與 👎）。</p>
+
+        <p>還能設定：</p>
+
+        <ul>
+          <li><strong>自動開討論串</strong>：每則貼文開一個「討論串 #N」，N 在各伺服器內各自遞增。</li>
+          <li><strong>精選頻道與門檻</strong>：得分（贊成減反對）達到門檻時，貼文會轉發到精選頻道，每則只轉一次。</li>
+        </ul>
+
+        <p>成員可以用 <code>/showcase top</code> 查看排行（可選最近 24 小時、7 天、30 天或全部），用 <code>/showcase stats</code> 查看成員的投稿統計。</p>
+
+        <p>贊成與反對是互斥的：投了一邊，另一邊就會被移除。這需要機器人在頻道有「管理訊息」權限；管理員身份下通常已具備。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/16-showcase.webp" alt="示意圖：貼文自動加上投票表情，得分達門檻後轉發到精選頻道" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：貼文自動加上投票表情，得分達門檻後轉發到精選頻道</figcaption>
+        </figure>
+
+        <h3>公告：用嵌入訊息排版</h3>
+
+        <p>規則、活動公告通常需要比較好看的格式。直接輸入 <code>/embed</code>（不帶參數），會開啟只有自己看得到的產生器：</p>
+
+        <ol>
+          <li>按「編輯文字」填寫標題與內容，支援 Discord 的 Markdown。</li>
+          <li>按「顏色與圖片」設定顏色（16 進位色碼）、大圖與縮圖網址。</li>
+          <li>一邊預覽，滿意後選擇要送到的頻道，按「送出」。</li>
+        </ol>
+
+        <p>已經送出的嵌入訊息，也能在訊息上按右鍵 →「應用程式」→「編輯嵌入訊息」修改。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/17-embed.webp" alt="示意圖：/embed 產生器可以預覽、調整樣式並選擇送出頻道" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：/embed 產生器可以預覽、調整樣式並選擇送出頻道</figcaption>
+        </figure>
+
+        <h2 id="s10">七、辦活動：抽獎、投票與其他</h2>
+
+        <p>社群有了基本的人氣，就可以辦活動了。</p>
+
+        <h3>抽獎</h3>
+
+        <p>輸入 <code>/giveaway</code> 開啟控制面板，建立、開獎、取消、重新抽獎、查看與刪除紀錄都在這裡。有兩種模式：</p>
+
+        <ul>
+          <li><strong>按鈕抽獎</strong>：成員按「參加抽獎」參加，再按一次可以退出。</li>
+          <li><strong>發言抽獎</strong>：統計指定頻道在一段期間內發言的成員，同一人發言多次只算一次，開始時間可以填過去的時間（最多往前 30 天）。</li>
+        </ul>
+
+        <p>得獎人數可設 1 到 20 人。時間可以用 <code>1d</code>、<code>2h30m</code>、<code>明天 21:00</code> 這類寫法，一律當成臺灣時間，最長可設定到 60 天後。到了開獎時間，機器人會自動開獎。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/18-giveaway.webp" alt="示意圖：按鈕抽獎，時間到自動開獎並公布得獎者" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：按鈕抽獎，時間到自動開獎並公布得獎者</figcaption>
+        </figure>
+
+        <h3>投票</h3>
+
+        <p>要決定下次活動辦什麼、頻道怎麼分，用投票最直接。輸入 <code>/vote</code> 開啟控制面板發起投票：</p>
+
+        <ul>
+          <li><strong>選項</strong>：2 到 25 個，用逗號或換行分隔。</li>
+          <li><strong>截止時間</strong>：例如 <code>1d</code>、<code>明天 21:00</code>，時間到自動結束，也可以不填、改成手動結束。</li>
+          <li><strong>進階選項</strong>：可以複選、結束前隱藏結果、記名投票。記名投票會在訊息上註明，只有發起人與管理員能查看誰投了什麼。</li>
+        </ul>
+
+        <p>有「管理訊息」權限的人可以管理所有投票，其他成員只能管理自己發起的，同時最多 10 個進行中。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/19-vote.webp" alt="示意圖：投票顯示各選項票數與百分比" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：投票顯示各選項票數與百分比</figcaption>
+        </figure>
+
+        <h3>蕃茄鐘：一起專注</h3>
+
+        <p>咖啡館也有人用來讀書、趕作業。<code>/pomodoro setup</code> 提供一鍵開始的專注計時，內建多種工作與休息的組合，例如「經典蕃茄鐘」25 分鐘工作、5 分鐘休息，「深度專注」50 分鐘工作、10 分鐘休息，也可以自訂名稱、小目標、分鐘數與輪數。</p>
+
+        <p>群組與機器人私訊都能使用。在群組裡可以邀請其他成員一起專注、建立討論串，階段切換時機器人會通知並附上小提示；<code>/pomodoro status</code> 可以查看進行中的蕃茄鐘與個人專注統計，<code>/pomodoro stop</code> 可以提前結束。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/20-pomodoro.webp" alt="示意圖：蕃茄鐘計時與階段通知" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：蕃茄鐘計時與階段通知</figcaption>
+        </figure>
+
+        <h3>答案之書：猶豫的時候翻一頁</h3>
+
+        <p>輸入 <code>/choices</code>，可以填入你在猶豫的事，也可以留空在心中默念，機器人會翻開一頁給你答案。同一個人、同一個問題、同一天會翻到同一頁，避免一直重問直到滿意。這是一個適合放在閒聊頻道的小功能。</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/21-choices.webp" alt="示意圖：翻開答案之書得到指引" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：翻開答案之書得到指引</figcaption>
+        </figure>
+
+        <h2 id="s11">結語：把整座咖啡館蓋起來</h2>
+
+        <p>回顧「星期三咖啡館」的建置順序：</p>
+
+        <figure>
+          <img src="../images/articles/build-discord-server-with-ouo-bot/22-summary.webp" alt="示意圖：從邀請機器人到辦活動的建置順序與對應指令" loading="lazy" width="1600" height="900">
+          <figcaption>示意圖：從邀請機器人到辦活動的建置順序與對應指令</figcaption>
+        </figure>
+
+        <table>
+          <thead><tr><th>階段</th><th>做的事</th><th>用到的指令</th></tr></thead>
+          <tbody>
+            <tr><td>前置</td><td>邀請機器人、調整身份組位置</td><td><code>/help</code></td></tr>
+            <tr><td>一</td><td>整理頻道與身份組</td><td><code>/rename</code>、<code>/syncat</code>、<code>/allrole</code></td></tr>
+            <tr><td>二</td><td>驗證、歡迎與自動身份組</td><td><code>/verify setup</code>、<code>/welcome setup</code>、<code>/leave setup</code>、<code>/welcome role</code>、<code>/show</code></td></tr>
+            <tr><td>三</td><td>成員自己領身份組</td><td><code>/role setup</code>、<code>/role add</code></td></tr>
+            <tr><td>四</td><td>成員管理與操作紀錄</td><td><code>/kick</code>、<code>/ban</code>、<code>/timeout</code>、<code>/clear</code>、<code>/log setup</code></td></tr>
+            <tr><td>五</td><td>工單、回報、評價、匿名</td><td><code>/ticket setup</code>、<code>/report setup</code>、<code>/comment setup</code>、<code>/anony setup</code></td></tr>
+            <tr><td>六</td><td>指令頻道、動態語音、投稿評分、公告</td><td><code>/command setup</code>、<code>/dvc setup</code>、<code>/showcase setup</code>、<code>/embed</code></td></tr>
+            <tr><td>七</td><td>抽獎、投票、蕃茄鐘、答案之書</td><td><code>/giveaway</code>、<code>/vote</code>、<code>/pomodoro setup</code>、<code>/choices</code></td></tr>
+          </tbody>
+        </table>
+
+        <p>不必一次全部設定。先做驗證、歡迎與身份組，讓伺服器能安心開放給第一批成員；之後遇到什麼需求，再回到對應的段落加上功能。</p>
+
+        <p>如果想試試看，或在設定時遇到問題，可以透過下面的連結：</p>
+
+        <ul>
+          <li><strong>邀請 OuO Bot</strong>：<a href="https://discord.com/api/oauth2/authorize?client_id=908353654917054515&amp;permissions=8&amp;scope=bot%20applications.commands" target="_blank" rel="noopener">https://discord.com/api/oauth2/authorize?client_id=908353654917054515&amp;permissions=8&amp;scope=bot%20applications.commands</a></li>
+          <li><strong>官方支援群組</strong>：<a href="https://discord.gg/Z5MdYVf8Bt" target="_blank" rel="noopener">https://discord.gg/Z5MdYVf8Bt</a></li>
+          <li><strong>開發者群組</strong>：<a href="https://discord.gg/b8BwFtv3C9" target="_blank" rel="noopener">https://discord.gg/b8BwFtv3C9</a></li>
+        </ul>
+
+      </div>
+    </article>
+
+        <nav data-article-nav aria-label="上一篇與下一篇"></nav>
+    <section data-giscus></section>
+  </main>
+
+  <footer data-site-footer></footer>
+  <script src="../assets/js/site.js"></script>
+  <span id="page-end" hidden></span>
+  </body>
+</html>

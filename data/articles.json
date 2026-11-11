@@ -21,5 +21,17 @@
     ],
     "summary": "賴奕帆分享 116 學年度天主教輔仁大學社會學系特殊選才的簡章時程、面試準備、當天流程與三位教授的提問，以及給之後報名者的建議。",
     "readingTime": 6
+  },
+  {
+    "slug": "build-discord-server-with-ouo-bot",
+    "title": "從零使用 OuO Bot 建置你的 Discord 伺服器",
+    "date": "2026-11-11",
+    "tags": [
+      "Discord",
+      "OuO Bot",
+      "教學"
+    ],
+    "summary": "以虛構的「星期三咖啡館」為例，從邀請機器人開始，依序設定驗證、歡迎、身份組、成員管理、工單、動態語音與抽獎投票，一步步建置完整的 Discord 伺服器。",
+    "readingTime": 16
   }
 ]
