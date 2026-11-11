@@ -78,7 +78,7 @@ bash authoring/sync.sh                # 7. 同步本機與 GitHub
 
 1. `git switch -c content/<slug>`
 2. 照 `authoring/AI-PROMPT.md` 產生 `articles/<slug>.html`，放圖片到 `images/articles/<slug>/`。
-3. 在 `data/articles.json` 新增一筆（`sitemap.xml` 會在 commit 時自動更新）。
+3. 在 `data/articles.json` 新增一筆（`sitemap.xml` 與社群分享圖 `images/og/<slug>.jpg` 會在 commit 時自動產生）。
 4. `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
 5. 要先寫不公開：在 `articles.json` 該筆加 `"draft": true`。
 

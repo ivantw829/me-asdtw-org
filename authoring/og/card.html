@@ -1,0 +1,80 @@
+<!doctype html>
+<!--
+  社群分享圖（1200×630）範本。由 authoring/build-og.py 以無頭 Chrome 截圖，不會部署使用。
+  參數（query string）：kind=site|page|article、eyebrow、title、sub、tags（逗號分隔）、date
+-->
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<title>og card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f8f6ec; --ink:#26281f; --teal:#4a7b7f; --accent:#f2c230; --muted:#6b6254; --soft:#fbeccb; --brown:#8f5500; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; background: var(--bg); }
+  body { font-family: "Noto Sans TC", sans-serif; color: var(--ink); position: relative; }
+
+  /* ---- 右側角色 ---- */
+  .circle { position: absolute; right: 70px; top: 86px; width: 470px; height: 470px; border-radius: 50%; background: var(--teal); }
+  .outline { position: absolute; right: 30px; bottom: 6px; font: 900 190px/1 "Noto Sans TC", sans-serif; color: transparent; -webkit-text-stroke: 3px var(--teal); letter-spacing: 4px; }
+  .hero { position: absolute; right: 62px; bottom: 0; height: 600px; filter: drop-shadow(14px 10px 0 var(--accent)); }
+  .xs { position: absolute; right: 26px; top: 70px; display: grid; gap: 4px; color: var(--accent); font: 700 46px/1 "Noto Sans TC"; }
+  .barcode { position: absolute; right: 360px; top: 52px; width: 120px; height: 56px; opacity: .8;
+    background: repeating-linear-gradient(90deg, var(--ink) 0 3px, transparent 3px 6px, var(--ink) 6px 8px, transparent 8px 12px, var(--ink) 12px 16px, transparent 16px 19px); }
+
+  /* ---- 左側文字 ---- */
+  .left { position: absolute; left: 72px; top: 64px; bottom: 64px; width: 640px; display: flex; flex-direction: column; }
+  .eyebrow { font: 700 26px/1 "Noto Sans TC"; letter-spacing: .18em; color: var(--brown); }
+  .main { margin: auto 0; }
+  .label { display: inline-block; background: var(--ink); color: var(--bg); font: 900 112px/1.15 "Noto Serif TC", serif; letter-spacing: .3em; padding: 0 .12em 0 .22em; }
+  .tagline { display: flex; align-items: center; gap: 18px; margin-top: 26px; font: 700 44px/1.2 "Noto Serif TC", serif; color: var(--muted); }
+  .tagline::before { content: ""; width: 64px; height: 10px; border-radius: 5px; background: var(--ink); }
+  .title { font: 900 76px/1.22 "Noto Serif TC", serif; letter-spacing: .01em; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .title.long { font-size: 60px; }
+  .sub { margin-top: 22px; font: 500 32px/1.5 "Noto Sans TC"; color: var(--muted); }
+  .tags { display: flex; gap: 12px; margin-top: 26px; }
+  .tag { background: var(--soft); color: var(--brown); font: 700 26px/1 "Noto Sans TC"; padding: 11px 22px; border-radius: 999px; }
+  .foot { display: flex; align-items: center; gap: 16px; font: 700 28px/1 "Noto Sans TC"; }
+  .foot .dot { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px var(--soft); }
+  .foot .url { color: var(--muted); font-weight: 500; margin-left: 6px; }
+</style>
+</head>
+<body>
+  <div class="circle"></div>
+  <div class="outline">IVAN</div>
+  <img class="hero" src="../../assets/img/hero.webp" alt="">
+  <div class="xs"><span>×</span><span>×</span><span>×</span></div>
+  <div class="barcode"></div>
+
+  <div class="left">
+    <div class="eyebrow" id="eyebrow"></div>
+    <div class="main" id="main"></div>
+    <div class="foot"><span class="dot"></span><span>賴奕帆</span><span class="url">me.asdtw.org</span></div>
+  </div>
+
+<script>
+  const q = new URLSearchParams(location.search);
+  const kind = q.get('kind') || 'site';
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const title = q.get('title') || '', sub = q.get('sub') || '', date = q.get('date') || '';
+  const tags = (q.get('tags') || '').split(',').filter(Boolean);
+  document.getElementById('eyebrow').textContent = q.get('eyebrow') || (kind === 'site' ? 'HELLO，我是' : '');
+  let html;
+  if (kind === 'site') {
+    html = `<div><span class="label">賴奕帆</span></div><div class="tagline">${esc(title || '多元平權倡議者')}</div>`;
+  } else {
+    const long = title.length > 18;
+    html = `<div class="title${long ? ' long' : ''}">${esc(title)}</div>` +
+      (sub ? `<div class="sub">${esc(sub)}</div>` : '') +
+      (tags.length ? `<div class="tags">${tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : '');
+  }
+  document.getElementById('main').innerHTML = html;
+  if (kind === 'article' && date) {
+    const [y, m, d] = date.split('-');
+    document.getElementById('eyebrow').textContent = `ARTICLE　${y}.${m}.${d}`;
+  }
+</script>
+</body>
+</html>
