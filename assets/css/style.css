@@ -179,6 +179,22 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 .card-cover { aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; width: 100%; background: var(--surface-2); }
 .empty { color: var(--muted); padding: 32px; text-align: center; border: 1.5px dashed var(--line); border-radius: var(--radius); }
 
+/* ---------- 錯誤狀態（404 與資料載入失敗） ---------- */
+.empty .btn { margin-top: 14px; }
+.empty--error { border-style: solid; }
+.empty--error p { margin: 0; }
+.empty--error code { background: var(--surface-2); padding: 1px 6px; border-radius: 6px; }
+
+.err-hero { padding-block: 56px 24px; display: grid; gap: 32px; align-items: center; }
+.err-art { position: relative; isolation: isolate; width: min(100%, 300px); aspect-ratio: 1; margin-inline: auto; display: grid; place-items: center; }
+.err-art::before { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: 50%; background: var(--teal); }
+.err-art::after { content: "×"; position: absolute; right: 2%; top: 4%; color: var(--accent); font: 700 2.4rem/1 var(--font-sans); }
+.err-code {
+  font: 900 clamp(4.2rem, 18vw, 6.4rem)/1 var(--font-sans); letter-spacing: .02em;
+  color: var(--paper); -webkit-text-stroke: 2px var(--ink); text-shadow: 6px 5px 0 var(--accent); user-select: none;
+}
+@media (min-width: 800px) { .err-hero { grid-template-columns: 1fr 1.2fr; } }
+
 /* ---------- Link list ---------- */
 .link-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .link-list a {

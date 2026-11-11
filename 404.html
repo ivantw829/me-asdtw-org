@@ -11,13 +11,37 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
+  <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
-  <main id="main" class="wrap" style="padding-block:96px;text-align:center">
-    <p class="eyebrow">404</p>
-    <h1 class="page-title">找不到這個頁面</h1>
-    <p class="section-sub">網址可能打錯了，或文章已被移除。</p>
-    <a class="btn btn-primary" href="/index.html">回首頁</a>
+  <header data-site-header></header>
+
+  <main id="main">
+    <div class="wrap">
+      <section class="err-hero">
+        <div class="err-art" aria-hidden="true">
+          <span class="err-code">404</span>
+        </div>
+        <div>
+          <p class="eyebrow">PAGE NOT FOUND</p>
+          <h1 class="page-title">找不到這個頁面</h1>
+          <p class="section-sub" data-404-lead>網址可能打錯了，或文章已經改名、被移除。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/index.html">回首頁</a>
+            <a class="btn" href="/articles.html">看全部文章</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-404-suggest hidden>
+        <h2 class="section-title" data-404-suggest-title>最新文章</h2>
+        <div class="grid" data-404-list></div>
+      </section>
+      <noscript><p class="empty">此網站需要 JavaScript 才能顯示完整內容。你也可以寄信到 <a href="mailto:info@asdtw.org">info@asdtw.org</a> 聯絡我。</p></noscript>
+    </div>
   </main>
+
+  <footer data-site-footer></footer>
+  <script src="/assets/js/site.js"></script>
 </body>
 </html>

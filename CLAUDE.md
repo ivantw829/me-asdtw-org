@@ -22,7 +22,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 ## 架構（需要跨檔案才看得懂的部分）
 
-**共用外框由 JS 注入。** 每個 HTML 只放空的 `<header data-site-header>`、`<footer data-site-footer>`，由 `assets/js/site.js` 填入導覽與頁尾。導覽項目（`nav`）、頁尾社群連結（`links`）與友站（`friends`）、`email`、`giscus`、成年確認記憶天數（`ageGate`）都在 `site.js` 最上方的 `SITE` 物件。`site.js` 用自己的 `<script src>` 位置推算站台根目錄 `BASE`，所以同一份導覽在根目錄與 `articles/` 內都能用；新增站內連結時請沿用 `BASE`，不要寫死絕對路徑（`404.html` 例外，它用 `/` 開頭的路徑且不載入 `site.js`）。
+**共用外框由 JS 注入。** 每個 HTML 只放空的 `<header data-site-header>`、`<footer data-site-footer>`，由 `assets/js/site.js` 填入導覽與頁尾。導覽項目（`nav`）、頁尾社群連結（`links`）與友站（`friends`）、`email`、`giscus`、成年確認記憶天數（`ageGate`）都在 `site.js` 最上方的 `SITE` 物件。`site.js` 用自己的 `<script src>` 位置推算站台根目錄 `BASE`，所以同一份導覽在根目錄與 `articles/` 內都能用；新增站內連結時請沿用 `BASE`，不要寫死絕對路徑（`404.html` 例外，它用 `/` 開頭的路徑，因為會在任意深度的網址下顯示；它也載入 `site.js`，由 `data-404-suggest` 掛載點依網址猜文章）。
 
 **列表由 JSON 驅動。** `data/articles.json`（文章清單，首頁最新 3 篇與 `articles.html` 的標籤篩選都讀它；`draft: true` 會隱藏）與 `data/timeline.json`（`timeline.html`，依年份分組；選填 `url` 會把標題變成連結）都在 `site.js` 內用 `data-*` 屬性當掛載點渲染。文章頁本身是手寫的 HTML，上一篇／下一篇依 `<article data-slug>` 比對 JSON 產生。
 
@@ -58,3 +58,5 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 - 公開網站不放：感情與性傾向等私人資料、未經同意的第三人全名（例如小論文共同作者）、特殊選才申請的細節（除非站長主動要求）。
 - 站長發言的聲明「個人發言僅代表個人立場，與所屬團體無關」固定顯示在頁尾，不要移除。
 - 排版：全形標點，中文與英數之間加半形空格，引號用「」。
+
+- 錯誤狀態：GitHub Pages 只能自訂 `404.html`。資料載入失敗一律走 `site.js` 的 `renderError`（附重試，`file://` 才顯示預覽提示）；靠 JS 渲染的頁面（index／articles／timeline／404）必須有 `<noscript>` 後備，`check.py` 會驗證。
