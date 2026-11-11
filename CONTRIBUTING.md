@@ -89,6 +89,7 @@ bash authoring/publish.sh 原稿.md 圖片資料夾
 - **18+ 文章**：frontmatter 寫 `adult: true`。
 - 只想產生不上線：`python3 authoring/md2article.py 原稿.md --images 圖片資料夾`，之後自己 `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
 - **訂閱源**：`feed.xml`（Atom，只放標題、摘要與連結）由 `build-feed.py` 產生，commit 時自動更新；草稿與 18+ 不會出現。
+- **CSS／JS 版本碼**：頁面引用 `style.css`／`site.js` 的 `?v=` 由 `build-assets.py` 依檔案內容自動更新，commit 時自動處理，部署後回訪者不會再看到舊樣式。
 - 上線驗證可單獨跑：`python3 authoring/verify-live.py <slug>`。
 - **IndexNow**：合併到 `main` 且有 `articles/*.html` 變動時，GitHub Action 會等頁面上線後通知 Bing 等搜尋引擎（排除草稿與 18+）。手動補送所有文章：Actions → IndexNow → Run workflow。Google 不支援 IndexNow，靠 sitemap。
 
