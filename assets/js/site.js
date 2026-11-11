@@ -28,6 +28,7 @@ const SITE = {
     { label: "不是社工的社工", href: "https://www.youtube.com/@nonsocialworker" },
     { label: "社團法人臺灣障礙青年協會", href: "https://tywd.org/" },
     { label: "時代力量", href: "https://newpowerparty.tw/" },
+    { label: "臺灣綠黨", href: "https://www.greenparty.org.tw/" },
     { label: "台灣前進陣線", href: "https://taiwangogo.tw/" },
   ],
   email: "ouob@duck.com",
