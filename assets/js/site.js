@@ -129,19 +129,24 @@ const SITE = {
   const listEl = document.querySelector("[data-article-list]");
   if (listEl) {
     const filterEl = document.querySelector("[data-category-filter]");
-    let active = new URLSearchParams(location.search).get("category") || "";
+    const qs = new URLSearchParams(location.search);
+    let active = qs.get("category") || "";
+    let activeTag = qs.get("tag") || "";  // 副標籤：從文章頁點進來才會有，不放在篩選列
     const run = () => loadArticles().then((list) => {
       const render = () => {
-        const shown = active ? list.filter((a) => a.category === active) : list;
-        listEl.innerHTML = shown.length ? shown.map(card).join("") : '<div class="empty"><p>這個分類目前沒有文章。</p><button type="button" class="btn" data-clear>清除篩選</button></div>';
+        const shown = list.filter((a) => (!active || a.category === active) && (!activeTag || (a.tags || []).includes(activeTag)));
+        listEl.innerHTML = shown.length ? shown.map(card).join("") : '<div class="empty"><p>目前沒有符合的文章。</p><button type="button" class="btn" data-clear>清除篩選</button></div>';
         const clear = listEl.querySelector("[data-clear]");
-        if (clear) clear.addEventListener("click", () => { active = ""; render(); });
-        filterEl && filterEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.cat || "") === active)));
+        if (clear) clear.addEventListener("click", () => { active = ""; activeTag = ""; render(); });
+        filterEl && filterEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(!b.dataset.tagchip && (b.dataset.cat || "") === active && !activeTag)));
+        const old = filterEl && filterEl.querySelector("[data-tagchip]");
+        if (old) old.remove();
+        if (filterEl && activeTag) filterEl.insertAdjacentHTML("beforeend", `<button type="button" class="tag" data-tagchip="1" aria-pressed="true">標籤：${esc(activeTag)} ✕</button>`);
       };
       if (filterEl) {
         const cats = [...new Set(list.map((a) => a.category).filter(Boolean))];
         filterEl.innerHTML = [""].concat(cats).map((t) => `<button type="button" class="tag" data-cat="${esc(t)}">${t ? esc(t) : "全部"}</button>`).join("");
-        if (!filterEl.dataset.bound) { filterEl.dataset.bound = "1"; filterEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; active = b.dataset.cat || ""; render(); }); }
+        if (!filterEl.dataset.bound) { filterEl.dataset.bound = "1"; filterEl.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; active = b.dataset.cat || ""; activeTag = ""; render(); }); }
       }
       render();
     }).catch(() => { cache = null; renderError(listEl, "文章清單", run); });
