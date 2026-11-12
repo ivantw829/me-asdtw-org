@@ -57,7 +57,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 - 本機 hooks 在 `.githooks/`，**每個 clone 要自己啟用**：`git config core.hooksPath .githooks`。pre-commit 會拒絕在 `main` 上提交、自動重建並 stage `sitemap.xml`、補缺少或過期的分享圖（需 Chrome，沒有需要時不會啟動）、再執行 `check.py`；pre-push 拒絕推 `main`（緊急用 `ALLOW_MAIN_COMMIT=1` / `ALLOW_MAIN_PUSH=1`）。
 - 提交信箱使用 GitHub noreply 位址（repo local config）。推送會動到 `.github/workflows/` 時，`gh` 的 token 需要 `workflow` scope。
 - Dependabot 每月只對 GitHub Actions 開 PR，標題前綴固定為 `ci(deps):` 才能通過 `pr-title` 檢查；CI 在 PR 上用新版本實際執行，所以通過即可直接合併。
-- 兩個 PR 都改到 `data/articles.json` 與 `sitemap.xml` 時容易衝突；先合併其中一個，另一個從最新 `main` 重新套用變更（`strict` 保護要求 PR 分支包含最新 `main`）。
+- 多個工作區／分支並行時，產物檔案（各頁 `?v=` 版本碼、`sitemap.xml`、`feed.xml`、`images/og/.manifest.json`）會互相衝突。`ship.sh` 推送前與等待 CI 期間（分支落後 `main`）會呼叫 `authoring/merge-main.py`：把 `origin/main` 併入並自動解決這類衝突、重建產物；只有真正的內容衝突（例如兩邊都改 `data/articles.json` 同一處）才中止並列出檔案，需手動處理。手動開 PR 時可自己跑 `python3 authoring/merge-main.py`。
 
 ## 內容守則（來自站長的明確決定）
 

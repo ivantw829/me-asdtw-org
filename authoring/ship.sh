@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 一鍵發布：開分支 → 檢查並提交 → 推送 → 開 PR → 等 CI 通過後自動 squash merge → 同步本機。
+# 一鍵發布：開分支 → 檢查並提交 → 併入最新 main → 推送 → 開 PR → 等 CI 通過後自動 squash merge → 同步本機。
 # 用法：bash authoring/ship.sh "type(scope): 描述" [分支名]
 #   在 main 上執行時會自動開新分支；在功能分支上執行則沿用該分支。
 # 環境變數：CO_AUTHOR（提交共同作者）、PR_BODY（PR 內文）
@@ -30,6 +30,9 @@ elif [ -z "$(git log origin/main..HEAD --oneline)" ]; then
   exit 1
 fi
 
+# 先併入最新 main：產物檔案（版本碼、sitemap、feed、分享圖雜湊）的衝突自動解決
+python3 authoring/merge-main.py || exit 1
+
 git push -q -u origin "$branch"
 if ! gh pr view "$branch" >/dev/null 2>&1; then
   gh pr create --base main --head "$branch" --title "$msg" --body "${PR_BODY:-由 authoring/ship.sh 建立}" >/dev/null
@@ -46,6 +49,11 @@ for _ in $(seq 1 60); do
   state=$(gh pr view "$branch" --json state --jq .state)
   [ "$state" = "MERGED" ] && break
   [ "$state" = "CLOSED" ] && { echo "✗ PR 被關閉" >&2; exit 1; }
+  # 等待期間 main 又前進了（strict 要求分支最新）：重新併入並推送
+  if [ "$(gh pr view "$branch" --json mergeStateStatus --jq .mergeStateStatus)" = "BEHIND" ] \
+     || [ "$(gh pr view "$branch" --json mergeStateStatus --jq .mergeStateStatus)" = "DIRTY" ]; then
+    python3 authoring/merge-main.py && git push -q origin "$branch" || exit 1
+  fi
   sleep 5
 done
 if [ "$state" != "MERGED" ]; then
