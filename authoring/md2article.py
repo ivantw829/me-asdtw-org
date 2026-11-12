@@ -17,7 +17,7 @@
   slug: my-article            # 小寫英文、數字、連字號
   date: 2026-11-11
   category: 心得分享          # 分類，只能是 心得分享／技術教學（定義在 check.py 的 ARTICLE_CATEGORIES）；articles 頁依此篩選
-  tags: 標籤1, 標籤2          # 1～3 個，只顯示在文章頁與 meta，不當篩選
+  tags: 標籤1, 標籤2          # 1～3 個副標籤。先看 data/articles.json 已有哪些，意思相近就沿用，不要另造新詞
   summary: 80～120 字摘要，會同時用在 description／og:description／articles.json
   lead: 一句話摘要（30～60 字），顯示在標題下
   readingTime: 6              # 選填，沒填就以每分鐘 400 字估算
@@ -164,9 +164,10 @@ def prepare_images(body: str, slug: str, images_dir):
 
 def tag_warnings(tags, others):
     known = sorted({t for a in others for t in a.get("tags", [])})
-    for t in tags:
-        if t in known:
-            continue
+    new = [t for t in tags if t not in known]
+    if new and known:
+        print(f"! 新標籤 {new}；既有標籤：{'、'.join(known)}。意思相近請改用既有的。")
+    for t in new:
         near = difflib.get_close_matches(t, known, n=1, cutoff=0.6)
         if near:
             print(f"! 標籤「{t}」是新的，但跟既有標籤「{near[0]}」很像，要統一用詞嗎？")
@@ -395,8 +396,10 @@ def build(fm, body, slug, dims=None):
     cat = fm["category"]
     t = t.replace('<a class="tag" href="../articles.html?category={{分類}}">{{分類}}</a>',
                   f'<a class="tag" href="../articles.html?category={urllib.parse.quote(cat)}">{html.escape(cat)}</a>')
-    t = t.replace('<span class="tag">{{標籤1}}</span>\n          <span class="tag">{{標籤2}}</span>',
-                  "\n          ".join(f'<span class="tag">{html.escape(x)}</span>' for x in tags))
+    t = t.replace('<a class="tag" href="../articles.html?tag={{標籤1}}">{{標籤1}}</a>\n          '
+                  '<a class="tag" href="../articles.html?tag={{標籤2}}">{{標籤2}}</a>',
+                  "\n          ".join(f'<a class="tag" href="../articles.html?tag={urllib.parse.quote(x)}">{html.escape(x)}</a>'
+                                      for x in tags))
     t = re.sub(r"\n[ \t]+\n", "\n\n", t)
     t = re.sub(r"\n{3,}", "\n\n", t)
     if re.search(r"\{\{.+?\}\}", t):

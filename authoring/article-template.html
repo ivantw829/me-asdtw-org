@@ -74,11 +74,11 @@
     <article class="article" data-slug="{{slug}}">
 
       <header class="article-head">
-        <!-- 必填：分類（連結，與 data/articles.json 的 category 相同）＋ 1～3 個標籤（純文字，與 tags 相同） -->
+        <!-- 必填：主分類（與 data/articles.json 的 category 相同）＋ 1～3 個副標籤（與 tags 相同；點了會列出同標籤的所有文章） -->
         <p class="article-tags">
           <a class="tag" href="../articles.html?category={{分類}}">{{分類}}</a>
-          <span class="tag">{{標籤1}}</span>
-          <span class="tag">{{標籤2}}</span>
+          <a class="tag" href="../articles.html?tag={{標籤1}}">{{標籤1}}</a>
+          <a class="tag" href="../articles.html?tag={{標籤2}}">{{標籤2}}</a>
         </p>
         <h1>{{文章標題}}</h1>
         <!-- 必填：一句話摘要（30～60 字），用襯線字體顯示在標題下 -->
@@ -158,7 +158,7 @@
   </main>
 
   <footer data-site-footer></footer>
-  <script src="../assets/js/site.js?v=e090ad3e"></script>
+  <script src="../assets/js/site.js?v=6a528942"></script>
   <span id="page-end" hidden></span>
   <!-- ↑↑↑ 以上固定區塊不得修改 ↑↑↑ -->
 </body>
