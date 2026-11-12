@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Claude Queue 新手教學：從安裝到使用｜賴奕帆</title>
+  <meta name="description" content="Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。">
+  <link rel="canonical" href="https://me.asdtw.org/articles/claude-queue-guide.html">
+  <meta name="author" content="賴奕帆">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#f8f6ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1612" media="(prefers-color-scheme: dark)">
+  <!-- 社群分享：Open Graph（Facebook、LINE、Discord、Threads…）與 X/Twitter Card -->
+  <meta property="og:site_name" content="賴奕帆">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://me.asdtw.org/articles/claude-queue-guide.html">
+  <meta property="og:title" content="Claude Queue 新手教學：從安裝到使用">
+  <meta property="og:description" content="Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。">
+  <meta property="og:image" content="https://me.asdtw.org/images/og/claude-queue-guide.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Claude Queue 新手教學：從安裝到使用｜賴奕帆的文章分享卡（標籤：Claude Queue、Chrome 擴充功能、教學）">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Claude Queue 新手教學：從安裝到使用">
+  <meta name="twitter:description" content="Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。">
+  <meta name="twitter:image" content="https://me.asdtw.org/images/og/claude-queue-guide.jpg">
+  <meta name="twitter:image:alt" content="Claude Queue 新手教學：從安裝到使用｜賴奕帆的文章分享卡（標籤：Claude Queue、Chrome 擴充功能、教學）">
+  <meta property="article:published_time" content="2026-11-12">
+  <meta property="article:author" content="https://me.asdtw.org/about.html">
+  <meta property="article:tag" content="Claude Queue">
+  <meta property="article:tag" content="Chrome 擴充功能">
+  <meta property="article:tag" content="教學">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Claude Queue 新手教學：從安裝到使用","description":"Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。","datePublished":"2026-11-12","dateModified":"2026-11-12","inLanguage":"zh-Hant-TW","image":["https://me.asdtw.org/images/og/claude-queue-guide.jpg"],"keywords":"Claude Queue、Chrome 擴充功能、教學","mainEntityOfPage":"https://me.asdtw.org/articles/claude-queue-guide.html","author":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/about.html"},"publisher":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/"}}</script>
+
+  <link rel="alternate" type="application/atom+xml" title="賴奕帆｜文章" href="https://me.asdtw.org/feed.xml">
+  <link rel="icon" href="../assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="expect" href="#page-end" blocking="render">
+  <link rel="stylesheet" href="../assets/css/style.css?v=35815cab">
+  <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要內容</a>
+  <header data-site-header></header>
+
+  <main id="main">
+    <article class="article" data-slug="claude-queue-guide">
+
+      <header class="article-head">
+        <p class="article-tags">
+          <a class="tag" href="../articles.html?tag=Claude%20Queue">Claude Queue</a>
+          <a class="tag" href="../articles.html?tag=Chrome%20擴充功能">Chrome 擴充功能</a>
+          <a class="tag" href="../articles.html?tag=教學">教學</a>
+        </p>
+        <h1>Claude Queue 新手教學：從安裝到使用</h1>
+        <p class="article-summary">從沒裝過 Chrome 擴充功能也沒關係，約 5 分鐘完成安裝，用量滿了訊息也不會白打。</p>
+        <p class="article-meta">
+          <time datetime="2026-11-12">2026 年 11 月 12 日</time>
+          <span aria-hidden="true">·</span>
+          <span>閱讀約 14 分鐘</span>
+        </p>
+      </header>
+
+      <div class="prose">
+
+        <p>這份教學假設你<strong>從來沒有安裝過 Chrome 擴充功能的原始碼</strong>，一步一步帶你從下載、安裝、設定到日常使用。整個安裝過程大約 5 分鐘。</p>
+
+        <div class="callout">
+          <p class="callout-title">非官方專案</p>
+          <p>Claude Queue 是<strong>非官方</strong>的社群專案，與 Anthropic 沒有隸屬或合作關係。</p>
+        </div>
+
+        <hr>
+
+        <div class="callout">
+          <p class="callout-title">本文目錄</p>
+          <ol>
+            <li><a href="#s1">1. Claude Queue 能幫你做什麼</a></li>
+            <li><a href="#s2">2. 開始之前：你需要準備什麼</a></li>
+            <li><a href="#s3">3. 下載</a></li>
+            <li><a href="#s4">4. 安裝到 Chrome</a></li>
+            <li><a href="#s5">5. 確認安裝成功</a></li>
+            <li><a href="#s6">6. 開啟桌面通知</a></li>
+            <li><a href="#s7">7. 日常使用</a></li>
+            <li><a href="#s8">8. 工具列小視窗（popup）</a></li>
+            <li><a href="#s9">9. 設定頁</a></li>
+            <li><a href="#s10">10. 進階：睡覺時自動重設，起床連用兩個工作階段</a></li>
+            <li><a href="#s11">11. 不用等額度用完，先試玩一次</a></li>
+            <li><a href="#s12">12. 更新到新版本</a></li>
+            <li><a href="#s13">13. 移除</a></li>
+            <li><a href="#s14">14. 疑難排解</a></li>
+          </ol>
+        </div>
+
+        <h2 id="s1">1. Claude Queue 能幫你做什麼</h2>
+
+        <p>你在 claude.ai 打了一大段訊息，按下送出，才發現 <strong>5 小時用量或每週用量已經滿了</strong>。這時候只能把文字複製到別的地方，等額度恢復後再回來貼上。</p>
+
+        <p>裝了 Claude Queue 之後：</p>
+
+        <ol>
+          <li>用量滿時按下送出，訊息會<strong>自動存進佇列</strong>（只存在你自己的電腦）</li>
+          <li>額度重置時，你會收到<strong>桌面通知</strong></li>
+          <li>點通知會<strong>自動開啟原本的對話、把文字填回輸入框</strong>，你按「送出」就好</li>
+        </ol>
+
+        <p>用量沒滿的時候，它完全不會干涉，跟沒裝一樣。</p>
+
+        <p>另外還有兩個選用功能（預設都關閉）：</p>
+
+        <ul>
+          <li><strong>重置後自動送出</strong>：連「送出」都不用按</li>
+          <li><strong>自動重設</strong>：睡覺時工作階段一歸零就自動開始下一個，起床可以連用兩個工作階段（見<a href="#s10">第 10 節</a>）</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="s2">2. 開始之前：你需要準備什麼</h2>
+
+        <table>
+          <thead><tr><th>項目</th><th>說明</th></tr></thead>
+          <tbody>
+            <tr><td>瀏覽器</td><td><strong>Google Chrome</strong>（版本 116 以上）。Edge、Brave、Arc 等理論上也能用，但沒有測試過</td></tr>
+            <tr><td>claude.ai 帳號</td><td>在 Chrome 裡登入 <a href="https://claude.ai" target="_blank" rel="noopener">https://claude.ai</a></td></tr>
+            <tr><td>使用環境</td><td>只支援 <strong>claude.ai 網頁版</strong>（含 Projects）。不支援 Claude 桌面 App、手機 App、Claude Code</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          <p class="callout-title">怎麼看 Chrome 版本</p>
+          <p>在網址列輸入 <code>chrome://settings/help</code> 按 Enter。</p>
+        </div>
+
+        <hr>
+
+        <h2 id="s3">3. 下載</h2>
+
+        <p>Claude Queue 目前還沒上架 Chrome 線上應用程式商店，要從 GitHub 下載原始碼來安裝。兩種方式選一種：</p>
+
+        <h3>方式 A：下載 ZIP（推薦給一般使用者）</h3>
+
+        <ol>
+          <li>打開專案頁面：<a href="https://github.com/ivantw829/claude-queue" target="_blank" rel="noopener">https://github.com/ivantw829/claude-queue</a></li>
+          <li>按綠色的 <strong>「Code」</strong> 按鈕 → <strong>「Download ZIP」</strong></li>
+          <li>下載完成後，<strong>解壓縮</strong>這個 ZIP 檔（macOS 雙擊即可；Windows 按右鍵 →「解壓縮全部」）</li>
+          <li>你會得到一個叫 <code>claude-queue-main</code> 的資料夾</li>
+        </ol>
+
+        <div class="callout">
+          <p class="callout-title">重要：把資料夾放在固定的位置</p>
+          <p>把這個資料夾放到一個固定的位置，例如「文件」資料夾裡。Chrome 會直接從這個資料夾讀取擴充功能，安裝後不能刪除或移動它，不然擴充功能會失效。不建議放在「下載」資料夾，因為很容易被清掉。</p>
+        </div>
+
+        <h3>方式 B：用 git（會用指令的人）</h3>
+
+        <pre><code>git clone https://github.com/ivantw829/claude-queue.git</code></pre>
+
+        <p>之後更新只要 <code>git pull</code>（見<a href="#s12">第 12 節</a>）。</p>
+
+        <hr>
+
+        <h2 id="s4">4. 安裝到 Chrome</h2>
+
+        <ol>
+          <li>在 Chrome 網址列輸入 <code>chrome://extensions</code>，按 Enter</li>
+          <li>打開右上角的 <strong>「開發人員模式」</strong> 開關</li>
+          <li>左上角會出現幾個新按鈕，按 <strong>「載入未封裝項目」</strong></li>
+          <li>選擇剛剛的 <code>claude-queue-main</code> 資料夾，按「選取」。要選的是裡面直接有 <code>manifest.json</code> 檔案的那一層；如果出現「找不到資訊清單檔案」的錯誤，通常是選到外面一層，請點進去一層再選</li>
+          <li>擴充功能清單裡出現 <strong>Claude Queue</strong> 就代表安裝成功</li>
+        </ol>
+
+        <h3>把圖示釘選到工具列</h3>
+
+        <ol>
+          <li>按 Chrome 右上角的 <strong>拼圖圖示</strong> 🧩</li>
+          <li>找到 Claude Queue，按旁邊的 <strong>圖釘</strong> 📌</li>
+        </ol>
+
+        <p>這樣工具列上就會一直顯示 Claude Queue 的圖示，方便查看用量和佇列。</p>
+
+        <h3>重新整理 claude.ai 分頁</h3>
+
+        <p><strong>已經開著的 claude.ai 分頁要重新整理一次</strong>（按 <code>⌘ R</code> 或 <code>Ctrl R</code>），擴充功能才會在那個分頁生效。之後新開的分頁不用。</p>
+
+        <hr>
+
+        <h2 id="s5">5. 確認安裝成功</h2>
+
+        <ol>
+          <li>打開（或重新整理）<a href="https://claude.ai" target="_blank" rel="noopener">https://claude.ai</a>，確認已登入</li>
+          <li>等幾秒，按工具列上的 Claude Queue 圖示</li>
+          <li>小視窗上方應該會顯示 <strong>Session（5 小時）</strong> 和 <strong>每週</strong> 兩條用量條，有百分比數字；下面一行是「來源：… · N 分鐘前更新」</li>
+        </ol>
+
+        <p>看到用量百分比，就代表一切正常。</p>
+
+        <p>如果顯示「尚無用量資料，開啟 claude.ai 後會自動偵測」，請確認你有開著 claude.ai 分頁並且已經重新整理過，然後按小視窗右上角的 <strong>⟳</strong> 重新查詢。</p>
+
+        <hr>
+
+        <h2 id="s6">6. 開啟桌面通知</h2>
+
+        <p>額度重置的提醒是用<strong>系統的桌面通知</strong>，所以要確認作業系統允許 Chrome 發通知：</p>
+
+        <ul>
+          <li><strong>macOS</strong>：「系統設定」→「通知」→ 找到 <strong>Google Chrome</strong> → 打開「允許通知」。建議把提示樣式設成「提示」（會停留在畫面上，不會自動消失）</li>
+          <li><strong>Windows</strong>：「設定」→「系統」→「通知」→ 確認 <strong>Google Chrome</strong> 是開啟的</li>
+        </ul>
+
+        <p>Claude Queue 本身的通知預設就是開啟的（可在<a href="#s9">設定頁</a>關閉）。</p>
+
+        <hr>
+
+        <h2 id="s7">7. 日常使用</h2>
+
+        <h3>平常：什麼都不用做</h3>
+
+        <p>用量沒滿時，你照常使用 claude.ai 就好，Claude Queue 不會攔截任何東西。</p>
+
+        <h3>用量滿了：照常按送出</h3>
+
+        <ol>
+          <li>照常輸入訊息，按 Enter 或送出按鈕</li>
+          <li>Claude Queue 會攔下這次送出、確認真的滿了，把訊息存進佇列</li>
+          <li>確定存好之後才會清空輸入框，頁面下方會出現提示：「用量已滿，訊息已排入佇列，預計 HH:MM 重置」。</li>
+          <li>工具列圖示會出現數字，代表佇列裡有幾則訊息。</li>
+        </ol>
+
+        <p>數字的顏色代表狀態：</p>
+
+        <ul>
+          <li><strong>橘色</strong>：等待重置中</li>
+          <li><strong>綠色</strong>：已經可以送出</li>
+          <li><strong>紅色</strong>：有送出失敗的訊息</li>
+        </ul>
+
+        <div class="callout">
+          <p class="callout-title">關於「時間為估計」</p>
+          <p>重置時間後面如果有「（時間為估計）」，代表 Claude Queue 沒辦法讀到精確的時間，是推估出來的。</p>
+        </div>
+
+        <div class="callout">
+          <p class="callout-title">有附件或圖片的訊息不會被排隊</p>
+          <p>這時頁面會提示「此訊息含附件，無法自動排隊」，照 claude.ai 原本的方式處理。</p>
+        </div>
+
+        <h3>額度重置後：點通知 → 按送出</h3>
+
+        <ol>
+          <li>到了重置時間，你會收到桌面通知 <strong>「Claude 額度已重置」</strong></li>
+          <li><strong>點通知</strong> → 自動開啟原本的對話，文字已經填回輸入框</li>
+          <li>頁面下方出現確認列 <strong>「已還原訊息，要送出嗎？」</strong>，有三個按鈕：</li>
+        </ol>
+
+        <table>
+          <thead><tr><th>按鈕</th><th>會發生什麼事</th></tr></thead>
+          <tbody>
+            <tr><td><strong>送出</strong></td><td>幫你按下送出，確認訊息真的出現在對話裡之後，才從佇列移除</td></tr>
+            <tr><td><strong>取消</strong></td><td>從佇列移除這則訊息，文字留在輸入框讓你自己處理</td></tr>
+            <tr><td><strong>保留在佇列</strong></td><td>清空輸入框，訊息繼續留在佇列，之後可以從小視窗再試</td></tr>
+          </tbody>
+        </table>
+
+        <p>同一個對話如果排了好幾則訊息，會等 Claude 回應完成後，再依序還原下一則。</p>
+
+        <div class="callout">
+          <p class="callout-title">錯過通知也沒關係</p>
+          <p>按工具列圖示，在佇列裡找到那則訊息，按 <strong>「立即嘗試」</strong> 就好。</p>
+        </div>
+
+        <hr>
+
+        <h2 id="s8">8. 工具列小視窗（popup）</h2>
+
+        <p>按工具列上的 Claude Queue 圖示，會打開一個小視窗：</p>
+
+        <ul>
+          <li><strong>用量</strong>：5 小時和每週用量的百分比、什麼時候重置、還剩多久</li>
+          <li><strong>⟳</strong>（右上角）：立即重新查詢用量（需要開著 claude.ai 分頁）</li>
+          <li><strong>⚙</strong>（右上角）：打開設定頁</li>
+          <li><strong>佇列</strong>：每則排隊中的訊息，可以編輯文字、立即嘗試（馬上開啟原對話並還原），或刪除（要按兩次才會刪除，避免誤刪）</li>
+        </ul>
+
+        <p>訊息前面的標籤代表狀態：<strong>等待重置</strong>、<strong>可送出</strong>、<strong>送出中</strong>、<strong>失敗</strong>、<strong>草稿</strong>、<strong>自動重設</strong>。</p>
+
+        <hr>
+
+        <h2 id="s9">9. 設定頁</h2>
+
+        <p>打開方式：小視窗右上角的 <strong>⚙</strong>，或在 <code>chrome://extensions</code> 找到 Claude Queue →「詳細資料」→「擴充功能選項」。</p>
+
+        <h3>送出</h3>
+
+        <table>
+          <thead><tr><th>設定</th><th>預設</th><th>說明</th></tr></thead>
+          <tbody>
+            <tr><td>重置後自動送出（不需確認）</td><td>關閉</td><td>額度重置後自動開啟原對話、填入文字，倒數 3 秒後送出（倒數時可以取消）。注意：你不在電腦前時也會送出，對話情境可能已經改變，送出後無法撤回</td></tr>
+            <tr><td>桌面通知</td><td>開啟</td><td>額度重置時發通知。關閉後只會在工具列圖示顯示數量</td></tr>
+            <tr><td>用量輪詢頻率</td><td>2 分鐘</td><td>開著 claude.ai 時多久查詢一次用量（1–30 分鐘），一般不用改</td></tr>
+          </tbody>
+        </table>
+
+        <h3>自動重設</h3>
+
+        <table>
+          <thead><tr><th>設定</th><th>預設</th><th>說明</th></tr></thead>
+          <tbody>
+            <tr><td>工作階段歸零時自動送出一則訊息</td><td>關閉</td><td>見下一節</td></tr>
+            <tr><td>要送出的訊息</td><td><code>Hello World!</code></td><td>越短越省額度，最多 200 字</td></tr>
+          </tbody>
+        </table>
+
+        <h3>除錯與資料</h3>
+
+        <ul>
+          <li><strong>記錄 debug log</strong>：遇到問題要回報時再開。log 只記錄事件和狀態，<strong>不記錄訊息內容</strong></li>
+          <li><strong>模擬「用量已滿」</strong>：不用真的把額度用完就能試用（見<a href="#s11">第 11 節</a>）</li>
+          <li><strong>清除所有資料</strong>：刪除佇列、用量快取、log 和設定。注意：佇列中還沒送出的訊息會被永久刪除</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="s10">10. 進階：睡覺時自動重設，起床連用兩個工作階段</h2>
+
+        <h3>為什麼有用？</h3>
+
+        <p>claude.ai 的 5 小時工作階段，要等你<strong>送出第一則訊息才開始倒數</strong>。如果工作階段在你睡覺時結束，它就會一直停在歸零，直到你起床送出第一則訊息才重新開始。</p>
+
+        <p>開啟「自動重設」後，工作階段一結束，Claude Queue 就會自動送出一則短訊息，讓下一個工作階段<strong>馬上開始倒數</strong>。</p>
+
+        <h3>舉例：</h3>
+
+        <table>
+          <thead><tr><th></th><th>沒開自動重設</th><th>開了自動重設</th></tr></thead>
+          <tbody>
+            <tr><td>凌晨 3:00</td><td>工作階段結束，停在歸零</td><td>工作階段結束，自動送出訊息，新的工作階段開始（8:00 結束）</td></tr>
+            <tr><td>早上 7:00 起床</td><td>送出第一則訊息，工作階段開始（12:00 結束）</td><td>目前的工作階段還能用 1 小時</td></tr>
+            <tr><td>早上 8:00</td><td>還在同一個工作階段</td><td>重置！再接一個完整的新工作階段</td></tr>
+          </tbody>
+        </table>
+
+        <h3>怎麼開啟</h3>
+
+        <ol>
+          <li>打開<a href="#s9">設定頁</a> →「自動重設」</li>
+          <li>勾選 <strong>「工作階段歸零時自動送出一則訊息」</strong>，在確認框按「確定」</li>
+          <li>（選用）修改「要送出的訊息」，預設是 <code>Hello World!</code></li>
+          <li>打開工具列小視窗，下方會顯示「自動重設：開啟 · 約 HH:MM 送出」</li>
+        </ol>
+
+        <p>第一次送出時會<strong>自動開一個新對話</strong>，之後都送進同一個對話，不會讓你的對話清單變亂。如果你刪掉那個對話，下次會自動再開一個。</p>
+
+        <h3>睡前檢查清單</h3>
+
+        <p>自動重設要在電腦醒著、Chrome 開著的時候才能運作，睡前請確認：</p>
+
+        <ul>
+          <li>Chrome 保持開啟（可以最小化，但不要整個關掉）</li>
+          <li>claude.ai 保持登入</li>
+          <li>筆電建議接上電源</li>
+          <li>電腦不能睡眠（做法見下）</li>
+        </ul>
+
+        <p><strong>macOS</strong>：打開「終端機」，貼上下面的指令並按 Enter，終端機視窗開著的期間電腦就不會進入睡眠（螢幕還是可以關）。早上按 <code>Ctrl C</code> 結束。</p>
+
+        <pre><code>caffeinate -i</code></pre>
+
+        <p>也可以到「系統設定」→「電池」（桌機是「能源」）調整，避免電腦自動睡眠。</p>
+
+        <p><strong>Windows</strong>：「設定」→「系統」→「電源」→ 把「睡眠」設為「永不」。</p>
+
+        <h3>要知道的事</h3>
+
+        <ul>
+          <li>送出時會把 <strong>Chrome 視窗帶到最前面</strong>（需要讓輸入框取得焦點才能填入文字）。這個功能全天運作，<strong>白天工作階段結束時也會</strong></li>
+          <li>每次會用掉<strong>一點點額度</strong>（就是一則短訊息和 Claude 的回覆）</li>
+          <li><strong>每週上限已滿時不會送</strong></li>
+          <li>如果佇列裡剛好有訊息正在自動送出，就不另外送（那則訊息本身就會開始新的工作階段）；你已經用手機送過訊息時也不會送</li>
+          <li><strong>連續失敗 3 次會暫停</strong>並發通知。你再次使用 Claude，或關掉再打開這個設定，就會恢復</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="s11">11. 不用等額度用完，先試玩一次</h2>
+
+        <p>想先看看整個流程長什麼樣子，可以用「模擬」：</p>
+
+        <ol>
+          <li>打開<a href="#s9">設定頁</a> →「除錯」→ 勾選 <strong>「模擬『用量已滿』」</strong>，旁邊填 <code>2</code>（2 分鐘後重置）</li>
+          <li>到 claude.ai 隨便打一句話，按送出 → 訊息被存進佇列，輸入框被清空</li>
+          <li>打開工具列小視窗，看到佇列裡有一則「等待重置」的訊息</li>
+          <li>等大約 2–3 分鐘 → 收到「Claude 額度已重置」通知</li>
+          <li>點通知 → 文字填回輸入框 → 按「送出」或「取消」試試看</li>
+          <li><strong>試完記得回設定頁把模擬關掉</strong></li>
+        </ol>
+
+        <div class="callout">
+          <p class="callout-title">同時開著自動重設的話</p>
+          <p>如果你同時開著「自動重設」，模擬結束時它會<strong>真的送出一則訊息</strong>。只想試排隊功能的話，先把自動重設關掉。</p>
+        </div>
+
+        <hr>
+
+        <h2 id="s12">12. 更新到新版本</h2>
+
+        <h3>用 ZIP 安裝的</h3>
+
+        <ol>
+          <li>到 <a href="https://github.com/ivantw829/claude-queue" target="_blank" rel="noopener">https://github.com/ivantw829/claude-queue</a> 重新下載 ZIP 並解壓縮</li>
+          <li>用新資料夾的內容<strong>覆蓋</strong>原本安裝的資料夾（位置要一樣）</li>
+          <li>到 <code>chrome://extensions</code>，按 Claude Queue 卡片上的 <strong>重新載入</strong> 按鈕 ↻</li>
+          <li>重新整理 claude.ai 分頁</li>
+        </ol>
+
+        <h3>用 git 安裝的</h3>
+
+        <pre><code>git pull</code></pre>
+
+        <p>然後一樣到 <code>chrome://extensions</code> 按 ↻，再重新整理 claude.ai 分頁。</p>
+
+        <div class="callout">
+          <p class="callout-title">怎麼確認更新成功</p>
+          <p>小視窗標題旁邊會顯示目前的版本號（例如 <code>v0.2.0</code>），可以用來確認更新成功。佇列和設定在更新時都會保留。</p>
+        </div>
+
+        <hr>
+
+        <h2 id="s13">13. 移除</h2>
+
+        <ol>
+          <li>到 <code>chrome://extensions</code></li>
+          <li>在 Claude Queue 卡片上按 <strong>「移除」</strong></li>
+          <li>之後就可以刪掉 <code>claude-queue-main</code> 資料夾</li>
+        </ol>
+
+        <p>注意：移除時，佇列裡還沒送出的訊息會一起被刪除。要保留的話，先在小視窗用「編輯」把文字複製出來。</p>
+
+        <hr>
+
+        <h2 id="s14">14. 疑難排解</h2>
+
+        <h3>用量滿了卻沒有攔截</h3>
+
+        <ul>
+          <li>這個分頁是在安裝之前就開著的嗎？重新整理一次</li>
+          <li>打開小視窗，看用量是否正常顯示。如果顯示「用量端點讀取失敗」，可能是 claude.ai 改版了，請回報（見下方）</li>
+        </ul>
+
+        <h3>頁面跳出「找不到頁面元素…介面可能已改版」</h3>
+
+        <ul>
+          <li>claude.ai 改了頁面結構，需要更新擴充功能。先看看 GitHub 有沒有新版本，沒有的話請回報</li>
+        </ul>
+
+        <h3>沒有收到通知</h3>
+
+        <ul>
+          <li>確認<a href="#s6">第 6 節</a>的系統通知設定</li>
+          <li>確認設定頁的「桌面通知」是開啟的</li>
+          <li>檢查 macOS 是否開了「專注模式／勿擾模式」</li>
+          <li>沒收到也沒關係，打開小視窗，綠色的訊息可以直接按「立即嘗試」</li>
+        </ul>
+
+        <h3>通知寫「預計已重置（尚未確認）」</h3>
+
+        <ul>
+          <li>重置時你沒開著 claude.ai，所以沒辦法先確認。點通知開啟對話後會再查一次，如果還沒重置，訊息會放回等待，不會硬送</li>
+        </ul>
+
+        <h3>重新開啟 Chrome 之後擴充功能不見了／出現錯誤</h3>
+
+        <ul>
+          <li>你可能移動或刪除了安裝用的資料夾。把資料夾放回原位，或重新做一次<a href="#s4">第 4 節</a></li>
+        </ul>
+
+        <h3>自動重設沒有送出</h3>
+
+        <ul>
+          <li>確認睡前檢查清單：電腦有沒有睡著、Chrome 有沒有被關掉、claude.ai 是不是被登出了</li>
+          <li>打開小視窗，看「自動重設」那一行有沒有顯示「上次失敗：…」</li>
+        </ul>
+
+        <h3>回報問題</h3>
+
+        <ol>
+          <li>設定頁 → 勾選 <strong>「記錄 debug log」</strong></li>
+          <li>重現一次問題</li>
+          <li>設定頁 → <strong>「複製 log」</strong>（log 不含訊息內容）</li>
+          <li>貼到下面任一個地方，並說明你的 Chrome 版本和操作步驟。</li>
+        </ol>
+
+        <ul>
+          <li>Discord：<a href="https://discord.gg/yEpS7vSJtv" target="_blank" rel="noopener">https://discord.gg/yEpS7vSJtv</a></li>
+          <li>GitHub Issues：<a href="https://github.com/ivantw829/claude-queue/issues" target="_blank" rel="noopener">https://github.com/ivantw829/claude-queue/issues</a></li>
+        </ul>
+
+        <hr>
+
+        <p>想了解運作原理、隱私說明或常見問題，請看 <a href="https://github.com/ivantw829/claude-queue#readme" target="_blank" rel="noopener">README</a>。</p>
+
+      </div>
+    </article>
+
+    <nav data-article-nav aria-label="上一篇與下一篇"></nav>
+    <section data-giscus></section>
+  </main>
+
+  <footer data-site-footer></footer>
+  <script src="../assets/js/site.js?v=29938ec9"></script>
+  <span id="page-end" hidden></span>
+</body>
+</html>
