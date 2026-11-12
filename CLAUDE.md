@@ -11,6 +11,7 @@ python3 -m http.server 8000        # 本機預覽；不能直接開 file://，�
 python3 authoring/check.py         # 唯一的「測試」：資料、文章規範、站內連結、sitemap。CI 與 pre-commit 都會跑
 python3 authoring/build-sitemap.py # 重新產生 sitemap.xml（pre-commit 會自動跑並 stage，通常不用手動）
 python3 authoring/build-feed.py    # 重新產生 Atom 訂閱源 feed.xml（只放標題／摘要／連結，排除草稿與 18+；pre-commit 自動跑並 stage）
+python3 authoring/build-lists.py  # 把文章卡片靜態寫進 index.html／articles.html 的 <!--lists:start-->…<!--lists:end-->（給不執行 JS 的爬蟲；結構須與 site.js 的 card() 相同；pre-commit 與 md2article 自動跑，check.py 驗證）
 python3 authoring/build-og.py     # 以本機 Chrome + macOS `sips` 產生社群分享圖 1200×630（缺圖或過期時 pre-commit 會自動跑；`images/og/.manifest.json` 記錄每張圖的輸入雜湊，改標題／標籤／日期／卡片設計都會自動重產）
 python3 authoring/md2article.py 原稿.md [--images 資料夾]  # Markdown＋frontmatter → 文章頁，並登錄 JSON、png/jpg 轉 webp、產分享圖、跑 check（新文章首選）；frontmatter 可加 updated／draft／adult，重跑同一份原稿即更新該篇
 python3 authoring/mark-adult.py <slug>  # 把文章標成 18+（--undo 取消），見下方「成人文章」
