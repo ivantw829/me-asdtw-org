@@ -49,6 +49,7 @@
       "教學"
     ],
     "summary": "Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。",
-    "readingTime": 14
+    "readingTime": 17,
+    "updated": "2026-11-13"
   }
 ]
