@@ -33,5 +33,17 @@
     ],
     "summary": "以虛構的「星期三咖啡館」為例，從邀請機器人開始，依序設定驗證、歡迎、身份組、成員管理、工單、動態語音與抽獎投票，一步步建置完整的 Discord 伺服器。",
     "readingTime": 16
+  },
+  {
+    "slug": "claude-queue-guide",
+    "title": "Claude Queue 新手教學：從安裝到使用",
+    "date": "2026-11-12",
+    "tags": [
+      "Claude Queue",
+      "Chrome 擴充功能",
+      "教學"
+    ],
+    "summary": "Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。",
+    "readingTime": 14
   }
 ]

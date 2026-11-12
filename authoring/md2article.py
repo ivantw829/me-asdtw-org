@@ -25,7 +25,7 @@
   adult: true                 # 選填：18+ 文章，自動套用 mark-adult.py
   ---
   內文 Markdown。支援：
-    ## 大標、### 小標、段落、- 清單、1. 清單、| 表格 |、> 引言、--- 分隔線
+    ## 大標、### 小標、段落、- 清單、1. 清單、| 表格 |、> 引言、--- 分隔線、```程式碼區塊```
     ![圖說](檔名.png)         # 圖說同時當 alt；png／jpg／webp 都可，輸出一律 .webp；cover 開頭的檔名（cover.png 等）當作封面
     [[提示框：標題]] 下一段文字（到空行為止）
     [[金句：一句話]]
@@ -182,6 +182,7 @@ def parse_frontmatter(text: str):
 
 
 def inline(t: str) -> str:
+    t = re.sub(r"<(https?://[^>\s]+)>", r"\1", t)
     t = html.escape(t, quote=False)
     codes = []
 
@@ -198,7 +199,7 @@ def inline(t: str) -> str:
 
     t = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", link, t)
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
-    t = re.sub(r'(?<![">=])(https?://[^\s<）」]+)',
+    t = re.sub(r'(?<![">=])(https?://[^\s<）」，。、；：]+)',
                lambda m: f'<a href="{m.group(1)}" target="_blank" rel="noopener">{m.group(1)}</a>', t)
     return re.sub(r"\x00(\d+)\x00", lambda m: codes[int(m.group(1))], t)
 
@@ -224,6 +225,15 @@ def convert(body: str, slug: str, dims=None):
         s = l.strip()
         if not s:
             i += 1
+            continue
+        if s.startswith("```"):
+            i += 1
+            code = []
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                code.append(lines[i])
+                i += 1
+            i += 1
+            out.append("<pre><code>" + html.escape("\n".join(code), quote=False) + "</code></pre>")
             continue
         if s == "[[目錄]]":
             want_toc = True
@@ -339,7 +349,11 @@ def build(fm, body, slug, dims=None):
     t = re.sub(r"[ \t]*<!--(?!\s*社群分享).*?-->\n?", "", t, flags=re.S)
     a = t.index('<div class="prose">')
     b = t.rindex("      </div>\n", a, t.index("    </article>")) + len("      </div>\n")
-    t = t[:a] + '<div class="prose">\n\n' + indent(main, 8) + "\n\n      </div>\n" + t[b:]
+    pres = []
+    main = re.sub(r"<pre>.*?</pre>", lambda m: pres.append(m.group(0)) or f"@@PRE{len(pres) - 1}@@", main, flags=re.S)
+    main = indent(main, 8)
+    main = re.sub(r"@@PRE(\d+)@@", lambda m: pres[int(m.group(1))], main)
+    t = t[:a] + '<div class="prose">\n\n' + main + "\n\n      </div>\n" + t[b:]
     if sources:
         lis = "\n".join(f"          <li>{inline(x)}</li>" for x in sources)
         t = re.sub(r'(<aside class="article-sources"[^>]*>\s*<h2 id="sources-title">參考資料</h2>\s*<ol>).*?(</ol>)',
