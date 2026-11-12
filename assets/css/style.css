@@ -186,14 +186,23 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 .empty--error code { background: var(--surface-2); padding: 1px 6px; border-radius: 6px; }
 
 .err-hero { padding-block: 56px 24px; display: grid; gap: 32px; align-items: center; }
-.err-art { position: relative; isolation: isolate; width: min(100%, 300px); aspect-ratio: 1; margin-inline: auto; display: grid; place-items: center; }
-.err-art::before { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: 50%; background: var(--teal); }
-.err-art::after { content: "×"; position: absolute; right: 2%; top: 4%; color: var(--accent); font: 700 2.4rem/1 var(--font-sans); }
+/* 品牌橫幅：淺色用橘底、深色用深色底；滑過時淡入彩虹版（純裝飾） */
+.err-banner { position: relative; container-type: inline-size; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: var(--surface-2); }
+.err-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.err-banner .b-dark { display: none; }
+.err-banner .b-rainbow { opacity: 0; transition: opacity .35s; }
+.err-banner:hover .b-rainbow { opacity: 1; }
 .err-code {
-  font: 900 clamp(4.2rem, 18vw, 6.4rem)/1 var(--font-sans); letter-spacing: .02em;
-  color: var(--paper); -webkit-text-stroke: 2px var(--ink); text-shadow: 6px 5px 0 var(--accent); user-select: none;
+  position: absolute; left: 7.5%; top: 9%; font: 900 15cqw/1 var(--font-sans); letter-spacing: .02em; user-select: none;
+  color: transparent; -webkit-text-stroke: 2px #fff7e6; text-shadow: .04em .04em 0 var(--accent);
 }
-@media (min-width: 800px) { .err-hero { grid-template-columns: 1fr 1.2fr; } }
+[data-theme="dark"] .err-banner .b-light { display: none; }
+[data-theme="dark"] .err-banner .b-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .err-banner .b-light { display: none; }
+  :root:not([data-theme="light"]) .err-banner .b-dark { display: block; }
+}
+@media (min-width: 800px) { .err-hero { grid-template-columns: 1.3fr 1fr; } }
 
 /* ---------- Link list ---------- */
 .link-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
