@@ -33,7 +33,7 @@
   <meta property="article:tag" content="Claude Queue">
   <meta property="article:tag" content="Chrome 擴充功能">
   <meta property="article:tag" content="教學">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Claude Queue 新手教學：從安裝到使用","description":"Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。","datePublished":"2026-11-12","dateModified":"2026-11-12","inLanguage":"zh-Hant-TW","image":["https://me.asdtw.org/images/og/claude-queue-guide.jpg"],"keywords":"Claude Queue、Chrome 擴充功能、教學","mainEntityOfPage":"https://me.asdtw.org/articles/claude-queue-guide.html","author":{"@type":"Person","@id":"https://me.asdtw.org/#person","name":"賴奕帆","url":"https://me.asdtw.org/about.html"},"publisher":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Claude Queue 新手教學：從安裝到使用","description":"Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。","datePublished":"2026-11-12","dateModified":"2026-11-13","inLanguage":"zh-Hant-TW","image":["https://me.asdtw.org/images/og/claude-queue-guide.jpg"],"keywords":"Claude Queue、Chrome 擴充功能、教學","mainEntityOfPage":"https://me.asdtw.org/articles/claude-queue-guide.html","author":{"@type":"Person","@id":"https://me.asdtw.org/#person","name":"賴奕帆","url":"https://me.asdtw.org/about.html"},"publisher":{"@type":"Person","name":"賴奕帆","url":"https://me.asdtw.org/"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首頁","item":"https://me.asdtw.org/"},{"@type":"ListItem","position":2,"name":"文章","item":"https://me.asdtw.org/articles.html"},{"@type":"ListItem","position":3,"name":"Claude Queue 新手教學：從安裝到使用"}]}</script>
 
   <link rel="alternate" type="application/atom+xml" title="賴奕帆｜文章" href="https://me.asdtw.org/feed.xml">
@@ -66,7 +66,9 @@
         <p class="article-meta">
           <time datetime="2026-11-12">2026 年 11 月 12 日</time>
           <span aria-hidden="true">·</span>
-          <span>閱讀約 14 分鐘</span>
+          <span>閱讀約 17 分鐘</span>
+          <span aria-hidden="true">·</span>
+          <span>更新於 <time datetime="2026-11-13">2026 年 11 月 13 日</time></span>
         </p>
       </header>
 
@@ -113,7 +115,7 @@
           <li>點通知會<strong>自動開啟原本的對話、把文字填回輸入框</strong>，你按「送出」就好</li>
         </ol>
 
-        <p>用量沒滿的時候，它完全不會干涉，跟沒裝一樣。</p>
+        <p>用量沒滿的時候，它完全不會干涉，跟沒裝一樣。附件和圖片也能一起排隊（見<a href="#s7">第 7 節</a>）。</p>
 
         <p>另外還有兩個選用功能（預設都關閉）：</p>
 
@@ -177,6 +179,8 @@
           <li>選擇剛剛的 <code>claude-queue-main</code> 資料夾，按「選取」。要選的是裡面直接有 <code>manifest.json</code> 檔案的那一層；如果出現「找不到資訊清單檔案」的錯誤，通常是選到外面一層，請點進去一層再選</li>
           <li>擴充功能清單裡出現 <strong>Claude Queue</strong> 就代表安裝成功</li>
         </ol>
+
+        <p>第一次安裝完成時，擴充功能會<strong>自動打開這份教學網頁</strong>。</p>
 
         <h3>把圖示釘選到工具列</h3>
 
@@ -248,9 +252,35 @@
           <p>重置時間後面如果有「（時間為估計）」，代表 Claude Queue 沒辦法讀到精確的時間，是推估出來的。</p>
         </div>
 
+        <h3>附件也能排隊</h3>
+
+        <p>你從電腦加入的檔案（選擇檔案、拖放、貼上圖片）會<strong>連同文字一起排隊</strong>，只存在你自己的電腦。</p>
+
+        <ul>
+          <li>重置後會用頁面上的上傳按鈕把檔案加回輸入框，<strong>等全部上傳完成才填文字、才送出</strong></li>
+          <li>自動送出模式也適用：只要有任何一個檔案加不回去或上傳失敗，就<strong>不會送出</strong>，會先重新整理重試，還是不行就發桌面通知</li>
+          <li>手動模式可以在確認列按「下載附件」，自己把檔案加回去</li>
+          <li>小視窗的佇列項目會顯示附件數量與大小</li>
+        </ul>
+
+        <table>
+          <thead><tr><th>上限</th><th>數值</th></tr></thead>
+          <tbody>
+            <tr><td>單一檔案</td><td>30MB</td></tr>
+            <tr><td>每則訊息</td><td>20 個檔案</td></tr>
+            <tr><td>整個佇列合計</td><td>300MB</td></tr>
+          </tbody>
+        </table>
+
         <div class="callout">
-          <p class="callout-title">有附件或圖片的訊息不會被排隊</p>
-          <p>這時頁面會提示「此訊息含附件，無法自動排隊」，照 claude.ai 原本的方式處理。</p>
+          <p class="callout-title">不能排隊的情況</p>
+          <p>下面這些訊息會照 claude.ai 原本的方式處理，並提示你：</p>
+          <ul>
+            <li>Google Drive、GitHub 等「連接」的附件</li>
+            <li>長文字貼上後，被 claude.ai 轉成附件的內容</li>
+            <li>在頁面重新整理之前（或安裝擴充功能之前）就加入的檔案</li>
+            <li>只有附件、沒有文字的訊息</li>
+          </ul>
         </div>
 
         <h3>額度重置後：點通知 → 按送出</h3>
@@ -287,7 +317,7 @@
           <li><strong>用量</strong>：5 小時和每週用量的百分比、什麼時候重置、還剩多久</li>
           <li><strong>⟳</strong>（右上角）：立即重新查詢用量（需要開著 claude.ai 分頁）</li>
           <li><strong>⚙</strong>（右上角）：打開設定頁</li>
-          <li><strong>佇列</strong>：每則排隊中的訊息，可以編輯文字、立即嘗試（馬上開啟原對話並還原），或刪除（要按兩次才會刪除，避免誤刪）</li>
+          <li><strong>佇列</strong>：每則排隊中的訊息，可以編輯文字、立即嘗試（馬上開啟原對話並還原），或刪除（要按兩次才會刪除，避免誤刪）。有附件的訊息會顯示附件數量與大小</li>
         </ul>
 
         <p>訊息前面的標籤代表狀態：<strong>等待重置</strong>、<strong>可送出</strong>、<strong>送出中</strong>、<strong>失敗</strong>、<strong>草稿</strong>、<strong>自動重設</strong>。</p>
@@ -309,6 +339,30 @@
           </tbody>
         </table>
 
+        <h3>自動送出到底會不會送錯對話？完全不用人操作嗎？</h3>
+
+        <p>每則訊息都記得自己是在<strong>哪個對話</strong>排隊的。重置後會切到那個對話的分頁（沒開就開新分頁），<strong>一次處理一則，送完才換下一個對話</strong>。</p>
+
+        <ul>
+          <li><strong>送出前會再三確認</strong>目前就是原本的對話：開始填入前、送出前最後一刻都會檢查；倒數時如果你切到別的對話，會中止並重新打開正確的對話。對話已被刪除時不會送出，而是發通知</li>
+          <li>在新對話（<code>/new</code>）排了好幾則時，第一則送出後會建立新對話，後面幾則都會送進<strong>同一個新對話</strong></li>
+          <li>送出時會把 <strong>Chrome 視窗帶到最前面</strong>、切換分頁（輸入框要取得焦點才能填入）</li>
+          <li>只要開著「重置後自動送出」，正常情況<strong>全程不需要人操作</strong>。前提：電腦醒著、Chrome 開著、claude.ai 保持登入</li>
+          <li>如果輸入框裡有你打到一半的文字，會先把它存成「草稿」放進佇列（草稿不會自動送出），再送出排隊的訊息</li>
+        </ul>
+
+        <div class="callout">
+          <p class="callout-title">會刻意停下來的情況</p>
+          <p>下面這些情況會發桌面通知、<strong>不送出</strong>：</p>
+          <ul>
+            <li>對話已被刪除</li>
+            <li>對話裡已經有一模一樣的訊息（可能你自己送過了）</li>
+            <li>輸入框裡原本就有你放的附件</li>
+            <li>附件加不回去</li>
+            <li>按下送出後，無法確認有沒有送出（不會重送，避免重複）</li>
+          </ul>
+        </div>
+
         <h3>自動重設</h3>
 
         <table>
@@ -318,6 +372,21 @@
             <tr><td>要送出的訊息</td><td><code>Hello World!</code></td><td>越短越省額度，最多 200 字</td></tr>
           </tbody>
         </table>
+
+        <p>這個區塊下方的「最後一次檢查」會顯示最近一次判斷的時間與結論，不用開 debug log 就能看。</p>
+
+        <h3>更新</h3>
+
+        <table>
+          <thead><tr><th>設定</th><th>預設</th><th>說明</th></tr></thead>
+          <tbody>
+            <tr><td>自動檢查新版本</td><td>開啟</td><td>每天一次讀取 GitHub 上的版本號，<strong>不送出任何資料</strong>。有新版本時發一次桌面通知，工具列小視窗上方也會顯示提示</td></tr>
+          </tbody>
+        </table>
+
+        <p>除了向 claude.ai 查詢用量之外，這是 Claude Queue 唯一的外部連線，而且可以在這裡關閉。從 Chrome 線上應用程式商店安裝的版本不會連線。</p>
+
+        <p>設定頁的「關於」區塊有這份教學的連結與目前版本。</p>
 
         <h3>除錯與資料</h3>
 
@@ -370,13 +439,19 @@
           <li>電腦不能睡眠（做法見下）</li>
         </ul>
 
-        <p><strong>macOS</strong>：打開「終端機」，貼上下面的指令並按 Enter，終端機視窗開著的期間電腦就不會進入睡眠（螢幕還是可以關）。早上按 <code>Ctrl C</code> 結束。</p>
+        <p><strong>macOS</strong>：打開「終端機」，貼上下面的指令並按 Enter，終端機視窗開著的期間電腦不會進入睡眠，<strong>螢幕也會保持喚醒</strong>。早上按 <code>Ctrl C</code> 結束。</p>
 
-        <pre><code>caffeinate -i</code></pre>
+        <pre><code>caffeinate -di</code></pre>
+
+        <p>螢幕睡著或鎖定時，能不能自動填入文字還沒有驗證；目前確認可行的做法是讓螢幕保持喚醒。也可以改用 KeepingYouAwake 這類 App。</p>
 
         <p>也可以到「系統設定」→「電池」（桌機是「能源」）調整，避免電腦自動睡眠。</p>
 
         <p><strong>Windows</strong>：「設定」→「系統」→「電源」→ 把「睡眠」設為「永不」。</p>
+
+        <h3>看目前的狀態</h3>
+
+        <p>小視窗的「自動重設」那一行會顯示目前狀態，例如正在送出、10 分鐘冷卻中（附再試時間）、下次檢查時間。設定頁「自動重設」區塊下方的「最後一次檢查」可以看到最近一次判斷的時間與結論。</p>
 
         <h3>要知道的事</h3>
 
@@ -406,11 +481,19 @@
         <div class="callout">
           <p class="callout-title">同時開著自動重設的話</p>
           <p>如果你同時開著「自動重設」，模擬結束時它會<strong>真的送出一則訊息</strong>。只想試排隊功能的話，先把自動重設關掉。</p>
+          <p>如果想用模擬連續測試自動重設，兩次之間要隔 <strong>10 分鐘</strong>（自動重設的冷卻時間）。</p>
         </div>
 
         <hr>
 
         <h2 id="s12">12. 更新到新版本</h2>
+
+        <p>有新版本時，你會收到一次「Claude Queue 有新版本」通知，點通知會打開這一節。工具列小視窗上方也會顯示「有新版本 vX.Y.Z · 如何更新」，按 × 可以關掉這個版本的提示。更新成功後，小視窗上方會顯示「已更新到 vX.Y.Z · 看更新內容」。</p>
+
+        <div class="callout">
+          <p class="callout-title">警告：一定要覆蓋原本的資料夾</p>
+          <p>如果改載入另一個資料夾，Chrome 會把它當成<strong>另一個擴充功能</strong>，佇列和設定都不會帶過去。</p>
+        </div>
 
         <h3>用 ZIP 安裝的</h3>
 
@@ -480,6 +563,28 @@
 
         <ul>
           <li>你可能移動或刪除了安裝用的資料夾。把資料夾放回原位，或重新做一次<a href="#s4">第 4 節</a></li>
+        </ul>
+
+        <h3>附件沒有被排隊</h3>
+
+        <ul>
+          <li>見<a href="#s7">第 7 節</a>附件說明裡「不能排隊的情況」</li>
+          <li>在頁面重新整理前就加入的檔案，請重新整理後再加一次</li>
+        </ul>
+
+        <h3>收到自動送出失敗的通知</h3>
+
+        <ul>
+          <li>點通知會打開那個對話</li>
+          <li>原因見<a href="#s9">第 9 節</a>「會刻意停下來的情況」</li>
+          <li>失敗的訊息會留在佇列（附件也保留），可以在小視窗按「立即嘗試」</li>
+        </ul>
+
+        <h3>收到有新版本的通知</h3>
+
+        <ul>
+          <li>照<a href="#s12">第 12 節</a>更新</li>
+          <li>不想收到的話，可以在設定頁「更新」關閉</li>
         </ul>
 
         <h3>自動重設沒有送出</h3>
