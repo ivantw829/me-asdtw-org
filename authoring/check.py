@@ -8,6 +8,7 @@ import html
 import json
 import pathlib
 import re
+import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -323,6 +324,11 @@ if domain:
                     pass
             if '"@type":"BreadcrumbList"' not in text:
                 err(f"{rel}：缺少 BreadcrumbList 結構化資料（ld+json）")
+
+# 靜態文章列表（給沒有執行 JS 的爬蟲）必須與 data/articles.json 一致
+_r = subprocess.run([sys.executable, str(ROOT / "authoring" / "build-lists.py"), "--check"], capture_output=True, text=True)
+if _r.returncode != 0:
+    err(_r.stderr.strip() or "build-lists.py --check 失敗")
 
 # ---------- 6. 樣式數值同步（style.css ⇄ 兩份設計文件） ----------
 css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")

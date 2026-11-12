@@ -4,6 +4,7 @@
 可自動解決：
 - HTML 內只差 ?v= 版本碼的衝突 → 取目前分支，之後 build-assets 重算
 - sitemap.xml、feed.xml → 取目前分支，之後重新產生
+- index.html／articles.html 內的靜態文章卡片 → 取目前分支，之後 build-lists 重新產生
 - images/og/.manifest.json → 兩邊的雜湊表取聯集
 其餘衝突（真正的內容衝突，例如 data/articles.json）不處理：中止合併並列出檔案，exit 1。
 成功時 exit 0（已經是最新，或已合併並提交）。
@@ -28,7 +29,9 @@ def resolve_html(path):
         k = j + 1; theirs = []
         while not lines[k].startswith(">>>>>>> "): theirs.append(lines[k]); k += 1
         norm = lambda ls: [V.sub("?v=X", l) for l in ls]
-        if norm(ours) != norm(theirs):
+        # 靜態文章卡片（build-lists.py 的產物）：兩邊各加一篇文章時必衝突 → 取目前分支，之後重新產生
+        generated = any('class="card"' in l or "<!--lists:" in l for l in ours + theirs)
+        if norm(ours) != norm(theirs) and not generated:
             return False
         out.extend(ours); i = k + 1
     open(path, "w", encoding="utf-8").write("\n".join(out))
@@ -59,7 +62,7 @@ def main():
             run("git", "merge", "--abort", check=False)
             print("✗ 無法自動合併 origin/main，這些檔案有內容衝突，請手動處理：", *bad, sep="\n  ", file=sys.stderr)
             return 1
-    for s in ("build-sitemap.py", "build-feed.py", "build-assets.py", "build-og.py"):
+    for s in ("build-sitemap.py", "build-feed.py", "build-lists.py", "build-assets.py", "build-og.py"):
         r = run("python3", f"authoring/{s}", check=False)
         if r.returncode:
             print(f"✗ {s} 失敗：{r.stderr}", file=sys.stderr)
