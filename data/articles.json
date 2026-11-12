@@ -9,7 +9,8 @@
       "心得"
     ],
     "summary": "這是一篇用來示範文章版型的範例，展示標題、引言、圖片、提示框與參考資料等元件。正式發文前請刪除。",
-    "readingTime": 2
+    "readingTime": 2,
+    "draft": true
   },
   {
     "slug": "116-fju-sociology-interview",

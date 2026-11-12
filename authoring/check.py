@@ -321,6 +321,8 @@ if domain:
                         err(f"{rel}：ld+json 的 dateModified 應為 updated（沒有就是 date）")
                 except json.JSONDecodeError:
                     pass
+            if '"@type":"BreadcrumbList"' not in text:
+                err(f"{rel}：缺少 BreadcrumbList 結構化資料（ld+json）")
 
 # ---------- 6. 樣式數值同步（style.css ⇄ 兩份設計文件） ----------
 css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
