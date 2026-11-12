@@ -40,14 +40,4 @@
     <category term="面試心得"/>
     <category term="輔仁大學"/>
   </entry>
-  <entry>
-    <title>範例文章：這是版型示範</title>
-    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/sample-article.html"/>
-    <id>https://me.asdtw.org/articles/sample-article.html</id>
-    <published>2026-01-01T00:00:00+08:00</published>
-    <updated>2026-01-01T00:00:00+08:00</updated>
-    <summary type="text">這是一篇用來示範文章版型的範例，展示標題、引言、圖片、提示框與參考資料等元件。正式發文前請刪除。</summary>
-    <category term="範例"/>
-    <category term="心得"/>
-  </entry>
 </feed>
