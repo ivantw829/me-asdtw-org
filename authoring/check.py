@@ -30,6 +30,7 @@ def load_json(rel: str):
 
 SLUG = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+ARTICLE_CATEGORIES = {"心得分享", "技術教學"}
 CATEGORIES = {"社會倡議", "政策參與", "社會服務", "研習", "研究", "組織參與"}
 
 # ---------- 1. 資料檔 ----------
@@ -50,6 +51,8 @@ for i, a in enumerate(articles):
     seen.add(slug)
     if a.get("date") and not DATE.match(a["date"]):
         err(f"{where}：date 格式必須是 YYYY-MM-DD")
+    if a.get("category") not in ARTICLE_CATEGORIES:
+        err(f"{where}：category「{a.get('category')}」不在允許清單 {sorted(ARTICLE_CATEGORIES)}")
     if not isinstance(a.get("tags", []), list):
         err(f"{where}：tags 必須是陣列")
     if a.get("updated"):
@@ -303,6 +306,9 @@ if domain:
             tags = re.findall(r'<meta property="article:tag" content="([^"]*)"', text)
             if [html.unescape(t) for t in tags] != a.get("tags", []):
                 err(f"{rel}：article:tag 與 articles.json 的 tags 不一致")
+            catlink = re.search(r'<p class="article-tags">\s*<a class="tag" href="[^"]*\?category=[^"]*">([^<]*)</a>', text)
+            if not catlink or html.unescape(catlink.group(1)) != a.get("category"):
+                err(f"{rel}：文章頁的分類連結與 articles.json 的 category 不一致")
             ld = re.search(r'<script type="application/ld\+json">(.*?)</script>', text, re.S)
             if not ld:
                 err(f"{rel}：缺少文章結構化資料（ld+json）")

@@ -16,7 +16,8 @@
   title: 文章標題
   slug: my-article            # 小寫英文、數字、連字號
   date: 2026-11-11
-  tags: 標籤1, 標籤2          # 1～3 個
+  category: 心得分享          # 分類，只能是 心得分享／技術教學（定義在 check.py 的 ARTICLE_CATEGORIES）；articles 頁依此篩選
+  tags: 標籤1, 標籤2          # 1～3 個，只顯示在文章頁與 meta，不當篩選
   summary: 80～120 字摘要，會同時用在 description／og:description／articles.json
   lead: 一句話摘要（30～60 字），顯示在標題下
   readingTime: 6              # 選填，沒填就以每分鐘 400 字估算
@@ -42,6 +43,9 @@ import shutil
 import struct
 import subprocess
 import sys
+import urllib.parse
+
+ARTICLE_CATEGORIES = {"心得分享", "技術教學"}  # 與 check.py 同步
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / "authoring" / "article-template.html"
@@ -388,10 +392,11 @@ def build(fm, body, slug, dims=None):
     t = t.replace("{{標籤1}}、{{標籤2}}", joined)
     t = t.replace("  <meta property=\"article:tag\" content=\"{{標籤1}}\">\n  <meta property=\"article:tag\" content=\"{{標籤2}}\">",
                   "\n".join(f'  <meta property="article:tag" content="{html.escape(x)}">' for x in tags))
-    t = t.replace('<a class="tag" href="../articles.html?tag={{標籤1}}">{{標籤1}}</a>\n          '
-                  '<a class="tag" href="../articles.html?tag={{標籤2}}">{{標籤2}}</a>',
-                  "\n          ".join(f'<a class="tag" href="../articles.html?tag={x.replace(" ", "%20")}">{html.escape(x)}</a>'
-                                      for x in tags))
+    cat = fm["category"]
+    t = t.replace('<a class="tag" href="../articles.html?category={{分類}}">{{分類}}</a>',
+                  f'<a class="tag" href="../articles.html?category={urllib.parse.quote(cat)}">{html.escape(cat)}</a>')
+    t = t.replace('<span class="tag">{{標籤1}}</span>\n          <span class="tag">{{標籤2}}</span>',
+                  "\n          ".join(f'<span class="tag">{html.escape(x)}</span>' for x in tags))
     t = re.sub(r"\n[ \t]+\n", "\n\n", t)
     t = re.sub(r"\n{3,}", "\n\n", t)
     if re.search(r"\{\{.+?\}\}", t):
@@ -411,9 +416,11 @@ def main() -> None:
         del args[k:k + 2]
     src = pathlib.Path(args[0]).expanduser()
     fm, body = parse_frontmatter(src.read_text(encoding="utf-8"))
-    for k in ("title", "slug", "date", "tags", "summary", "lead"):
+    for k in ("title", "slug", "date", "category", "tags", "summary", "lead"):
         if not fm.get(k):
             die(f"frontmatter 缺少 {k}")
+    if fm["category"] not in ARTICLE_CATEGORIES:
+        die(f"category「{fm['category']}」不在允許清單 {sorted(ARTICLE_CATEGORIES)}")
     slug = fm["slug"]
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
         die("slug 只能是小寫英文、數字與連字號")
@@ -443,7 +450,7 @@ def main() -> None:
     out.write_text(text, encoding="utf-8")
     print(f"{'更新' if existed else '建立'} {out.relative_to(ROOT)}（閱讀約 {rt} 分鐘）")
 
-    entry = {"slug": slug, "title": fm["title"], "date": fm["date"], "tags": tags,
+    entry = {"slug": slug, "title": fm["title"], "date": fm["date"], "category": fm["category"], "tags": tags,
              "summary": fm["summary"], "readingTime": rt}
     if fm.get("updated"):
         entry["updated"] = fm["updated"]
