@@ -69,7 +69,7 @@
 4. **檢查清單**：逐項回報下方「自我檢查」是否通過；有任何需要我決定的事項（例如原稿沒有日期、引用沒有出處）列在最後。
 
 ### 硬性規則
-- 以範本為唯一骨架。**不得修改** `<head>` 中的字體、CSS、JS 引用，以及 `data-site-header`、`data-article-nav`、`data-giscus`、`data-site-footer` 與結尾的 `<script>`。
+- 以範本為唯一骨架。**不得修改** `<head>` 中的字體、CSS、JS 引用，以及 `data-site-header`、`data-article-nav`、`data-giscus`、`data-site-footer` 與結尾的 `<script>`（頁首頁尾留空即可，commit 時由 `build-static.py` 填入）。
 - **不得**新增 `<style>`、`style=""`、`<script>`、外部字體或外部 CSS／JS。
 - 內文只能使用 `DESIGN-SPEC.md` 列出的標籤與 class（`h2`、`h3`、`p`、`ul`、`ol`、`blockquote`、`figure`、`.callout`、`.pullquote`、`hr`、`table`、`code`、`strong`、`a`）。不要發明新 class。
 - **不得改寫我的觀點或增刪事實。** 你只負責排版與必要的文字整理：修正錯字與標點、切分段落、加上小標。我的用字、立場與語氣要保留。

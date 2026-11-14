@@ -1,38 +1,11 @@
 /* ==========================================================
    賴奕帆 個人網站 — 共用腳本
-   功能：統一的頁首/頁尾、深色模式、讀取 data/articles.json、giscus 留言
-   要改導覽、社群連結、giscus 設定，只要改下面的 SITE 即可。
+   功能：深色模式、讀取 data/articles.json、giscus 留言、成年確認
+   頁首與頁尾（導覽、社群連結、友站、聲明）是建置時寫進 HTML 的：改 authoring/site.json，
+   再跑 python3 authoring/build-static.py（pre-commit 會自動跑）。
    ========================================================== */
 const SITE = {
-  name: "賴奕帆",
-  tagline: "多元平權倡議者",
-  nav: [
-    { label: "首頁", path: "index.html" },
-    { label: "關於", path: "about.html" },
-    { label: "文章", path: "articles.html" },
-    { label: "贊助", path: "sponsor.html" },
-  ],
-  // 社群連結（頁尾使用；首頁「聯絡我」區塊的順序寫在 index.html）
-  links: [
-    { label: "Discord", href: "https://discord.gg/b8BwFtv3C9" },
-    { label: "Instagram", href: "https://www.instagram.com/ivantw829/" },
-    { label: "Threads", href: "https://www.threads.com/@yian.earth" },
-    { label: "Bluesky", href: "https://bsky.app/profile/ouoc.net" },
-    { label: "YouTube", href: "https://www.youtube.com/channel/UCvTDRWA06FqA7SXe5jkCEWw" },
-    { label: "GitHub", href: "https://github.com/ivantw829" },
-    { label: "訂閱", path: "feed.xml" },
-  ],
-  // 友站連結（顯示在每頁頁尾）
-  friends: [
-    { label: "雲端貓居 NyankoHost", href: "https://nyanko.host/" },
-    { label: "不是社工的社工", href: "https://www.youtube.com/@nonsocialworker" },
-    { label: "社團法人臺灣障礙青年協會", href: "https://tywd.org/" },
-    { label: "時代力量", href: "https://newpowerparty.tw/" },
-    { label: "臺灣綠黨", href: "https://www.greenparty.org.tw/" },
-    { label: "台灣前進陣線", href: "https://taiwangogo.tw/" },
-  ],
   email: "info@asdtw.org",
-  disclaimer: "個人發言僅代表個人立場，與所屬團體無關。",
   // giscus 留言（已設定：Discussions 分類「文章留言」，Announcements 類型）；repo 留空則不顯示留言區
   giscus: { repo: "ivantw829/me-asdtw-org", repoId: "R_kgDOVqKA5Q", category: "文章留言", categoryId: "DIC_kwDOVqKA5c4DK4di" },
   // 成年確認（只對標記 data-age-gate 的成人文章啟用）。days：記住聲明的天數；0 = 每個瀏覽工作階段都重新詢問（較保守）
@@ -55,23 +28,11 @@ const SITE = {
   const isDark = () => root.getAttribute("data-theme") === "dark" ||
     (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
 
-  /* ---------- 頁首 / 頁尾 ---------- */
-  const header = document.querySelector("[data-site-header]");
-  if (header) {
-    header.className = "site-header";
-    const file = here.split("/").pop() || "index.html";
-    const inArticles = here.includes("/articles/");
-    const nav = SITE.nav.map((n) => {
-      const current = n.path === file || (inArticles && n.path === "articles.html");
-      return `<a href="${BASE}${n.path}"${current ? ' aria-current="page"' : ""}>${n.label}</a>`;
-    }).join("");
-    header.innerHTML = `<div class="wrap">
-      <a class="brand" href="${BASE}index.html">${esc(SITE.name)}</a>
-      <nav class="nav" aria-label="主要導覽">${nav}</nav>
-      <button class="theme-toggle" type="button" aria-label="切換深色模式"></button>
-    </div>`;
-    const btn = header.querySelector(".theme-toggle");
-    const paint = () => { btn.textContent = isDark() ? "☀" : "☾"; btn.setAttribute("aria-pressed", isDark()); };
+  /* ---------- 頁首 / 頁尾（HTML 由 build-static.py 產生，這裡只處理互動） ---------- */
+  // 圖示（☀／☾）由 CSS 依 data-theme 顯示，這裡只維護 aria-pressed
+  const btn = document.querySelector("[data-site-header] .theme-toggle");
+  if (btn) {
+    const paint = () => btn.setAttribute("aria-pressed", isDark());
     paint();
     btn.addEventListener("click", () => {
       const next = isDark() ? "light" : "dark";
@@ -81,18 +42,8 @@ const SITE = {
     });
   }
 
-  const footer = document.querySelector("[data-site-footer]");
-  if (footer) {
-    footer.className = "site-footer";
-    const friends = SITE.friends.map((l) => `<a href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
-    const links = SITE.links.map((l) => l.path ? `<a href="${BASE}${l.path}">${esc(l.label)}</a>` : `<a href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
-    footer.innerHTML = `<div class="wrap">
-      <div class="footer-links">${links}</div>
-      <div class="footer-friends"><span class="footer-label">友站</span>${friends}</div>
-      <small>${esc(SITE.disclaimer)}</small>
-      <small>© ${new Date().getFullYear()} ${esc(SITE.name)}</small>
-    </div>`;
-  }
+  // 靜態年份取自最新文章日期；這裡換成今年
+  document.querySelectorAll("[data-site-footer] [data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
 
   /* ---------- 文章資料 ---------- */
   const fmtDate = (iso) => { const [y, m, d] = iso.split("-"); return `${y} 年 ${+m} 月 ${+d} 日`; };

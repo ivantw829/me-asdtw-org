@@ -108,6 +108,11 @@ p { margin: 0 0 1em; }
   background: var(--surface); color: var(--text); cursor: pointer; font-size: 1.05rem; line-height: 1;
 }
 .theme-toggle:hover { background: var(--surface-2); }
+.theme-toggle::before { content: "☾"; }
+[data-theme="dark"] .theme-toggle::before { content: "☀"; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle::before { content: "☀"; }
+}
 
 /* ---------- Layout helpers ---------- */
 main { min-height: 60vh; }

@@ -1,0 +1,27 @@
+{
+  "name": "賴奕帆",
+  "nav": [
+    { "label": "首頁", "path": "index.html" },
+    { "label": "關於", "path": "about.html" },
+    { "label": "文章", "path": "articles.html" },
+    { "label": "贊助", "path": "sponsor.html" }
+  ],
+  "links": [
+    { "label": "Discord", "href": "https://discord.gg/b8BwFtv3C9" },
+    { "label": "Instagram", "href": "https://www.instagram.com/ivantw829/" },
+    { "label": "Threads", "href": "https://www.threads.com/@yian.earth" },
+    { "label": "Bluesky", "href": "https://bsky.app/profile/ouoc.net" },
+    { "label": "YouTube", "href": "https://www.youtube.com/channel/UCvTDRWA06FqA7SXe5jkCEWw" },
+    { "label": "GitHub", "href": "https://github.com/ivantw829" },
+    { "label": "訂閱", "path": "feed.xml" }
+  ],
+  "friends": [
+    { "label": "雲端貓居 NyankoHost", "href": "https://nyanko.host/" },
+    { "label": "不是社工的社工", "href": "https://www.youtube.com/@nonsocialworker" },
+    { "label": "社團法人臺灣障礙青年協會", "href": "https://tywd.org/" },
+    { "label": "時代力量", "href": "https://newpowerparty.tw/" },
+    { "label": "臺灣綠黨", "href": "https://www.greenparty.org.tw/" },
+    { "label": "台灣前進陣線", "href": "https://taiwangogo.tw/" }
+  ],
+  "disclaimer": "個人發言僅代表個人立場，與所屬團體無關。"
+}
