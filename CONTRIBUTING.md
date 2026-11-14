@@ -88,7 +88,7 @@ bash authoring/publish.sh 原稿.md 圖片資料夾
 - **修改已發布的文章**：改原稿、加 `updated: YYYY-MM-DD`，重跑 `publish.sh`（會顯示「更新於」並更新 sitemap `lastmod`）。
 - **18+ 文章**：frontmatter 寫 `adult: true`。
 - 只想產生不上線：`python3 authoring/md2article.py 原稿.md --images 圖片資料夾`，之後自己 `bash authoring/ship.sh "content(article): 新增〈標題〉"`。
-- **靜態文章列表**：`index.html`、`articles.html` 的文章卡片由 `build-lists.py` 寫進 `<!--lists:start-->…<!--lists:end-->` 之間（給不執行 JS 的爬蟲），commit 時自動更新；不要手改這段。
+- **靜態頁首頁尾與文章列表**：各頁的 `<header data-site-header>`／`<footer data-site-footer>` 由 `build-static.py` 依 `authoring/site.json` 產生；`index.html`、`articles.html` 的文章卡片也由它寫進 `<!--lists:start-->…<!--lists:end-->` 之間（給不執行 JS 的爬蟲）。commit 時自動更新；不要手改這些區段，要改導覽、社群連結或友站就改 `authoring/site.json`。
 - **訂閱源**：`feed.xml`（Atom，只放標題、摘要與連結）由 `build-feed.py` 產生，commit 時自動更新；草稿與 18+ 不會出現。
 - **CSS／JS 版本碼**：頁面引用 `style.css`／`site.js` 的 `?v=` 由 `build-assets.py` 依檔案內容自動更新，commit 時自動處理，部署後回訪者不會再看到舊樣式。
 - 上線驗證可單獨跑：`python3 authoring/verify-live.py <slug>`。

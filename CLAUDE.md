@@ -11,7 +11,7 @@ python3 -m http.server 8000        # 本機預覽；不能直接開 file://，�
 python3 authoring/check.py         # 唯一的「測試」：資料、文章規範、站內連結、sitemap。CI 與 pre-commit 都會跑
 python3 authoring/build-sitemap.py # 重新產生 sitemap.xml（pre-commit 會自動跑並 stage，通常不用手動）
 python3 authoring/build-feed.py    # 重新產生 Atom 訂閱源 feed.xml（只放標題／摘要／連結，排除草稿與 18+；pre-commit 自動跑並 stage）
-python3 authoring/build-lists.py  # 把文章卡片靜態寫進 index.html／articles.html 的 <!--lists:start-->…<!--lists:end-->（給不執行 JS 的爬蟲；結構須與 site.js 的 card() 相同；pre-commit 與 md2article 自動跑，check.py 驗證）
+python3 authoring/build-static.py # 依 authoring/site.json 把頁首頁尾寫進每頁，並把文章卡片寫進 index.html／articles.html 的 <!--lists:start-->…<!--lists:end-->（給不執行 JS 的爬蟲；卡片結構須與 site.js 的 card() 相同；pre-commit 與 md2article 自動跑，check.py 驗證）
 python3 authoring/build-og.py     # 以本機 Chrome + macOS `sips` 產生社群分享圖 1200×630（缺圖或過期時 pre-commit 會自動跑；`images/og/.manifest.json` 記錄每張圖的輸入雜湊，改標題／標籤／日期／卡片設計都會自動重產）
 python3 authoring/md2article.py 原稿.md [--images 資料夾]  # Markdown＋frontmatter → 文章頁，並登錄 JSON、png/jpg 轉 webp、產分享圖、跑 check（新文章首選）；frontmatter 可加 updated／draft／adult，重跑同一份原稿即更新該篇
 python3 authoring/mark-adult.py <slug>  # 把文章標成 18+（--undo 取消），見下方「成人文章」
@@ -26,7 +26,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 ## 架構（需要跨檔案才看得懂的部分）
 
-**共用外框由 JS 注入。** 每個 HTML 只放空的 `<header data-site-header>`、`<footer data-site-footer>`，由 `assets/js/site.js` 填入導覽與頁尾。導覽項目（`nav`）、頁尾社群連結（`links`）與友站（`friends`）、`email`、`giscus`、成年確認記憶天數（`ageGate`）都在 `site.js` 最上方的 `SITE` 物件。`site.js` 用自己的 `<script src>` 位置推算站台根目錄 `BASE`，所以同一份導覽在根目錄與 `articles/` 內都能用；新增站內連結時請沿用 `BASE`，不要寫死絕對路徑（`404.html` 例外，它用 `/` 開頭的路徑，因為會在任意深度的網址下顯示；它也載入 `site.js`，由 `data-404-suggest` 掛載點依網址猜文章）。
+**共用外框是建置產物。** 導覽項目（`nav`）、頁尾社群連結（`links`）、友站（`friends`）與頁尾聲明都在 `authoring/site.json`；`build-static.py` 把每個根目錄頁面與 `articles/*.html` 的 `<header data-site-header>…</header>`、`<footer data-site-footer>…</footer>` 整個元素重寫成一行靜態 HTML（依頁面位置用相對路徑，`404.html` 用 `/` 開頭，因為它會在任意深度的網址下顯示；`aria-current` 也在這時決定），不要手改這兩個元素。新頁面或範本只要放空的 `<header data-site-header></header>`、`<footer data-site-footer></footer>`，commit 時會被填入。`site.js` 只負責互動：深色模式按鈕（圖示由 CSS 依 `data-theme` 顯示）、把頁尾 `[data-year]` 換成今年；`email`、`giscus`、成年確認記憶天數（`ageGate`）仍在 `site.js` 最上方的 `SITE` 物件。`site.js` 用自己的 `<script src>` 位置推算站台根目錄 `BASE`，JS 產生的站內連結請沿用它；`404.html` 也載入 `site.js`，由 `data-404-suggest` 掛載點依網址猜文章。
 
 **列表由 JSON 驅動。** `data/articles.json`（文章清單，首頁最新 3 篇與 `articles.html` 的標籤篩選都讀它；`draft: true` 會隱藏）與 `data/timeline.json`（`timeline.html`，依年份分組；選填 `url` 會把標題變成連結）都在 `site.js` 內用 `data-*` 屬性當掛載點渲染。文章頁本身是手寫的 HTML，上一篇／下一篇依 `<article data-slug>` 比對 JSON 產生。
 
@@ -34,7 +34,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **網域以 `CNAME`（`me.asdtw.org`）為唯一來源，但 HTML 裡有大量寫死的完整網址。** `build-sitemap.py` 與 `check.py` 都讀 `CNAME`；`robots.txt` 的 Sitemap 行、每頁的 `canonical`／`og:url`／`og:image`／`twitter:image`、文章範本與 JSON-LD 則是寫死的，換網域時要全站取代，`check.py` 會逐頁驗證它們與 `CNAME` 一致。
 
-**新增一個站台頁面（非文章）要動 3 處，漏了 `check.py` 或 CI 會失敗：** ① 新頁面本身：`<head>` 的 `rel="expect"` 與結尾的 `#page-end`（見下方切頁動畫），以及完整的 canonical／og／twitter meta（複製既有頁面，`og:image` 指向 `images/og/<頁面>.jpg`）；② `authoring/pages.json` 加一筆（`path`、`priority`、影響 lastmod 的檔案、分享圖設定）——`build-og.py`、`build-sitemap.py`、`check.py` 都讀它，`check.py` 也會抓出沒登錄的根目錄 HTML；③ 若要出現在導覽，加到 `SITE.nav`。
+**新增一個站台頁面（非文章）要動 3 處，漏了 `check.py` 或 CI 會失敗：** ① 新頁面本身：空的 `<header data-site-header></header>`／`<footer data-site-footer></footer>` 掛載點，以及完整的 canonical／og／twitter meta（複製既有頁面，`og:image` 指向 `images/og/<頁面>.jpg`）；② `authoring/pages.json` 加一筆（`path`、`priority`、影響 lastmod 的檔案、分享圖設定）——`build-og.py`、`build-sitemap.py`、`check.py` 都讀它，`check.py` 也會抓出沒登錄的根目錄 HTML；③ 若要出現在導覽，加到 `authoring/site.json` 的 `nav`。
 
 **樣式只有一個 `assets/css/style.css`。** 淺色/深色用 CSS 變數；深色變數有兩份（`[data-theme="dark"]` 與 `prefers-color-scheme: dark` 且非 `data-theme="light"`），改色票要兩處一起改。識別色（奶白、黃 `--accent`、青綠 `--teal`、墨黑 `--ink`）來自角色設定圖，條碼／鏤空字／× 等裝飾只用在首頁，文章內文不用。色票與元件規格的數值另外**手動複製**在 `authoring/DESIGN-SPEC.md`（文章用）與 `authoring/STYLE-PROMPT.md`（給 AI 的整站風格提示詞）裡，`check.py` 會驗證主要色票（淺色與深色）在這兩份的色票表裡與 `style.css` 一致，並檢查兩份深色變數互相一致；元件規格（字級、圓角等）仍需手動同步。
 
@@ -42,7 +42,7 @@ bash authoring/setup-github.sh     # 一次性：squash only、auto-merge、保�
 
 **成人文章（18+）閘門。** `data/articles.json` 的 `adult: true` ⇄ 文章 `<article data-age-gate>` ⇄ CSS 預設隱藏（fail-closed，`.age-ok` 才顯示）⇄ `site.js` 的 `<dialog>` 彈窗，四者必須一致；一律用 `python3 authoring/mark-adult.py <slug>`（`--undo` 取消）套用，`check.py` 驗證（noindex、rating/RTA、通用分享圖 `images/og/adult.jpg`、不在 sitemap）。這只是自我聲明，不是年齡驗證，不要宣稱它具法律效力。瀏覽器在沒有使用者互動前會讓 Esc 關閉 `<dialog>`，所以 `close` 事件會重新打開它，勿移除。
 
-**切頁動畫（跨頁面 View Transitions）有隱性依賴。** 每個頁面（`404.html` 除外）的 `<head>` 需要 `<link rel="expect" href="#page-end" blocking="render">`，並在 `site.js` 之後放 `<span id="page-end" hidden></span>`，否則頁首會在切換瞬間閃空白。新增頁面或改範本時別漏掉。
+**切頁不再需要阻塞渲染。** 以前頁首由 JS 注入，每頁要用 `<link rel="expect" href="#page-end" blocking="render">` 等 `site.js` 跑完才渲染，否則切頁時頁首會閃空白；現在頁首頁尾是靜態 HTML，這個補丁與 `#page-end` 已移除（2026-11-14），不要加回去。深淺色不閃爍靠的是 `<head>` 裡那段讀 `localStorage` 的內嵌 script，勿移除。
 
 **快取版本碼。** GitHub Pages 的 CSS/JS 快取 10 分鐘，所以每頁引用 `style.css`、`site.js` 時都帶內容雜湊 `?v=xxxxxxxx`（`authoring/build-assets.py` 產生，pre-commit 與 `md2article.py` 自動執行並 stage；`check.py` 驗證每頁都是最新版本碼）。改了 CSS 或 JS 後，全部 HTML 會各有一行版本碼 diff，屬預期；新頁面請照既有頁面寫引用即可，版本碼會被自動補上。與別人同時改到 HTML 的 PR 容易衝突，重新套用即可。
 

@@ -325,10 +325,10 @@ if domain:
             if '"@type":"BreadcrumbList"' not in text:
                 err(f"{rel}：缺少 BreadcrumbList 結構化資料（ld+json）")
 
-# 靜態文章列表（給沒有執行 JS 的爬蟲）必須與 data/articles.json 一致
-_r = subprocess.run([sys.executable, str(ROOT / "authoring" / "build-lists.py"), "--check"], capture_output=True, text=True)
+# 靜態頁首頁尾（authoring/site.json）與文章列表（data/articles.json）必須是最新產物
+_r = subprocess.run([sys.executable, str(ROOT / "authoring" / "build-static.py"), "--check"], capture_output=True, text=True)
 if _r.returncode != 0:
-    err(_r.stderr.strip() or "build-lists.py --check 失敗")
+    err(_r.stderr.strip() or _r.stdout.strip() or "build-static.py --check 失敗")
 
 # ---------- 6. 樣式數值同步（style.css ⇄ 兩份設計文件） ----------
 css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
