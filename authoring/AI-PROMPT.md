@@ -4,7 +4,7 @@
 
 不用再貼範本與設計規範，也不會有 AI 改壞 `<head>` 的問題。
 
-每種 Markdown 寫法在網站上長什麼樣、什麼時候該用哪一種，見〈文章格式示範〉：https://me.asdtw.org/articles/sample-article.html；它的 Markdown 原稿在 `authoring/format-demo.md`，可以對照原始寫法（改完用 `python3 authoring/md2article.py authoring/format-demo.md` 重產）。
+每種 Markdown 寫法在網站上長什麼樣、什麼時候該用哪一種，見格式示範原稿 `authoring/format-demo.md`（可用 `python3 authoring/md2article.py authoring/format-demo.md` 產生預覽，不要發布）。
 
 1. 把下面「Markdown 提示詞」＋你的原稿貼給 AI，要它輸出一份 Markdown（含 frontmatter）。
 2. 存成 `原稿.md`，圖片放在同一個資料夾。png／jpg／webp 都可以，工具會自動轉成 webp 並壓到 300KB 內；封面檔名用 `cover.png`（或 .jpg／.webp），會自動裁成 16:9。

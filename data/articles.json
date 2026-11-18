@@ -1,17 +1,5 @@
 [
   {
-    "slug": "sample-article",
-    "title": "文章格式示範：每種寫法在網站上的樣子",
-    "date": "2026-11-16",
-    "category": "技術教學",
-    "tags": [
-      "教學",
-      "Markdown"
-    ],
-    "summary": "用 Markdown 寫文章時，每一種寫法實際在網站上會長什麼樣子？這篇把標題、清單、引言、提示框、金句、表格、圖片、程式碼與參考資料逐一示範，並說明什麼情況該用哪一種。",
-    "readingTime": 4
-  },
-  {
     "slug": "116-fju-sociology-interview",
     "title": "116 年特殊選才 天主教輔仁大學社會學系 面試心得",
     "date": "2026-11-06",
