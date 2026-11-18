@@ -82,7 +82,7 @@ bash authoring/sync.sh                # 7. 同步本機與 GitHub
 bash authoring/publish.sh 原稿.md 圖片資料夾
 ```
 
-不確定該用哪種格式（提示框、引言、金句、表格……）時，看〈[文章格式示範](https://me.asdtw.org/articles/sample-article.html)〉，原稿在 `authoring/format-demo.md`。
+不確定該用哪種格式（提示框、引言、金句、表格……）時，看 `authoring/format-demo.md`（格式示範原稿，需要看實際效果時用 `md2article.py` 產生後預覽，不要發布）。
 
 它會依序：產生文章頁（png/jpg 自動轉 webp）→ 登錄 `articles.json` → 開本機預覽等你按 Enter → 開 PR、等 CI、合併 → 驗證線上頁面的 canonical、og 與分享圖。
 
