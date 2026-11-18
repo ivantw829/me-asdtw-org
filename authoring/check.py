@@ -212,6 +212,10 @@ if domain:
                     err(f"feed.xml：{a['slug']} 的標題／摘要／更新日期與 articles.json 不一致（請重新執行 build-feed.py）")
             for url in entries.keys() - want.keys():
                 err(f"feed.xml：不應出現 {url}（草稿或 18+ 文章必須排除）")
+            _r = subprocess.run([sys.executable, str(ROOT / "authoring" / "build-feed.py"), "--check"],
+                                capture_output=True, text=True)
+            if _r.returncode != 0:
+                err(_r.stderr.strip() or _r.stdout.strip() or "build-feed.py --check 失敗")
     FEED_TAG = f'<link rel="alternate" type="application/atom+xml" title="賴奕帆｜文章" href="https://{domain}/feed.xml">'
     for page in sorted(ROOT.glob("*.html")) + sorted((ROOT / "articles").glob("*.html")):
         if FEED_TAG not in page.read_text(encoding="utf-8"):
