@@ -27,7 +27,7 @@
 - [Discord](https://discord.gg/b8BwFtv3C9)
 - [Instagram](https://www.instagram.com/ivantw829/)
 - [Threads](https://www.threads.com/@yian.earth)
-- [Bluesky](https://bsky.app/profile/ouoc.net)
+- [Bluesky](https://bsky.app/profile/me.asdtw.org)
 - [YouTube](https://www.youtube.com/channel/UCvTDRWA06FqA7SXe5jkCEWw)
 
 發現錯字、失效連結或網站問題，歡迎到這個 repo 開 [Issue](https://github.com/ivantw829/me-asdtw-org/issues) 告訴我。
