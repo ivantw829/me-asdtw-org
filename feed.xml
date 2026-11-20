@@ -5,8 +5,74 @@
   <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles.html"/>
   <link rel="self" type="application/atom+xml" href="https://me.asdtw.org/feed.xml"/>
   <id>https://me.asdtw.org/</id>
-  <updated>2026-11-18T00:00:00+08:00</updated>
+  <updated>2026-11-21T00:00:00+08:00</updated>
   <author><name>賴奕帆</name><uri>https://me.asdtw.org/about.html</uri></author>
+  <entry>
+    <title>MacBook Air M2 二手出清（故障機現狀出售）</title>
+    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/macbook-air-m2-sale.html"/>
+    <id>https://me.asdtw.org/articles/macbook-air-m2-sale.html</id>
+    <published>2026-11-21T00:00:00+08:00</published>
+    <updated>2026-11-21T00:00:00+08:00</updated>
+    <summary type="text">出清一台午夜色 MacBook Air M2 8GB／256GB 故障機，售價 NT$ 8,500 可議價。內建鍵盤多個按鍵不穩定、MagSafe 3 孔損壞，需外接鍵盤並以 USB-C 充電。本文列出機況、故障與瑕疵、內容物、面交方式與聯絡方式。</summary>
+    <content type="html">&lt;div class="prose"&gt;
+&lt;p&gt;出售一台午夜色 MacBook Air（M2，8GB 記憶體，256GB 儲存空間），售價 NT$ 8,500，可議價。這是一台故障機，內建鍵盤有多個按鍵不穩定，MagSafe 3 充電孔損壞，使用時需要外接鍵盤，請完整閱讀下方說明後再決定是否購買。&lt;/p&gt;
+&lt;h2 id="s1"&gt;商品資訊&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;型號：MacBook Air（M2，2022 年）&lt;/li&gt;
+&lt;li&gt;顏色：午夜色&lt;/li&gt;
+&lt;li&gt;序號：H3XM6W149C&lt;/li&gt;
+&lt;li&gt;系統版本：macOS Tahoe 26.6.2&lt;/li&gt;
+&lt;li&gt;記憶體與儲存空間：8GB／256GB&lt;/li&gt;
+&lt;li&gt;Apple 保固：已過保，我也不提供保固&lt;/li&gt;
+&lt;li&gt;價格：NT$ 8,500，可議價&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="s2"&gt;機況&lt;/h2&gt;
+&lt;p&gt;這台電腦的主機板可正常開機，螢幕可完整顯示，面交前我會登出 Apple 帳號、關閉「尋找」並完成抹除，買家拿到的是可以重新設定的狀態。電池最大容量 84%，循環使用 474 次，系統回報的電池狀態為「正常」。&lt;/p&gt;
+&lt;p&gt;正常的部分：觸控板、喇叭、麥克風、鏡頭、Touch ID、Wi-Fi、藍牙與耳機孔都正常，兩個 USB-C（Thunderbolt）孔也都正常，可以充電與傳輸。&lt;/p&gt;
+&lt;p&gt;故障與瑕疵如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Caps Lock：按一次會觸發兩次，可能是比較靈敏。&lt;/li&gt;
+&lt;li&gt;Delete 鍵：可以使用，但不太穩定。&lt;/li&gt;
+&lt;li&gt;Return 鍵：鍵帽遺失，但可以直接按下實體按鈕。&lt;/li&gt;
+&lt;li&gt;方向鍵：全部都不太正常，有時能按、有時按不動，有時會自己跳。&lt;/li&gt;
+&lt;li&gt;F 鍵：會自己跳，也無法按。&lt;/li&gt;
+&lt;li&gt;充電：MagSafe 3 孔損壞，無法使用，請改用 USB-C 充電。&lt;/li&gt;
+&lt;li&gt;螢幕：顯示完整，螢幕本體沒有破裂，裂紋在螢幕下緣的邊框處，呈蛛網狀。&lt;/li&gt;
+&lt;li&gt;外觀：機身邊角與鉸鏈側有多處掉漆，露出金屬底色，底殼平整，沒有翹起或膨脹的情況。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因為鍵盤有以上問題，這台電腦需要外接鍵盤才能正常使用。我建議搭配免費的 macOS 軟體 Karabiner-Elements，把內建鍵盤的 F 鍵與方向鍵封鎖。這個軟體要進入系統後才會生效，開機、登入畫面與復原模式時，這些按鍵仍可能自己觸發，所以這幾個階段也請用外接鍵盤操作。&lt;/p&gt;
+&lt;p&gt;完整照片放在這個雲端硬碟資料夾：&lt;a href="https://drive.google.com/drive/folders/1xQaKGxs6VV53RodiT7yrQu89D72cNNf4?usp=sharing" target="_blank" rel="noopener"&gt;MacBook Air 照片&lt;/a&gt;。資料夾內有電腦正面與背面、四處外觀瑕疵的近拍、螢幕全亮與全暗、鍵盤全景、鍵盤測試結果、建議的按鍵封鎖設定，以及電池與電腦資訊的截圖。&lt;/p&gt;
+&lt;h2 id="s3"&gt;內容物&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MacBook Air M2 本體（沒有充電器與充電線，請自備 USB-C 充電器）&lt;/li&gt;
+&lt;li&gt;原廠外盒&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;另外有一把 Logitech Pebble K380s 外接鍵盤，不計入售價。價格本來就可以議，如果買家不想議價，這把鍵盤直接附贈，有議價的話，鍵盤是否一起給，依議價結果決定。&lt;/p&gt;
+&lt;h2 id="s4"&gt;買賣契約&lt;/h2&gt;
+&lt;p&gt;本次買賣僅限於本文所列的物品，以及上方資料夾中照片所呈現的狀況。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;僅接受面交，不提供郵寄與超商取貨。&lt;/li&gt;
+&lt;li&gt;面交地點：新北市、台北市與宜蘭縣的任何一個火車站，以及台北市的任何一個捷運站。&lt;/li&gt;
+&lt;li&gt;我住在羅東，宜蘭市、礁溪鄉與羅東鎮都可以面交，不限地點。&lt;/li&gt;
+&lt;li&gt;面交地點對我越方便，價格上我能讓的空間也越大。&lt;/li&gt;
+&lt;li&gt;歡迎當面開機驗機。&lt;/li&gt;
+&lt;li&gt;現狀出售：這是故障機，不提供保固，也不提供七天鑑賞期。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;依《個人資料保護法》，為了訂立契約，確定購買後請提供以下資料，我只會用在這筆交易上：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;姓名&lt;/li&gt;
+&lt;li&gt;電話&lt;/li&gt;
+&lt;li&gt;面交的時間與地點&lt;/li&gt;
+&lt;li&gt;聲明：我已閱讀本文列出的故障與瑕疵，同意訂立這份買賣契約&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="s5"&gt;聯絡方式&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Email：info@asdtw.org&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content>
+    <category term="二手出清"/>
+    <category term="MacBook"/>
+  </entry>
   <entry>
     <title>iPad A16 二手出清</title>
     <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/ipad-a16-sale.html"/>
