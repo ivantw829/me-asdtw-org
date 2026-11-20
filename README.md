@@ -1,35 +1,45 @@
-# me.asdtw.org 個人網站
+# 賴奕帆｜多元平權倡議者
 
-靜態網站，直接部署在 GitHub Pages，不需要 build。
+**網站：<https://me.asdtw.org>**
 
-```
-CNAME / robots.txt / sitemap.xml / 404.html           搜尋引擎規則（全部允許）、找不到頁面
-index.html / about.html / timeline.html / articles.html / sponsor.html
-data/articles.json                     文章清單（首頁與文章列表從這裡讀）
-articles/                 每篇文章一個 html
-images/articles/<slug>/    文章圖片
-assets/css/style.css       全站樣式
-assets/js/site.js          深色模式、文章清單、giscus、成年確認（設定在檔案最上方的 SITE）
-authoring/                  文章範本、設計規範、給 AI 的提示詞
-```
+我是賴奕帆，來自宜蘭羅東的高三學生，關注障礙、性別、青少年權益與交通安全。這個網站記錄我在倡議現場的心得與思考，也放一些技術教學與個人經歷。
 
-## 本機預覽
-```bash
-python3 -m http.server 8000
-```
-開 http://localhost:8000 （不能直接雙擊 html，因為要讀 data/articles.json）。
+## 網站內容
 
-## 部署
-1. 推到 GitHub（`CNAME` 已設為 me.asdtw.org）。
-2. Settings → Pages → Source 選 main 分支 / root。
+| 頁面 | 內容 |
+| --- | --- |
+| [首頁](https://me.asdtw.org/) | 關注議題、倡議與技能版圖、最新文章 |
+| [關於](https://me.asdtw.org/about.html) | 認識我 |
+| [文章](https://me.asdtw.org/articles.html) | 倡議心得與技術教學，可依分類篩選 |
+| [經歷](https://me.asdtw.org/timeline.html) | 倡議、政策參與、社會服務與研習的時間軸 |
+| [贊助](https://me.asdtw.org/sponsor.html) | 我做什麼、贊助會用在哪裡、贊助方案與聯絡方式 |
 
-## 之後要填的東西
-- `assets/js/site.js`：`email`、`giscus`（到 https://giscus.app 取得）
-- `authoring/site.json`：導覽、社群連結、友站、頁尾聲明（改完 commit 時會自動寫進每頁）
-- `about.html`：自行撰寫
+網站支援深色模式，可以用頁首的按鈕切換，預設跟隨裝置設定。
 
-## 發新文章
-見 `authoring/AI-PROMPT.md`。
+## 訂閱與留言
 
-## 工作流程
-分支、commit 格式、PR、CI、還原與緊急處理，見 [CONTRIBUTING.md](CONTRIBUTING.md)。
+- 用 RSS 閱讀器訂閱 <https://me.asdtw.org/feed.xml>，就能收到新文章的全文。
+- 文章下方的留言區使用 [giscus](https://giscus.app)，以 GitHub 帳號登入即可留言，留言會存放在這個 repo 的 Discussions。
+
+## 聯絡我
+
+- Email：info@asdtw.org
+- [Discord](https://discord.gg/b8BwFtv3C9)
+- [Instagram](https://www.instagram.com/ivantw829/)
+- [Threads](https://www.threads.com/@yian.earth)
+- [Bluesky](https://bsky.app/profile/ouoc.net)
+- [YouTube](https://www.youtube.com/channel/UCvTDRWA06FqA7SXe5jkCEWw)
+
+發現錯字、失效連結或網站問題，歡迎到這個 repo 開 [Issue](https://github.com/ivantw829/me-asdtw-org/issues) 告訴我。
+
+## 聲明
+
+個人發言僅代表個人立場，與所屬團體無關。
+
+部分文章標示為 18+，閱讀前會先請讀者自我聲明已成年。這只是提醒，不是年齡驗證。
+
+## 關於這個 repo
+
+這是網站的原始碼，用純 HTML、CSS 與 JavaScript 寫成，部署在 GitHub Pages。想了解網站怎麼建置與發文，請看 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+© 賴奕帆
