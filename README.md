@@ -23,7 +23,7 @@
 
 ## 聯絡我
 
-- Email：info@asdtw.org
+- Email：ouob@duck.com
 - [Discord](https://discord.gg/b8BwFtv3C9)
 - [Instagram](https://www.instagram.com/ivantw829/)
 - [Threads](https://www.threads.com/@yian.earth)

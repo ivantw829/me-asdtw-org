@@ -5,7 +5,7 @@
    再跑 python3 authoring/build-static.py（pre-commit 會自動跑）。
    ========================================================== */
 const SITE = {
-  email: "info@asdtw.org",
+  email: "ouob@duck.com",
   // giscus 留言（已設定：Discussions 分類「文章留言」，Announcements 類型）；repo 留空則不顯示留言區
   giscus: { repo: "ivantw829/me-asdtw-org", repoId: "R_kgDOVqKA5Q", category: "文章留言", categoryId: "DIC_kwDOVqKA5c4DK4di" },
   // 成年確認（只對標記 data-age-gate 的成人文章啟用）。days：記住聲明的天數；0 = 每個瀏覽工作階段都重新詢問（較保守）
