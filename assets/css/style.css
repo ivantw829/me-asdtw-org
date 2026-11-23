@@ -351,7 +351,6 @@ button.tag[aria-pressed="true"] { background: var(--accent); color: var(--on-acc
 .tl-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
 .tl-title { font-weight: 500; margin: 2px 0 2px; line-height: 1.6; }
 .tl-role { color: var(--muted); font-size: .92rem; }
-.tl-role::before { content: "角色　"; font-size: .8rem; letter-spacing: .05em; }
 .cert { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 18px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
 .cert span:first-child { flex: 1; min-width: 0; }
 .cert span:last-child { flex: none; max-width: 60%; text-align: right; color: var(--muted); font-size: .9rem; }
