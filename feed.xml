@@ -5,152 +5,14 @@
   <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles.html"/>
   <link rel="self" type="application/atom+xml" href="https://me.asdtw.org/feed.xml"/>
   <id>https://me.asdtw.org/</id>
-  <updated>2026-11-21T00:00:00+08:00</updated>
+  <updated>2026-11-23T00:00:00+08:00</updated>
   <author><name>賴奕帆</name><uri>https://me.asdtw.org/about.html</uri></author>
-  <entry>
-    <title>MacBook Air M2 二手出清（故障機現狀出售）</title>
-    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/macbook-air-m2-sale.html"/>
-    <id>https://me.asdtw.org/articles/macbook-air-m2-sale.html</id>
-    <published>2026-11-21T00:00:00+08:00</published>
-    <updated>2026-11-21T00:00:00+08:00</updated>
-    <summary type="text">出清一台午夜色 MacBook Air M2 8GB／256GB 故障機，售價 NT$ 8,500 可議價。內建鍵盤多個按鍵不穩定、MagSafe 3 孔損壞，需外接鍵盤並以 USB-C 充電。本文列出機況、故障與瑕疵、內容物、面交方式與聯絡方式。</summary>
-    <content type="html">&lt;div class="prose"&gt;
-&lt;div class="callout"&gt;
-&lt;p class="callout-title"&gt;狀態&lt;/p&gt;
-&lt;p&gt;本件尚未售出。&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;出售一台午夜色 MacBook Air（M2，8GB 記憶體，256GB 儲存空間），售價 NT$ 8,500，可議價。這是一台故障機，內建鍵盤有多個按鍵不穩定，MagSafe 3 充電孔損壞，使用時需要外接鍵盤，請完整閱讀下方說明後再決定是否購買。&lt;/p&gt;
-&lt;h2 id="s1"&gt;商品資訊&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;型號：MacBook Air（M2，2022 年）&lt;/li&gt;
-&lt;li&gt;顏色：午夜色&lt;/li&gt;
-&lt;li&gt;序號：H3XM6W149C&lt;/li&gt;
-&lt;li&gt;系統版本：macOS Tahoe 26.6.2&lt;/li&gt;
-&lt;li&gt;記憶體與儲存空間：8GB／256GB&lt;/li&gt;
-&lt;li&gt;Apple 保固：已過保，我也不提供保固&lt;/li&gt;
-&lt;li&gt;價格：NT$ 8,500，可議價&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="s2"&gt;機況&lt;/h2&gt;
-&lt;p&gt;這台電腦的主機板可正常開機，螢幕可完整顯示，面交前我會登出 Apple 帳號、關閉「尋找」並完成抹除，買家拿到的是可以重新設定的狀態。電池最大容量 84%，循環使用 474 次，系統回報的電池狀態為「正常」。&lt;/p&gt;
-&lt;p&gt;正常的部分：觸控板、喇叭、麥克風、鏡頭、Touch ID、Wi-Fi、藍牙與耳機孔都正常，兩個 USB-C（Thunderbolt）孔也都正常，可以充電與傳輸。&lt;/p&gt;
-&lt;p&gt;故障與瑕疵如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Caps Lock：按一次會觸發兩次，可能是比較靈敏。&lt;/li&gt;
-&lt;li&gt;Delete 鍵：可以使用，但不太穩定。&lt;/li&gt;
-&lt;li&gt;Return 鍵：鍵帽遺失，但可以直接按下實體按鈕。&lt;/li&gt;
-&lt;li&gt;方向鍵：全部都不太正常，有時能按、有時按不動，有時會自己跳。&lt;/li&gt;
-&lt;li&gt;F 鍵：會自己跳，也無法按。&lt;/li&gt;
-&lt;li&gt;充電：MagSafe 3 孔損壞，無法使用，請改用 USB-C 充電。&lt;/li&gt;
-&lt;li&gt;螢幕：顯示完整，螢幕本體沒有破裂，裂紋在螢幕下緣的邊框處，呈蛛網狀。&lt;/li&gt;
-&lt;li&gt;外觀：機身邊角與鉸鏈側有多處掉漆，露出金屬底色，底殼平整，沒有翹起或膨脹的情況。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;因為鍵盤有以上問題，這台電腦需要外接鍵盤才能正常使用。我建議搭配免費的 macOS 軟體 Karabiner-Elements，把內建鍵盤的 F 鍵與方向鍵封鎖。這個軟體要進入系統後才會生效，開機、登入畫面與復原模式時，這些按鍵仍可能自己觸發，所以這幾個階段也請用外接鍵盤操作。&lt;/p&gt;
-&lt;h3&gt;實際使用狀況&lt;/h3&gt;
-&lt;p&gt;鍵盤壞掉之後，直到今年 9 月我換了新的 MacBook，這段期間我一直接著外接鍵盤和滑鼠，用這台電腦辦公，沒有遇到真正讓人困擾的問題。所以它不只是一台零件機，放在桌上是可以當主力機來用的。唯一的限制是不適合帶出門，因為出門就得多帶一把外接鍵盤，僅此而已。&lt;/p&gt;
-&lt;p&gt;完整照片放在這個雲端硬碟資料夾：&lt;a href="https://drive.google.com/drive/folders/1xQaKGxs6VV53RodiT7yrQu89D72cNNf4?usp=sharing" target="_blank" rel="noopener"&gt;MacBook Air 照片&lt;/a&gt;。資料夾內有電腦正面與背面、四處外觀瑕疵的近拍、螢幕全亮與全暗、鍵盤全景、鍵盤測試結果、建議的按鍵封鎖設定，以及電池與電腦資訊的截圖。&lt;/p&gt;
-&lt;h2 id="s3"&gt;內容物&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;MacBook Air M2 本體（沒有充電器與充電線，請自備 USB-C 充電器）&lt;/li&gt;
-&lt;li&gt;原廠外盒&lt;/li&gt;
-&lt;li&gt;保護殼（附贈）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;另外有一把 Logitech Pebble K380s 外接鍵盤，不計入售價。價格本來就可以議，如果買家不想議價，這把鍵盤直接附贈，有議價的話，鍵盤是否一起給，依議價結果決定。&lt;/p&gt;
-&lt;h2 id="s4"&gt;買賣契約&lt;/h2&gt;
-&lt;p&gt;本次買賣僅限於本文所列的物品，以及上方資料夾中照片所呈現的狀況。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;僅接受面交，不提供郵寄與超商取貨。&lt;/li&gt;
-&lt;li&gt;面交地點：新北市、台北市與宜蘭縣的任何一個火車站，以及台北市的任何一個捷運站。&lt;/li&gt;
-&lt;li&gt;我住在羅東，宜蘭市、礁溪鄉與羅東鎮都可以面交，不限地點。&lt;/li&gt;
-&lt;li&gt;面交地點對我越方便，價格上我能讓的空間也越大。&lt;/li&gt;
-&lt;li&gt;歡迎當面開機驗機。&lt;/li&gt;
-&lt;li&gt;現狀出售：這是故障機，不提供保固，也不提供七天鑑賞期。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;依《個人資料保護法》，為了訂立契約，確定購買後請提供以下資料，我只會用在這筆交易上：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;姓名&lt;/li&gt;
-&lt;li&gt;電話&lt;/li&gt;
-&lt;li&gt;面交的時間與地點&lt;/li&gt;
-&lt;li&gt;聲明：我已閱讀本文列出的故障與瑕疵，同意訂立這份買賣契約&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="s5"&gt;聯絡方式&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Email：ouob@duck.com&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;</content>
-    <category term="二手出清"/>
-    <category term="MacBook"/>
-  </entry>
-  <entry>
-    <title>iPad A16 二手出清</title>
-    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/ipad-a16-sale.html"/>
-    <id>https://me.asdtw.org/articles/ipad-a16-sale.html</id>
-    <published>2026-11-18T00:00:00+08:00</published>
-    <updated>2026-11-18T00:00:00+08:00</updated>
-    <summary type="text">出清一台藍色 iPad A16 Wi-Fi 128GB，售價 NT$ 8,500，附原廠充電器、充電線與外盒，以及保護貼、SwitchEasy 保護殼和 MAGEASY 觸控筆。本文列出機況、內容物、交易方式與聯絡方式。</summary>
-    <content type="html">&lt;div class="prose"&gt;
-&lt;div class="callout"&gt;
-&lt;p class="callout-title"&gt;狀態&lt;/p&gt;
-&lt;p&gt;本件已正式售出。&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;以下是商品資訊、機況、內容物與交易方式。&lt;/p&gt;
-&lt;h2 id="s1"&gt;商品資訊&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;機型：iPad A16（iPad15,7）Wi-Fi 128GB&lt;/li&gt;
-&lt;li&gt;顏色：藍色&lt;/li&gt;
-&lt;li&gt;序號：&lt;code&gt;CMVH0496N2&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;系統版本：iPadOS 26.5.2&lt;/li&gt;
-&lt;li&gt;記憶體／儲存空間：6GB RAM／128GB&lt;/li&gt;
-&lt;li&gt;購買日期：2025/9/3，於 StudioA 羅東門市購入&lt;/li&gt;
-&lt;li&gt;Apple 有限保固：保固至 2026/9/2&lt;/li&gt;
-&lt;li&gt;售價：NT$ 8,500&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="s2"&gt;機況&lt;/h2&gt;
-&lt;p&gt;這台 iPad 從 2025 年 9 月開始使用，螢幕已貼上 EasyPaper Note 抗藍光保護貼。電池的製造日期是 2025 年 7 月，目前電池健康度正常，最大容量 95%，循環使用次數 158 次。&lt;/p&gt;
-&lt;p&gt;詳細機況與全機照片請見&lt;a href="https://drive.google.com/file/d/1Q2Yexwtc4WstR7ZEb01TyL9l2WnjSpFg/view?usp=sharing" target="_blank" rel="noopener"&gt;機況報告 PDF&lt;/a&gt;。&lt;/p&gt;
-&lt;h2 id="s3"&gt;內容物&lt;/h2&gt;
-&lt;p&gt;以下物品一併出售：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;iPad A16 Wi-Fi 128GB 本體&lt;/li&gt;
-&lt;li&gt;Apple 原廠充電器&lt;/li&gt;
-&lt;li&gt;Apple 原廠充電線&lt;/li&gt;
-&lt;li&gt;原廠外盒&lt;/li&gt;
-&lt;li&gt;EasyPaper Note 抗藍光保護貼（已貼在螢幕上）&lt;/li&gt;
-&lt;li&gt;SwitchEasy Origami 保護殼，可折成多段式支架&lt;/li&gt;
-&lt;li&gt;MAGEASY INSTINCT 磁吸藍牙觸控筆&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="s4"&gt;買賣契約&lt;/h2&gt;
-&lt;p&gt;購買的商品如本文所列。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;面交：北北基桃宜花的火車站，可當面確認機況。&lt;/li&gt;
-&lt;li&gt;郵寄：全台寄送，由賣方指定物流，需先以銀行轉帳付清全款。&lt;/li&gt;
-&lt;li&gt;超商取貨：全台超商，需先以銀行轉帳付清全款。&lt;/li&gt;
-&lt;li&gt;七天鑑賞期內可無理由退貨，退貨時如有毀損，須照價賠償。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;確定購買後，請提供以下資料。您的資料受個人資料保護法保障，僅用於核對款項與寄送商品。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;姓名&lt;/li&gt;
-&lt;li&gt;電話&lt;/li&gt;
-&lt;li&gt;取貨方式：面交、郵寄或超商&lt;/li&gt;
-&lt;li&gt;取貨地址：XX 火車站、住家地址或超商門市（限全家或 7-11）&lt;/li&gt;
-&lt;li&gt;註明「本人同意以上內容，正式訂立買賣契約。」&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="s5"&gt;聯絡方式&lt;/h2&gt;
-&lt;p&gt;有意購買請聯繫賴奕帆：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Email：&lt;a href="mailto:ouob@duck.com"&gt;ouob@duck.com&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Instagram：&lt;a href="https://instagram.com/ivantw829" target="_blank" rel="noopener"&gt;@ivantw829&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Discord：&lt;code&gt;ivantw829&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;</content>
-    <category term="二手出清"/>
-    <category term="iPad"/>
-  </entry>
   <entry>
     <title>Claude Queue 新手教學：從安裝到使用</title>
     <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/claude-queue-guide.html"/>
     <id>https://me.asdtw.org/articles/claude-queue-guide.html</id>
     <published>2026-11-12T00:00:00+08:00</published>
-    <updated>2026-11-13T00:00:00+08:00</updated>
+    <updated>2026-11-23T00:00:00+08:00</updated>
     <summary type="text">Claude Queue 是在 claude.ai 用量滿時暫存訊息、額度重置後提醒你送出的非官方 Chrome 擴充功能。本文從下載、安裝、通知設定到日常使用與疑難排解，一步步帶你上手。</summary>
     <content type="html">&lt;div class="prose"&gt;
 &lt;p&gt;這份教學假設你&lt;strong&gt;從來沒有安裝過 Chrome 擴充功能的原始碼&lt;/strong&gt;，一步一步帶你從下載、安裝、設定到日常使用。整個安裝過程大約 5 分鐘。&lt;/p&gt;
@@ -372,6 +234,8 @@
 &lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;工作階段歸零時自動送出一則訊息&lt;/td&gt;&lt;td&gt;關閉&lt;/td&gt;&lt;td&gt;見下一節&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;要送出的訊息&lt;/td&gt;&lt;td&gt;&lt;code&gt;Hello World!&lt;/code&gt;&lt;/td&gt;&lt;td&gt;越短越省額度，最多 200 字&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;使用的模型&lt;/td&gt;&lt;td&gt;Haiku&lt;/td&gt;&lt;td&gt;送出前在專用對話切換的模型，Haiku 最省額度。選「不切換」就用對話目前的模型&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;投入程度&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;對應 claude.ai 模型選單裡的「投入程度」&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;這個區塊下方的「最後一次檢查」會顯示最近一次判斷的時間與結論，不用開 debug log 就能看。&lt;/p&gt;
@@ -409,9 +273,10 @@
 &lt;li&gt;打開&lt;a href="https://me.asdtw.org/articles/claude-queue-guide.html#s9"&gt;設定頁&lt;/a&gt; →「自動重設」&lt;/li&gt;
 &lt;li&gt;勾選 &lt;strong&gt;「工作階段歸零時自動送出一則訊息」&lt;/strong&gt;，在確認框按「確定」&lt;/li&gt;
 &lt;li&gt;（選用）修改「要送出的訊息」，預設是 &lt;code&gt;Hello World!&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;（選用）「使用的模型」與「投入程度」預設是 &lt;strong&gt;Haiku／中&lt;/strong&gt;，最省額度。送出前會在專用對話裡切換，只影響這個對話，不會改到你平常聊天用的預設模型&lt;/li&gt;
 &lt;li&gt;打開工具列小視窗，下方會顯示「自動重設：開啟 · 約 HH:MM 送出」&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;第一次送出時會&lt;strong&gt;自動開一個新對話&lt;/strong&gt;，之後都送進同一個對話，不會讓你的對話清單變亂。如果你刪掉那個對話，下次會自動再開一個。&lt;/p&gt;
+&lt;p&gt;第一次送出時會&lt;strong&gt;自動開一個新對話&lt;/strong&gt;，之後都送進同一個對話，不會讓你的對話清單變亂。如果你刪掉那個對話，下次會自動再開一個。新對話的第一則會用你目前的模型送出（在新對話切換模型會改到你的預設模型，所以先不切），從下一次開始才會用 Haiku。&lt;/p&gt;
 &lt;h3&gt;睡前檢查清單&lt;/h3&gt;
 &lt;p&gt;自動重設要在電腦醒著、Chrome 開著的時候才能運作，睡前請確認：&lt;/p&gt;
 &lt;ul&gt;
@@ -430,7 +295,7 @@
 &lt;h3&gt;要知道的事&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;送出時會把 &lt;strong&gt;Chrome 視窗帶到最前面&lt;/strong&gt;（需要讓輸入框取得焦點才能填入文字）。這個功能全天運作，&lt;strong&gt;白天工作階段結束時也會&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;每次會用掉&lt;strong&gt;一點點額度&lt;/strong&gt;（就是一則短訊息和 Claude 的回覆）&lt;/li&gt;
+&lt;li&gt;每次會用掉&lt;strong&gt;一點點額度&lt;/strong&gt;（就是一則短訊息和 Claude 的回覆）。預設用 &lt;strong&gt;Haiku／中&lt;/strong&gt;，比 Opus 省很多&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;每週上限已滿時不會送&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;如果佇列裡剛好有訊息正在自動送出，就不另外送（那則訊息本身就會開始新的工作階段）；你已經用手機送過訊息時也不會送&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;連續失敗 3 次會暫停&lt;/strong&gt;並發通知。你再次使用 Claude，或關掉再打開這個設定，就會恢復&lt;/li&gt;
@@ -527,6 +392,11 @@
 &lt;li&gt;確認睡前檢查清單：電腦有沒有睡著、Chrome 有沒有被關掉、claude.ai 是不是被登出了&lt;/li&gt;
 &lt;li&gt;打開小視窗，看「自動重設」那一行有沒有顯示「上次失敗：…」&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3&gt;自動重設沒有用 Haiku&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;專用對話剛建立的第一則本來就會用目前的模型，下一次才會切換&lt;/li&gt;
+&lt;li&gt;看設定頁「最後一次檢查」：顯示「模型切換失敗」代表 claude.ai 的模型選單可能改版了，訊息仍會照常送出。請開 debug log 回報&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3&gt;回報問題&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;設定頁 → 勾選 &lt;strong&gt;「記錄 debug log」&lt;/strong&gt;&lt;/li&gt;
@@ -544,6 +414,144 @@
     <category term="Claude Queue"/>
     <category term="Chrome 擴充功能"/>
     <category term="教學"/>
+  </entry>
+  <entry>
+    <title>MacBook Air M2 二手出清（故障機現狀出售）</title>
+    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/macbook-air-m2-sale.html"/>
+    <id>https://me.asdtw.org/articles/macbook-air-m2-sale.html</id>
+    <published>2026-11-21T00:00:00+08:00</published>
+    <updated>2026-11-21T00:00:00+08:00</updated>
+    <summary type="text">出清一台午夜色 MacBook Air M2 8GB／256GB 故障機，售價 NT$ 8,500 可議價。內建鍵盤多個按鍵不穩定、MagSafe 3 孔損壞，需外接鍵盤並以 USB-C 充電。本文列出機況、故障與瑕疵、內容物、面交方式與聯絡方式。</summary>
+    <content type="html">&lt;div class="prose"&gt;
+&lt;div class="callout"&gt;
+&lt;p class="callout-title"&gt;狀態&lt;/p&gt;
+&lt;p&gt;本件尚未售出。&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;出售一台午夜色 MacBook Air（M2，8GB 記憶體，256GB 儲存空間），售價 NT$ 8,500，可議價。這是一台故障機，內建鍵盤有多個按鍵不穩定，MagSafe 3 充電孔損壞，使用時需要外接鍵盤，請完整閱讀下方說明後再決定是否購買。&lt;/p&gt;
+&lt;h2 id="s1"&gt;商品資訊&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;型號：MacBook Air（M2，2022 年）&lt;/li&gt;
+&lt;li&gt;顏色：午夜色&lt;/li&gt;
+&lt;li&gt;序號：H3XM6W149C&lt;/li&gt;
+&lt;li&gt;系統版本：macOS Tahoe 26.6.2&lt;/li&gt;
+&lt;li&gt;記憶體與儲存空間：8GB／256GB&lt;/li&gt;
+&lt;li&gt;Apple 保固：已過保，我也不提供保固&lt;/li&gt;
+&lt;li&gt;價格：NT$ 8,500，可議價&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="s2"&gt;機況&lt;/h2&gt;
+&lt;p&gt;這台電腦的主機板可正常開機，螢幕可完整顯示，面交前我會登出 Apple 帳號、關閉「尋找」並完成抹除，買家拿到的是可以重新設定的狀態。電池最大容量 84%，循環使用 474 次，系統回報的電池狀態為「正常」。&lt;/p&gt;
+&lt;p&gt;正常的部分：觸控板、喇叭、麥克風、鏡頭、Touch ID、Wi-Fi、藍牙與耳機孔都正常，兩個 USB-C（Thunderbolt）孔也都正常，可以充電與傳輸。&lt;/p&gt;
+&lt;p&gt;故障與瑕疵如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Caps Lock：按一次會觸發兩次，可能是比較靈敏。&lt;/li&gt;
+&lt;li&gt;Delete 鍵：可以使用，但不太穩定。&lt;/li&gt;
+&lt;li&gt;Return 鍵：鍵帽遺失，但可以直接按下實體按鈕。&lt;/li&gt;
+&lt;li&gt;方向鍵：全部都不太正常，有時能按、有時按不動，有時會自己跳。&lt;/li&gt;
+&lt;li&gt;F 鍵：會自己跳，也無法按。&lt;/li&gt;
+&lt;li&gt;充電：MagSafe 3 孔損壞，無法使用，請改用 USB-C 充電。&lt;/li&gt;
+&lt;li&gt;螢幕：顯示完整，螢幕本體沒有破裂，裂紋在螢幕下緣的邊框處，呈蛛網狀。&lt;/li&gt;
+&lt;li&gt;外觀：機身邊角與鉸鏈側有多處掉漆，露出金屬底色，底殼平整，沒有翹起或膨脹的情況。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因為鍵盤有以上問題，這台電腦需要外接鍵盤才能正常使用。我建議搭配免費的 macOS 軟體 Karabiner-Elements，把內建鍵盤的 F 鍵與方向鍵封鎖。這個軟體要進入系統後才會生效，開機、登入畫面與復原模式時，這些按鍵仍可能自己觸發，所以這幾個階段也請用外接鍵盤操作。&lt;/p&gt;
+&lt;h3&gt;實際使用狀況&lt;/h3&gt;
+&lt;p&gt;鍵盤壞掉之後，直到今年 9 月我換了新的 MacBook，這段期間我一直接著外接鍵盤和滑鼠，用這台電腦辦公，沒有遇到真正讓人困擾的問題。所以它不只是一台零件機，放在桌上是可以當主力機來用的。唯一的限制是不適合帶出門，因為出門就得多帶一把外接鍵盤，僅此而已。&lt;/p&gt;
+&lt;p&gt;完整照片放在這個雲端硬碟資料夾：&lt;a href="https://drive.google.com/drive/folders/1xQaKGxs6VV53RodiT7yrQu89D72cNNf4?usp=sharing" target="_blank" rel="noopener"&gt;MacBook Air 照片&lt;/a&gt;。資料夾內有電腦正面與背面、四處外觀瑕疵的近拍、螢幕全亮與全暗、鍵盤全景、鍵盤測試結果、建議的按鍵封鎖設定，以及電池與電腦資訊的截圖。&lt;/p&gt;
+&lt;h2 id="s3"&gt;內容物&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MacBook Air M2 本體（沒有充電器與充電線，請自備 USB-C 充電器）&lt;/li&gt;
+&lt;li&gt;原廠外盒&lt;/li&gt;
+&lt;li&gt;保護殼（附贈）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;另外有一把 Logitech Pebble K380s 外接鍵盤，不計入售價。價格本來就可以議，如果買家不想議價，這把鍵盤直接附贈，有議價的話，鍵盤是否一起給，依議價結果決定。&lt;/p&gt;
+&lt;h2 id="s4"&gt;買賣契約&lt;/h2&gt;
+&lt;p&gt;本次買賣僅限於本文所列的物品，以及上方資料夾中照片所呈現的狀況。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;僅接受面交，不提供郵寄與超商取貨。&lt;/li&gt;
+&lt;li&gt;面交地點：新北市、台北市與宜蘭縣的任何一個火車站，以及台北市的任何一個捷運站。&lt;/li&gt;
+&lt;li&gt;我住在羅東，宜蘭市、礁溪鄉與羅東鎮都可以面交，不限地點。&lt;/li&gt;
+&lt;li&gt;面交地點對我越方便，價格上我能讓的空間也越大。&lt;/li&gt;
+&lt;li&gt;歡迎當面開機驗機。&lt;/li&gt;
+&lt;li&gt;現狀出售：這是故障機，不提供保固，也不提供七天鑑賞期。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;依《個人資料保護法》，為了訂立契約，確定購買後請提供以下資料，我只會用在這筆交易上：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;姓名&lt;/li&gt;
+&lt;li&gt;電話&lt;/li&gt;
+&lt;li&gt;面交的時間與地點&lt;/li&gt;
+&lt;li&gt;聲明：我已閱讀本文列出的故障與瑕疵，同意訂立這份買賣契約&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="s5"&gt;聯絡方式&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Email：ouob@duck.com&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content>
+    <category term="二手出清"/>
+    <category term="MacBook"/>
+  </entry>
+  <entry>
+    <title>iPad A16 二手出清</title>
+    <link rel="alternate" type="text/html" href="https://me.asdtw.org/articles/ipad-a16-sale.html"/>
+    <id>https://me.asdtw.org/articles/ipad-a16-sale.html</id>
+    <published>2026-11-18T00:00:00+08:00</published>
+    <updated>2026-11-18T00:00:00+08:00</updated>
+    <summary type="text">出清一台藍色 iPad A16 Wi-Fi 128GB，售價 NT$ 8,500，附原廠充電器、充電線與外盒，以及保護貼、SwitchEasy 保護殼和 MAGEASY 觸控筆。本文列出機況、內容物、交易方式與聯絡方式。</summary>
+    <content type="html">&lt;div class="prose"&gt;
+&lt;div class="callout"&gt;
+&lt;p class="callout-title"&gt;狀態&lt;/p&gt;
+&lt;p&gt;本件已正式售出。&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;以下是商品資訊、機況、內容物與交易方式。&lt;/p&gt;
+&lt;h2 id="s1"&gt;商品資訊&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;機型：iPad A16（iPad15,7）Wi-Fi 128GB&lt;/li&gt;
+&lt;li&gt;顏色：藍色&lt;/li&gt;
+&lt;li&gt;序號：&lt;code&gt;CMVH0496N2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;系統版本：iPadOS 26.5.2&lt;/li&gt;
+&lt;li&gt;記憶體／儲存空間：6GB RAM／128GB&lt;/li&gt;
+&lt;li&gt;購買日期：2025/9/3，於 StudioA 羅東門市購入&lt;/li&gt;
+&lt;li&gt;Apple 有限保固：保固至 2026/9/2&lt;/li&gt;
+&lt;li&gt;售價：NT$ 8,500&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="s2"&gt;機況&lt;/h2&gt;
+&lt;p&gt;這台 iPad 從 2025 年 9 月開始使用，螢幕已貼上 EasyPaper Note 抗藍光保護貼。電池的製造日期是 2025 年 7 月，目前電池健康度正常，最大容量 95%，循環使用次數 158 次。&lt;/p&gt;
+&lt;p&gt;詳細機況與全機照片請見&lt;a href="https://drive.google.com/file/d/1Q2Yexwtc4WstR7ZEb01TyL9l2WnjSpFg/view?usp=sharing" target="_blank" rel="noopener"&gt;機況報告 PDF&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id="s3"&gt;內容物&lt;/h2&gt;
+&lt;p&gt;以下物品一併出售：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;iPad A16 Wi-Fi 128GB 本體&lt;/li&gt;
+&lt;li&gt;Apple 原廠充電器&lt;/li&gt;
+&lt;li&gt;Apple 原廠充電線&lt;/li&gt;
+&lt;li&gt;原廠外盒&lt;/li&gt;
+&lt;li&gt;EasyPaper Note 抗藍光保護貼（已貼在螢幕上）&lt;/li&gt;
+&lt;li&gt;SwitchEasy Origami 保護殼，可折成多段式支架&lt;/li&gt;
+&lt;li&gt;MAGEASY INSTINCT 磁吸藍牙觸控筆&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="s4"&gt;買賣契約&lt;/h2&gt;
+&lt;p&gt;購買的商品如本文所列。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;面交：北北基桃宜花的火車站，可當面確認機況。&lt;/li&gt;
+&lt;li&gt;郵寄：全台寄送，由賣方指定物流，需先以銀行轉帳付清全款。&lt;/li&gt;
+&lt;li&gt;超商取貨：全台超商，需先以銀行轉帳付清全款。&lt;/li&gt;
+&lt;li&gt;七天鑑賞期內可無理由退貨，退貨時如有毀損，須照價賠償。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;確定購買後，請提供以下資料。您的資料受個人資料保護法保障，僅用於核對款項與寄送商品。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;姓名&lt;/li&gt;
+&lt;li&gt;電話&lt;/li&gt;
+&lt;li&gt;取貨方式：面交、郵寄或超商&lt;/li&gt;
+&lt;li&gt;取貨地址：XX 火車站、住家地址或超商門市（限全家或 7-11）&lt;/li&gt;
+&lt;li&gt;註明「本人同意以上內容，正式訂立買賣契約。」&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="s5"&gt;聯絡方式&lt;/h2&gt;
+&lt;p&gt;有意購買請聯繫賴奕帆：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Email：&lt;a href="mailto:ouob@duck.com"&gt;ouob@duck.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Instagram：&lt;a href="https://instagram.com/ivantw829" target="_blank" rel="noopener"&gt;@ivantw829&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Discord：&lt;code&gt;ivantw829&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content>
+    <category term="二手出清"/>
+    <category term="iPad"/>
   </entry>
   <entry>
     <title>從零使用 OuO Bot 建置你的 Discord 伺服器</title>
