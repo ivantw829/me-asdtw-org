@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 賴奕帆的個人網站（https://me.asdtw.org），純靜態 HTML/CSS/JS，部署在 GitHub Pages（repo：`ivantw829/me-asdtw-org`，`main` 推上去即上線）。沒有 build 步驟、沒有套件管理，也沒有測試框架。內容與介面文字一律使用繁體中文（zh-Hant-TW）。
 
+**與站長對話一律使用繁體中文（台灣用語）**，包括回覆、說明、提問與工作摘要；程式碼、指令與 commit 訊息格式照舊。
+
 ## Commands
 
 ```bash
