@@ -63,6 +63,8 @@ for i, a in enumerate(articles):
             err(f"{where}：updated 不能早於 date")
     if a.get("cover") and not (ROOT / a["cover"]).exists():
         err(f"{where}：cover 檔案不存在（{a['cover']}）")
+    if a.get("externalUrl") and not str(a["externalUrl"]).startswith("https://"):
+        err(f"{where}：externalUrl 必須以 https:// 開頭")
 
 for i, t in enumerate(timeline):
     where = f"data/timeline.json[{i}]"
@@ -83,7 +85,10 @@ draft_slugs = {a["slug"] for a in articles if a.get("draft")}
 for a in articles:
     slug = a.get("slug")
     page = ROOT / "articles" / f"{slug}.html"
-    if not page.exists():
+    if a.get("externalUrl"):
+        if page.exists():
+            err(f"articles/{slug}.html：跨站文章（externalUrl）不應有站內文章頁")
+    elif not page.exists():
         err(f"articles/{slug}.html：articles.json 有登錄但檔案不存在")
 
 for page in sorted((ROOT / "articles").glob("*.html")):
@@ -171,7 +176,7 @@ else:
     else:
         sitemap = sm_file.read_text(encoding="utf-8")
         need = [f"https://{domain}/{pg['path']}" for pg in PAGE_LIST]
-        need += [f"https://{domain}/articles/{a['slug']}.html" for a in published if not a.get("adult")]
+        need += [f"https://{domain}/articles/{a['slug']}.html" for a in published if not a.get("adult") and not a.get("externalUrl")]
         for a in published:
             if a.get("adult") and f"/articles/{a['slug']}.html" in sitemap:
                 err(f"sitemap.xml：成人文章 {a['slug']} 不應出現在 sitemap")
@@ -202,7 +207,7 @@ if domain:
         if froot is not None:
             entries = {e.findtext(f"{ATOM}id"): e for e in froot.findall(f"{ATOM}entry")}
             want = {f"https://{domain}/articles/{a['slug']}.html": a
-                    for a in articles if not a.get("draft") and not a.get("adult")}
+                    for a in articles if not a.get("draft") and not a.get("adult") and not a.get("externalUrl")}
             for url, a in want.items():
                 e = entries.get(url)
                 if e is None:

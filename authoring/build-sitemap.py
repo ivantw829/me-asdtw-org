@@ -44,7 +44,7 @@ urls = [(f"{DOMAIN}/{p}", lastmod(*files), pr) for p, pr, files in pages]
 
 articles = json.loads((root / "data" / "articles.json").read_text(encoding="utf-8"))
 for a in sorted(articles, key=lambda a: a["date"], reverse=True):
-    if a.get("draft") or a.get("adult"):
+    if a.get("draft") or a.get("adult") or a.get("externalUrl"):
         continue
     urls.append((f"{DOMAIN}/articles/{a['slug']}.html", a.get("updated") or a["date"], "0.7"))
 

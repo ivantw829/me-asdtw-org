@@ -53,7 +53,7 @@ def full_content(slug: str, url: str) -> str:
 
 def render() -> str:
     articles = json.loads((ROOT / "data" / "articles.json").read_text(encoding="utf-8"))
-    items = sorted((a for a in articles if not a.get("draft") and not a.get("adult")),
+    items = sorted((a for a in articles if not a.get("draft") and not a.get("adult") and not a.get("externalUrl")),
                    key=lambda a: (a.get("updated") or a["date"], a["date"]), reverse=True)
     feed_updated = (items[0].get("updated") or items[0]["date"]) if items else "1970-01-01"
 

@@ -90,6 +90,7 @@ def fmt_date(iso: str) -> str:
 def card(a: dict) -> str:
     cover = f'<img class="card-cover" src="{esc(a["cover"])}" alt="" loading="lazy">' if a.get("cover") and not a.get("adult") else ""
     rt = f' · 約 {a["readingTime"]} 分鐘' if a.get("readingTime") else ""
+    site = f' · {esc(a["externalSite"])}' if a.get("externalSite") else ""
     summary = "此文章含成人內容，需年滿 18 歲才能閱讀。" if a.get("adult") else esc(a.get("summary", ""))
     chips = ""
     if a.get("adult"):
@@ -97,8 +98,10 @@ def card(a: dict) -> str:
     if a.get("category"):
         chips += f'<a class="tag" href="articles.html?category={urllib.parse.quote(a["category"], safe="")}">{esc(a["category"])}</a>'
     cover = f"\n    {cover}" if cover else ""
-    return (f'<article class="card">{cover}\n    <div class="meta">{fmt_date(a["date"])}{rt}</div>\n'
-            f'    <h3><a href="articles/{esc(a["slug"])}.html">{esc(a["title"])}</a></h3>\n    <p>{summary}</p>\n'
+    title_link = (f'<a href="{esc(a["externalUrl"])}" target="_blank" rel="noopener">{esc(a["title"])} ↗</a>'
+                  if a.get("externalUrl") else f'<a href="articles/{esc(a["slug"])}.html">{esc(a["title"])}</a>')
+    return (f'<article class="card">{cover}\n    <div class="meta">{fmt_date(a["date"])}{rt}{site}</div>\n'
+            f'    <h3>{title_link}</h3>\n    <p>{summary}</p>\n'
             f'    <div class="chips">{chips}</div>\n  </article>')
 
 
