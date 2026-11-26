@@ -16,6 +16,7 @@
     { "label": "訂閱", "path": "feed.xml" }
   ],
   "friends": [
+    { "label": "福爾摩沙自閉大公社", "href": "https://asdtw.org/" },
     { "label": "雲端貓居 NyankoHost", "href": "https://nyanko.host/" },
     { "label": "不是社工的社工", "href": "https://www.youtube.com/@nonsocialworker" },
     { "label": "社團法人臺灣障礙青年協會", "href": "https://tywd.org/" },
