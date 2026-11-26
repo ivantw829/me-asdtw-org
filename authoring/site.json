@@ -23,5 +23,6 @@
     { "label": "臺灣綠黨", "href": "https://www.greenparty.org.tw/" },
     { "label": "台灣前進陣線", "href": "https://taiwangogo.tw/" }
   ],
+  "newsletter": { "buttondown": "asdtw" },
   "disclaimer": "個人發言僅代表個人立場，與所屬團體無關。"
 }
