@@ -50,28 +50,10 @@ def header(site: dict, base: str, current: str) -> str:
             f'</div></header>')
 
 
-def newsletter(site: dict) -> str:
-    """Buttondown 訂閱表單（純 HTML，不需 JS）；site.json 的 newsletter.buttondown 留空則不輸出。"""
-    user = (site.get("newsletter") or {}).get("buttondown", "").strip()
-    if not user:
-        return ""
-    u = esc(user)
-    return (f'<form class="footer-newsletter" action="https://buttondown.com/api/emails/embed-subscribe/{u}" '
-            f'method="post" target="_blank">'
-            f'<label class="footer-label" for="newsletter-email">電子報</label>'
-            f'<span class="footer-newsletter-note">新文章發布時寄到你的信箱，隨時可退訂。</span>'
-            f'<span class="footer-newsletter-row">'
-            f'<input type="email" name="email" id="newsletter-email" required autocomplete="email" placeholder="you@example.com">'
-            f'<input type="hidden" name="embed" value="1">'
-            f'<button class="btn btn-primary" type="submit">訂閱</button>'
-            f'</span></form>')
-
-
 def footer(site: dict, base: str, year: str) -> str:
     links = "".join(link(l, base) for l in site["links"])
     friends = "".join(link(l, base) for l in site["friends"])
     return (f'<footer class="site-footer" data-site-footer><div class="wrap">'
-            f'{newsletter(site)}'
             f'<div class="footer-links">{links}</div>'
             f'<div class="footer-friends"><span class="footer-label">友站</span>{friends}</div>'
             f'<small>{esc(site["disclaimer"])}</small>'
