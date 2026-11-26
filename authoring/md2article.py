@@ -24,9 +24,10 @@
   updated: 2026-12-01         # 選填：發布後修改過才填。寫入「更新於」、dateModified 與 sitemap lastmod
   draft: true                 # 選填：草稿。不進列表／sitemap／feed，頁面 noindex；拿掉後重跑就是正式發布
   adult: true                 # 選填：18+ 文章，自動套用 mark-adult.py
+  customOg: true              # 選填：自備分享圖。自行放 images/og/<slug>.jpg（1200×630），build-og.py 不會覆蓋
   ---
   內文 Markdown。支援：
-    ## 大標、### 小標、段落、- 清單、1. 清單、| 表格 |、> 引言、--- 分隔線、```程式碼區塊```
+    ## 大標、### 小標、#### 更小的標、段落、- 清單、1. 清單、| 表格 |、> 引言、--- 分隔線、```程式碼區塊```
     ![圖說](檔名.png)         # 圖說同時當 alt；png／jpg／webp 都可，輸出一律 .webp；cover 開頭的檔名（cover.png 等）當作封面
     [[提示框：標題]] 下一段文字（到空行為止）
     [[金句：一句話]]
@@ -290,6 +291,10 @@ def convert(body: str, slug: str, dims=None):
             out.append(f'<h2 id="s{len(h2s)}">{inline(title)}</h2>')
             i += 1
             continue
+        if s.startswith("#### "):
+            out.append(f"<h4>{inline(s[5:])}</h4>")
+            i += 1
+            continue
         if s.startswith("### "):
             out.append(f"<h3>{inline(s[4:])}</h3>")
             i += 1
@@ -463,6 +468,8 @@ def main() -> None:
     adult = truthy("adult") or bool(old.get("adult"))  # 重跑時保留既有的 18+ 設定
     if adult:
         entry["adult"] = True
+    if truthy("customOg") or old.get("customOg"):  # 自備分享圖；重跑時保留
+        entry["customOg"] = True
     for k, a in enumerate(data):
         if a["slug"] == slug:
             data[k] = entry

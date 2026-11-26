@@ -4,7 +4,8 @@
 輸出：
   assets/img/og.jpg            首頁
   images/og/<頁面>.jpg         關於、經歷、文章列表、贊助
-  images/og/<slug>.jpg         每篇已發布文章（標題、標籤、日期取自 data/articles.json）
+  images/og/<slug>.jpg         每篇已發布文章（標題、標籤、日期取自 data/articles.json；
+                               articles.json 標 customOg 的文章用自備的圖，這裡不產生也不覆蓋）
 
 用法：
   python3 authoring/build-og.py            補缺少或過期的圖（標題、標籤、日期或卡片設計改了就算過期；pre-commit 會自動執行）
@@ -76,7 +77,7 @@ def main() -> None:
         jobs.append((ROOT / "images" / "og" / "adult.jpg",
                      dict(kind="page", eyebrow="18+", title="成人內容", sub="需年滿 18 歲才能閱讀")))
     for a in articles:
-        if a.get("adult") or (only and a["slug"] not in only):
+        if a.get("adult") or a.get("customOg") or (only and a["slug"] not in only):  # customOg：自備分享圖，不產生
             continue
         jobs.append((ROOT / "images" / "og" / f"{a['slug']}.jpg",
                      dict(kind="article", title=a["title"], tags=",".join(a.get("tags", [])), date=a["date"])))
