@@ -61,8 +61,8 @@ const SITE = {
 
   const card = (a) => `<article class="card">
     ${a.cover && !a.adult ? `<img class="card-cover" src="${BASE}${esc(a.cover)}" alt="" loading="lazy">` : ""}
-    <div class="meta">${fmtDate(a.date)}${a.readingTime ? ` · 約 ${a.readingTime} 分鐘` : ""}</div>
-    <h3><a href="${BASE}articles/${esc(a.slug)}.html">${esc(a.title)}</a></h3>
+    <div class="meta">${fmtDate(a.date)}${a.readingTime ? ` · 約 ${a.readingTime} 分鐘` : ""}${a.externalSite ? ` · ${esc(a.externalSite)}` : ""}</div>
+    <h3>${a.externalUrl ? `<a href="${esc(a.externalUrl)}" target="_blank" rel="noopener">${esc(a.title)} ↗</a>` : `<a href="${BASE}articles/${esc(a.slug)}.html">${esc(a.title)}</a>`}</h3>
     <p>${a.adult ? "此文章含成人內容，需年滿 18 歲才能閱讀。" : esc(a.summary || "")}</p>
     <div class="chips">${a.adult ? '<span class="tag tag-adult">18+</span>' : ""}${a.category ? `<a class="tag" href="${BASE}articles.html?category=${encodeURIComponent(a.category)}">${esc(a.category)}</a>` : ""}</div>
   </article>`;
@@ -104,15 +104,16 @@ const SITE = {
     run();
   }
 
-  // 文章頁：上一篇／下一篇
+  // 文章頁：上一篇／下一篇（僅限本站全文文章）
   const nav = document.querySelector("[data-article-nav]");
   const art = document.querySelector("article[data-slug]");
   if (nav && art) {
     nav.className = "article-nav";
     loadArticles().then((list) => {
-      const i = list.findIndex((a) => a.slug === art.dataset.slug);
+      const local = list.filter((a) => !a.externalUrl);
+      const i = local.findIndex((a) => a.slug === art.dataset.slug);
       if (i < 0) return;
-      const newer = list[i - 1], older = list[i + 1];
+      const newer = local[i - 1], older = local[i + 1];
       nav.innerHTML =
         (older ? `<a class="prev" href="${BASE}articles/${esc(older.slug)}.html"><small>← 上一篇</small>${esc(older.title)}</a>` : "") +
         (newer ? `<a class="next" href="${BASE}articles/${esc(newer.slug)}.html"><small>下一篇 →</small>${esc(newer.title)}</a>` : "");

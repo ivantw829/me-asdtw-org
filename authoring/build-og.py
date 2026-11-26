@@ -77,7 +77,7 @@ def main() -> None:
         jobs.append((ROOT / "images" / "og" / "adult.jpg",
                      dict(kind="page", eyebrow="18+", title="成人內容", sub="需年滿 18 歲才能閱讀")))
     for a in articles:
-        if a.get("adult") or a.get("customOg") or (only and a["slug"] not in only):  # customOg：自備分享圖，不產生
+        if a.get("adult") or a.get("customOg") or a.get("externalUrl") or (only and a["slug"] not in only):  # customOg：自備分享圖；externalUrl：跨站連結，不產生
             continue
         jobs.append((ROOT / "images" / "og" / f"{a['slug']}.jpg",
                      dict(kind="article", title=a["title"], tags=",".join(a.get("tags", [])), date=a["date"])))
